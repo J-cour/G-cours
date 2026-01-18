@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Qui sommes-nous – G-Cours</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    :root {
+      --marine: #0b1c2d;
+      --gold: #c9a24d;
+      --light: #f4f6f9;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: var(--light);
+      color: var(--marine);
+    }
+
+    nav {
+      background: var(--marine);
+      padding: 15px;
+      text-align: center;
+    }
+
+    nav a {
+      color: white;
+      margin: 0 15px;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    nav a.active {
+      color: var(--gold);
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 40px auto;
+      background: white;
+      padding: 35px 25px;
+      border-radius: 14px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    }
+
+    h1 { text-align: center; }
+
+    h2 {
+      margin-top: 35px;
+      color: var(--marine);
+      border-left: 6px solid var(--gold);
+      padding-left: 12px;
+    }
+
+    p {
+      line-height: 1.7;
+      font-size: 1.05rem;
+      margin-bottom: 16px;
+    }
+
+    iframe {
+      width: 100%;
+      height: 350px;
+      border: none;
+      border-radius: 12px;
+      margin-top: 20px;
+    }
+
+    .avis {
+      background: #f9fafb;
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 15px;
+    }
+
+    .avis strong {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .stars span {
+      font-size: 20px;
+      color: var(--gold);
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      margin-bottom: 10px;
+    }
+
+    button {
+      background: var(--marine);
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 999px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: var(--gold);
+      color: var(--marine);
+    }
+
+    .admin-btn {
+      background: var(--gold);
+      color: var(--marine);
+      margin-top: 10px;
+    }
+
+    .rating-select span {
+      font-size: 26px;
+      cursor: pointer;
+      opacity: 0.3;
+    }
+
+    footer {
+      margin-top: 60px;
+      background: var(--marine);
+      color: white;
+      text-align: center;
+      padding: 20px;
+      font-size: 0.95rem;
+    }
+  </style>
+</head>
+
+<body>
+
+<nav>
+  <a href="index.html">Accueil</a>
+  <a href="reservation.html">Réservation</a>
+  <a href="a-propos.html" class="active">Qui sommes-nous</a>
+</nav>
+
+<div class="container">
+  <h1>Qui sommes-nous</h1>
+
+  <h2>Plus de 20 ans d’expérience dans l’enseignement</h2>
+
+  <p>
+    <strong>G-Cours</strong> accompagne les élèves depuis plus de
+    <strong>20 ans</strong> dans leur parcours scolaire. Cette longue expérience dans l’enseignement nous a permis de comprendre en profondeur les difficultés rencontrées par les élèves, ainsi que les attentes des familles.
+
+
+  </p>
+
+  <p>
+    Au fil des années, nous avons aidé de nombreux collégiens et lycéens à améliorer leurs résultats, à se préparer efficacement aux examens et à reprendre confiance en eux grâce à un suivi régulier et structuré.
+  </p>
+
+  <h2>Une méthode pédagogique centrée sur l’élève</h2>
+
+  <p>
+    Notre pédagogie est avant tout <strong>centrée sur l’élève</strong>Chaque accompagnement débute par une analyse précise du niveau, des lacunes et des objectifs. Le rythme de travail est adapté à chaque élève afin de favoriser une progression durable, sans pression inutile.
+  </p>
+
+  <p>
+    Nous mettons l’accent sur la compréhension des notions, la méthodologie et le développement de l’autonomie. L’élève est encouragé à poser des questions, à réfléchir par lui-même et à acquérir une véritable méthode de travail, indispensable pour réussir sur le long terme.
+  </p>
+
+  <h2>Un accompagnement sérieux et bienveillant</h2>
+
+  <p>
+    Les cours sont dispensés en cours particuliers ou en petits groupes, dans un cadre calme et propice au travail. Notre objectif est d’offrir un accompagnement sérieux, bienveillant et personnalisé, adapté aux besoins de chaque élève.
+  </p>
+
+  <p>
+    Que ce soit pour combler des lacunes, améliorer les résultats scolaires ou préparer un examen (brevet, baccalauréat), nous mettons tout en œuvre pour assurer un suivi efficace et motivant.
+  </p>
+
+  <h2>📍 Où nous trouver</h2>
+
+  <iframe
+    src="https://www.google.com/maps?q=7%20Rue%20Jean-Claude%20Vivant%2C%2069100%20Villeurbanne&output=embed">
+  </iframe>
+
+  <h2>⭐ Avis des familles</h2>
+
+  <form id="avisForm">
+    <input id="auteur" placeholder="Votre prénom" required>
+    <textarea id="texte" rows="4" placeholder="Votre avis" required></textarea>
+
+    <label>Votre note :</label>
+    <div class="rating-select" id="rating">
+      <span onclick="setRating(1)">⭐</span>
+      <span onclick="setRating(2)">⭐</span>
+      <span onclick="setRating(3)">⭐</span>
+      <span onclick="setRating(4)">⭐</span>
+      <span onclick="setRating(5)">⭐</span>
+    </div>
+
+    <button type="submit">Envoyer mon avis</button>
+  </form>
+
+  <button class="admin-btn" onclick="openAdmin()">Accès Prof</button>
+
+  <div id="avisContainer"></div>
+</div>
+
+<footer>
+  © 2026 – G-Cours | Cours particuliers à Villeurbanne – Tous droits réservés
+</footer>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+  import {
+    getFirestore, collection, getDocs, addDoc, deleteDoc, doc
+  } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCDJRbeW9KWrLzuI3v2kBUDulKcb3REKy8",
+    authDomain: "reservation-cour.firebaseapp.com",
+    projectId: "reservation-cour",
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  let note = 5;
+  const ADMIN_PASSWORD = "2805";
+  let isAdmin = false;
+
+  window.setRating = value => {
+    note = value;
+    document.querySelectorAll(".rating-select span")
+      .forEach((s,i)=>s.style.opacity=i<value?"1":"0.3");
+  };
+
+  async function loadAvis() {
+    const snap = await getDocs(collection(db, "avis"));
+    avisContainer.innerHTML = "";
+
+    snap.forEach(d => {
+      const a = d.data();
+      avisContainer.innerHTML += `
+        <div class="avis">
+          <strong>${a.auteur}</strong>
+          <div class="stars">${"⭐".repeat(a.note || 5)}</div>
+          <p>${a.texte}</p>
+          ${isAdmin ? `<button onclick="deleteAvis('${d.id}')">Supprimer</button>` : ""}
+        </div>`;
+    });
+  }
+
+  avisForm.addEventListener("submit", async e => {
+    e.preventDefault();
+    await addDoc(collection(db, "avis"), {
+      auteur: auteur.value,
+      texte: texte.value,
+      note,
+      date: new Date()
+    });
+    avisForm.reset();
+    setRating(5);
+    loadAvis();
+  });
+
+  window.deleteAvis = async id => {
+    if(confirm("Supprimer cet avis ?")){
+      await deleteDoc(doc(db,"avis",id));
+      loadAvis();
+    }
+  };
+
+  window.openAdmin = () => {
+    if(prompt("Mot de passe prof") === ADMIN_PASSWORD){
+      isAdmin = true;
+      loadAvis();
+    }
+  };
+
+  loadAvis();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta name="google-site-verification" content="QyuGZszlrYeU3dKPc9lI0I1Gy2Zs4uNvdPlwDJILLsc" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- ✅ TITRE OPTIMISÉ GOOGLE -->
+  <title>Réservation de cours en ligne – Maths, Anglais, Physique | J-Cours</title>
+
+  <!-- ✅ META DESCRIPTION -->
+  <meta name="description" content="Plateforme de réservation de cours en ligne en maths, anglais et physique. Choisissez un créneau disponible et réservez facilement avec G-Cours.">
+
+  <!-- ✅ DONNÉES STRUCTURÉES GOOGLE -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "EducationalOrganization",
+    "name": "J-Cours",
+    "description": "Plateforme de réservation de cours en ligne en maths, anglais et physique.",
+    "url": "https://j-cour.github.io/reservation/"
+  }
+  </script>
+
+  <style>
+:root {
+  --marine: #0b1c2d;
+  --gold: #c9a24d;
+  --white: #ffffff;
+  --light-bg: #f4f6f9;
+  --radius: 14px;
+  --shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+* { box-sizing: border-box; }
+
+body
+ {
+  font-family: "Inter", "Segoe UI", Arial, sans-serif;
+  background: linear-gradient(180deg, #eef2f6, var(--light-bg));
+  padding: 30px 16px;
+  color: var(--marine);
+}
+
+h1 {
+  font-size: 2.2rem;
+  font-weight: 800;
+  text-align: center;
+}
+
+p { text-align: center; color: #4a5b6b; }
+
+.container {
+  max-width: 900px;
+  margin: auto;
+}
+
+input, select {
+  padding: 14px 16px;
+  width: 100%;
+  margin: 12px 0;
+  border-radius: var(--radius);
+  border: 1.5px solid #ccd5df;
+}
+
+.slot {
+  background: var(--white);
+  padding: 18px 20px;
+  margin: 14px 0;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  display: flex;
+  justify-content: space-between;
+  border-left: 6px solid var(--gold);
+}
+
+.full { opacity: 0.6; }
+
+button {
+  padding: 10px 18px;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  background: var(--marine);
+  color: var(--white);
+  font-weight: 600;
+}
+
+button:hover {
+  background: var(--gold);
+  color: var(--marine);
+}
+
+button:disabled {
+  background: #cfd6dd;
+  color: #7a8694;
+}
+
+#admin {
+  margin-top: 40px;
+  background: var(--white);
+  padding: 25px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+th {
+  background: var(--marine);
+  color: var(--white);
+  padding: 14px;
+}
+
+td {
+  border-bottom: 1px solid #e5e9ef;
+  padding: 12px;
+  text-align: center;
+}
+  </style>
+</head>
+
+<body>
+  <nav style="background:#0b1c2d;padding:15px;text-align:center;">
+  <a href="index.html" style="color:white;margin:0 15px;text-decoration:none;font-weight:600;">Accueil</a>
+  <a href="reservation.html" style="color:#c9a24d;margin:0 15px;text-decoration:none;font-weight:600;">Réservation</a>
+  <a href="a-propos.html" style="color:white;margin:0 15px;text-decoration:none;font-weight:600;">Qui sommes-nous</a>
+</nav>
+
+<div class="container">
+
+  <!-- ✅ H1 OPTIMISÉ SEO -->
+  <h1>Réservation de cours en ligne – Maths, Anglais, Physique</h1>
+
+  <p>7 places maximum par créneau</p>
+
+  <!-- ✅ TEXTE EXPLICATIF POUR GOOGLE -->
+  <p>
+    Cette plateforme permet de réserver des cours en ligne en maths, anglais et physique.
+    Les élèves choisissent un créneau disponible et s’inscrivent facilement.
+    Chaque créneau est limité à 7 places afin de garantir un suivi de qualité.
+  </p>
+
+  <input id="name" placeholder="Prénom et nom de l'élève" />
+
+  <select id="subject">
+    <option value="">Choisir la matière</option>
+    <option value="Maths">Maths</option>
+    <option value="Anglais">Anglais</option>
+    <option value="Physique">Physique</option>
+  </select>
+
+  <div id="slots"></div>
+
+  <div style="text-align:center;margin-top:20px;">
+    <button onclick="openAdmin()">Accès Prof</button>
+  </div>
+
+  <div id="admin"></div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCDJRbeW9KWrLzuI3v2kBUDulKcb3REKy8",
+  authDomain: "reservation-cour.firebaseapp.com",
+  projectId: "reservation-cour",
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+const slots = [
+  "Lundi 17-19","Lundi 19-21",
+  "Mardi 17-19","Mardi 19-21",
+  "Jeudi 17-19","Jeudi 19-21",
+  "Mercredi 14-16","Mercredi 16-17",
+  "Dimanche 9-11","Dimanche 11-13"
+];
+
+const MAX = 7;
+const ADMIN_PASSWORD = "2805";
+
+let data = {};
+let isAdmin = false;
+
+async function loadData(){
+  for(const slot of slots){
+    const snap = await getDoc(doc(db,"reservations",slot));
+    data[slot] = snap.exists() ? snap.data().students : [];
+  }
+  render();
+}
+
+async function saveSlot(slot){
+  await setDoc(doc(db,"reservations",slot),{
+    students: data[slot]
+  });
+}
+
+window.openAdmin = function(){
+  const pass = prompt("Mot de passe prof");
+  if(pass !== ADMIN_PASSWORD) return alert("Mot de passe incorrect");
+
+  isAdmin = true;
+  document.getElementById("admin").innerHTML = `
+    <h2>Emploi du temps (Prof)</h2>
+    <table>
+      <thead>
+        <tr><th>Créneau</th><th>Élèves inscrits</th></tr>
+      </thead>
+      <tbody id="adminTable"></tbody>
+    </table>
+  `;
+  render();
+};
+
+function render(){
+  const slotsDiv = document.getElementById("slots");
+  slotsDiv.innerHTML = "";
+
+  const adminTable = document.getElementById("adminTable");
+  if(adminTable) adminTable.innerHTML = "";
+
+  slots.forEach(slot=>{
+    const count = data[slot].length;
+
+    const div = document.createElement("div");
+    div.className = "slot"+(count>=MAX?" full":"");
+
+    div.innerHTML =
+      `<strong>${slot}</strong>` +
+      (isAdmin ? `<br>${count}/${MAX} places` : ``);
+
+    const btn = document.createElement("button");
+    btn.textContent = "Réserver";
+    btn.disabled = count>=MAX;
+    btn.onclick = ()=>reserve(slot);
+
+    div.appendChild(btn);
+    slotsDiv.appendChild(div);
+
+    if(isAdmin && adminTable){
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>${slot}</td>
+        <td>
+          ${data[slot].map((s,i)=>
+            `${s.name} (${s.subject})
+            <button onclick="removeStudent('${slot}',${i})">❌</button>`
+          ).join("<br>")}
+        </td>
+      `;
+      adminTable.appendChild(tr);
+    }
+  });
+}
+
+async function reserve(slot){
+  const name = document.getElementById("name").value.trim();
+  const subject = document.getElementById("subject").value;
+
+  if(!name) return alert("Entre ton prénom");
+  if(!subject) return alert("Choisis une matière");
+
+  const alreadyBooked = data[slot].some(
+    s => s.name.toLowerCase() === name.toLowerCase()
+  );
+
+  if(alreadyBooked){
+    return alert("Tu es déjà inscrit sur ce créneau.");
+  }
+
+  data[slot].push({ name, subject });
+  await saveSlot(slot);
+  render();
+
+  const message = encodeURIComponent(
+    `Bonjour,\nNouvelle réservation G-Cours\n\nNom : ${name}\nMatière : ${subject}\nCréneau : ${slot}`
+  );
+
+  window.location.href = `sms:0619336183?body=${message}`;
+}
+
+window.removeStudent = async function(slot,index){
+  if(!confirm("Supprimer cet élève ?")) return;
+  data[slot].splice(index,1);
+  await saveSlot(slot);
+  render();
+}
+
+loadData();
+</script>
+</body>
+</html>

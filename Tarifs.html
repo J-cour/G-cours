@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Tarifs – G-Cours</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    :root {
+      --marine: #0b1c2d;
+      --gold: #c9a24d;
+      --light: #f4f6f9;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: var(--light);
+      color: var(--marine);
+    }
+
+    nav {
+      background: var(--marine);
+      padding: 15px;
+      display: flex;
+      justify-content: center;
+    }
+
+    /* 🔽 MENU */
+    .menu {
+      display: flex;          /* tous les onglets sur la même ligne */
+      list-style: none;       /* enlève les puces */
+      padding: 0;
+      margin: 0;
+      gap: 25px;              /* espace entre les onglets */
+    }
+
+    .menu li a {
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .menu li a.active {
+      color: var(--gold);
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 40px auto;
+      background: white;
+      padding: 35px 25px;
+      border-radius: 14px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    h2 {
+      margin-top: 35px;
+      color: var(--marine);
+      border-left: 6px solid var(--gold);
+      padding-left: 12px;
+    }
+
+    p {
+      line-height: 1.7;
+      font-size: 1.05rem;
+      margin-bottom: 16px;
+    }
+
+    .tarif-box {
+      background: #f9fafb;
+      padding: 20px;
+      border-radius: 12px;
+      margin-top: 20px;
+    }
+
+    .prix {
+      font-size: 1.6rem;
+      font-weight: bold;
+      color: var(--marine);
+      margin-top: 10px;
+    }
+
+    footer {
+      margin-top: 60px;
+      background: var(--marine);
+      color: white;
+      text-align: center;
+      padding: 20px;
+      font-size: 0.95rem;
+    }
+  </style>
+</head>
+
+<body>
+
+<nav>
+  <ul class="menu">
+    <li><a href="index.html">Accueil</a></li>
+    <li><a href="reservation.html">Réservation</a></li>
+    <li><a href="a-propos.html">À propos</a></li>
+    <li><a href="tarifs.html" class="active">Tarifs</a></li>
+  </ul>
+</nav>
+
+<div class="container">
+  <h1>Nos tarifs</h1>
+
+  <h2>Collège & Lycée</h2>
+
+  <div class="tarif-box">
+    <p>
+      Cours particuliers et accompagnement scolaire pour les élèves
+      de <strong>collège</strong> et de <strong>lycée</strong>.
+    </p>
+
+    <p>
+      Matières proposées :
+      <strong>Mathématiques</strong>,
+      <strong>Physique</strong>,
+      <strong>Anglais</strong>.
+    </p>
+
+    <div class="prix">20 € / heure</div>
+  </div>
+
+  <h2>Post-Bac</h2>
+
+  <div class="tarif-box">
+    <p>
+      Accompagnement des étudiants en <strong>post-bac</strong> :
+      remise à niveau, méthodologie, soutien ciblé selon les besoins.
+    </p>
+
+    <p>
+      Matières proposées :
+      <strong>Mathématiques</strong>,
+      <strong>Physique</strong>,
+      <strong>Anglais</strong>.
+    </p>
+
+    <div class="prix">23 € / heure</div>
+  </div>
+
+  <h2>Formation professionnelle – Anglais</h2>
+
+  <div class="tarif-box">
+    <p>
+      Formations en <strong>anglais professionnel</strong> adaptées
+      aux besoins spécifiques (entretiens, milieu professionnel,
+      remise à niveau).
+    </p>
+
+    <p>
+      <strong>Veuillez nous contacter</strong> pour un devis personnalisé.
+    </p>
+  </div>
+
+</div>
+
+<footer>
+  © 2026 – G-Cours | Cours particuliers à Villeurbanne – Tous droits réservés
+</footer>
+
+</body>
+</html>

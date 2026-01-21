@@ -8,7 +8,7 @@
 
   <style>
     body {
-       margin: 0;
+      margin: 0;
       font-family: "Segoe UI", Arial, sans-serif;
       background: var(--light);
       color: var(--marine);
@@ -17,17 +17,27 @@
     nav {
       background: #0b1c2d;
       padding: 15px;
-      text-align: center;
+      display: flex;
+      justify-content: center;
     }
 
-    nav a {
+    /* 🔽 MENU */
+    .menu {
+      display: flex;          /* tous les onglets sur la même ligne */
+      list-style: none;       /* enlève les puces */
+      padding: 0;
+      margin: 0;
+      gap: 30px;              /* espace entre les onglets */
+    }
+
+    .menu li a {
       color: white;
-      margin: 0 15px;
       text-decoration: none;
       font-weight: 600;
+      white-space: nowrap;
     }
 
-    nav a.active {
+    .menu li a.active {
       color: #c9a24d;
     }
 
@@ -100,17 +110,19 @@
       margin-top: 60px;
     }
   </style>
-  <link rel="icon" type="image/png" href="favicon.png">
 
+  <link rel="icon" type="image/png" href="favicon.png">
 </head>
 
 <body>
 
 <nav>
-  <a href="./index.html" class="active">Accueil</a>
-  <a href="./reservation.html">Réservation</a>
-  <a href="./a-propos.html">À propos</a>
-  <a href="Tarifs.html">Tarifs</a>
+  <ul class="menu">
+    <li><a href="./index.html" class="active">Accueil</a></li>
+    <li><a href="./reservation.html">Réservation</a></li>
+    <li><a href="./a-propos.html">À propos</a></li>
+    <li><a href="Tarifs.html">Tarifs</a></li>
+  </ul>
 </nav>
 
 <header>

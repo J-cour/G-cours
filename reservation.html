@@ -5,13 +5,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- ✅ TITRE OPTIMISÉ GOOGLE -->
   <title>Réservation de cours en ligne – Maths, SC.Physique, Anglais | G-Cours</title>
 
-  <!-- ✅ META DESCRIPTION -->
   <meta name="description" content="Plateforme de réservation de cours en ligne en maths, anglais et physique. Choisissez un créneau disponible et réservez facilement avec G-Cours.">
 
-  <!-- ✅ DONNÉES STRUCTURÉES GOOGLE -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -34,13 +31,40 @@
 
 * { box-sizing: border-box; }
 
-body
- {
+body {
   margin: 0;
-      font-family: "Segoe UI", Arial, sans-serif;
-      background: var(--light);
-      color: var(--marine);
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: var(--light-bg);
+  color: var(--marine);
 }
+
+/* NAV — SEUL CHANGEMENT */
+nav {
+  background: #0b1c2d;
+  padding: 15px;
+  display: flex;
+  justify-content: center;
+}
+
+.menu {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 30px;
+}
+
+.menu li a {
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.menu li a.active {
+  color: #c9a24d;
+}
+
+/* LE RESTE EST STRICTEMENT IDENTIQUE */
 
 h1 {
   font-size: 2.2rem;
@@ -125,21 +149,22 @@ td {
 </head>
 
 <body>
-  <nav style="background:#0b1c2d;padding:15px;text-align:center;">
-  <a href="index.html" style="color:white;margin:0 15px;text-decoration:none;font-weight:600;">Accueil</a>
-  <a href="reservation.html" style="color:#c9a24d;margin:0 15px;text-decoration:none;font-weight:600;">Réservation</a>
-  <a href="a-propos.html" style="color:white;margin:0 15px;text-decoration:none;font-weight:600;">À propos</a>
-   <a href="Tarifs.html" style="color:white;margin:0 15px;text-decoration:none;font-weight:600;">Tarifs</a>
+
+<nav>
+  <ul class="menu">
+    <li><a href="index.html">Accueil</a></li>
+    <li><a href="reservation.html" class="active">Réservation</a></li>
+    <li><a href="a-propos.html">À propos</a></li>
+    <li><a href="Tarifs.html">Tarifs</a></li>
+  </ul>
 </nav>
 
 <div class="container">
 
-  <!-- ✅ H1 OPTIMISÉ SEO -->
   <h1>Réservation de cours en ligne – Maths, SC.Physique, Anglais</h1>
 
   <p>7 places maximum par créneau</p>
 
-  <!-- ✅ TEXTE EXPLICATIF POUR GOOGLE -->
   <p>
     Cette plateforme permet de réserver des cours en ligne en maths, Physique et Anglais
     Les élèves choisissent un créneau disponible et s’inscrivent facilement.
@@ -298,5 +323,6 @@ window.removeStudent = async function(slot,index){
 
 loadData();
 </script>
+
 </body>
 </html>

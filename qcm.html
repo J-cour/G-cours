@@ -697,7 +697,7 @@ function saveScore(level, score, total) {
 
 // Patch finishQuiz pour sauvegarder score
 const oldFinishQuiz = finishQuiz;
-finishQuiz = function() {
+finishQuiz =   async function() {
   oldFinishQuiz();
   saveScore(levelSelect.value, score, questions.length);
 };

@@ -705,12 +705,14 @@ finishQuiz = function() {
 // Connexion Prof
 window.openProf = function () {
   const pass = prompt("Mot de passe Prof");
-  if (pass !== P) return alert("Accès refusé");
+  if (pass !== atob("MjgwNQ==")) return alert("Accès refusé");
 
   const panel = document.getElementById("profPanel");
-  const history = JSON.parse(localStorage.getItem("qcmHistory") || "[]");
 
-  if (!history.length) {
+  // Récupérer tous les scores depuis Firebase
+  const snapshot = await getDocs(collection(db, "qcmScores"));
+
+  if (snapshot.empty) {
     panel.innerHTML = "<p>Aucun résultat enregistré.</p>";
     return;
   }
@@ -727,14 +729,15 @@ window.openProf = function () {
       </tr>
   `;
 
-  history.slice().reverse().forEach(h => {
+  snapshot.forEach(doc => {
+    const s = doc.data();
     html += `
       <tr>
-        <td style="padding:8px;border-bottom:1px solid #ddd;">${h.date}</td>
-        <td style="padding:8px;border-bottom:1px solid #ddd;">${h.name}</td>
-        <td style="padding:8px;border-bottom:1px solid #ddd;">${h.level}</td>
-        <td style="padding:8px;border-bottom:1px solid #ddd;">${h.score}/${h.total}</td>
-        <td style="padding:8px;border-bottom:1px solid #ddd;">${h.percent}%</td>
+        <td style="padding:8px;border-bottom:1px solid #ddd;">${new Date(s.date.seconds*1000).toLocaleString()}</td>
+        <td style="padding:8px;border-bottom:1px solid #ddd;">${s.name}</td>
+        <td style="padding:8px;border-bottom:1px solid #ddd;">${s.classe}</td>
+        <td style="padding:8px;border-bottom:1px solid #ddd;">${s.score}/${s.total}</td>
+        <td style="padding:8px;border-bottom:1px solid #ddd;">${Math.round((s.score/s.total)*100)}%</td>
       </tr>
     `;
   });
@@ -742,6 +745,8 @@ window.openProf = function () {
   html += "</table>";
   panel.innerHTML = html;
 };
+
+
 
 </script>
 

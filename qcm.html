@@ -697,10 +697,11 @@ function saveScore(level, score, total) {
 
 // Patch finishQuiz pour sauvegarder score
 const oldFinishQuiz = finishQuiz;
-finishQuiz =   async function() {
-  oldFinishQuiz();
+finishQuiz = async function() {
+  await oldFinishQuiz();
   saveScore(levelSelect.value, score, questions.length);
 };
+
 
 // Connexion Prof
 window.openProf = async function () {

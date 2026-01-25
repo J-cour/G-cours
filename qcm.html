@@ -735,28 +735,42 @@ window.openProf = async function () {
   }
 
   let html = `
-    <h3>📊 Résultats QCM</h3>
-    <table style="width:100%;border-collapse:collapse;margin-top:15px;">
-      <tr style="background:#0b1c2d;color:white;">
-        <th>Date</th>
-        <th>Nom</th>
-        <th>Classe</th>
-        <th>Score</th>
-        <th>%</th>
-      </tr>
-  `;
+  <h3>📊 Résultats QCM</h3>
+  <table style="width:100%;border-collapse:collapse;margin-top:15px;">
+    <tr style="background:#0b1c2d;color:white;">
+      <th>Date</th>
+      <th>Nom</th>
+      <th>Classe</th>
+      <th>Score</th>
+      <th>%</th>
+      <th>Action</th>
+    </tr>
+`;
+
 
   snapshot.forEach(doc => {
     const s = doc.data();
     html += `
-      <tr>
-        <td style="padding:8px;border-bottom:1px solid #ddd;">${new Date(s.date.seconds*1000).toLocaleString()}</td>
-        <td style="padding:8px;border-bottom:1px solid #ddd;">${s.name}</td>
-        <td style="padding:8px;border-bottom:1px solid #ddd;">${s.classe}</td>
-        <td style="padding:8px;border-bottom:1px solid #ddd;">${s.score}/${s.total}</td>
-        <td style="padding:8px;border-bottom:1px solid #ddd;">${Math.round((s.score/s.total)*100)}%</td>
-      </tr>
-    `;
+  <tr>
+    <td style="padding:8px;border-bottom:1px solid #ddd;">
+      ${new Date(s.date.seconds*1000).toLocaleString()}
+    </td>
+    <td style="padding:8px;border-bottom:1px solid #ddd;">${s.name}</td>
+    <td style="padding:8px;border-bottom:1px solid #ddd;">${s.classe}</td>
+    <td style="padding:8px;border-bottom:1px solid #ddd;">${s.score}/${s.total}</td>
+    <td style="padding:8px;border-bottom:1px solid #ddd;">
+      ${Math.round((s.score/s.total)*100)}%
+    </td>
+    <td style="padding:8px;border-bottom:1px solid #ddd;text-align:center;">
+      <button onclick="deleteScore('${doc.id}')"
+        style="padding:6px 12px;border-radius:6px;
+        background:#c0392b;color:white;border:none;cursor:pointer;">
+        Supprimer
+      </button>
+    </td>
+  </tr>
+`;
+
   });
 
   html += "</table>";

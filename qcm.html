@@ -703,7 +703,7 @@ finishQuiz = function() {
 };
 
 // Connexion Prof
-window.openProf = function () {
+window.openProf = async function () {
   const pass = prompt("Mot de passe Prof");
   if (pass !== atob("MjgwNQ==")) return alert("Accès refusé");
 

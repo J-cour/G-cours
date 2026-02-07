@@ -2,164 +2,549 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Tarifs – G-Cours</title>
+  <title>Tarifs – G-Cours | Cours particuliers à Villeurbanne</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+  <meta name="description" content="Découvrez nos tarifs pour les cours particuliers de maths, physique et anglais. 20€/h pour collège et lycée, 23€/h pour post-bac.">
+  
   <style>
     :root {
-      --marine: #0b1c2d;
-      --gold: #c9a24d;
-      --light: #f4f6f9;
+      --bleu-marine: #0a1f3d;
+      --bleu-marine-clair: #1a3a5f;
+      --gris-fer: #6b7280;
+      --gris-clair: #e5e7eb;
+      --blanc: #ffffff;
+      --accent: #3b82f6;
+      --vert-succes: #10b981;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
 
     body {
       margin: 0;
-      font-family: "Segoe UI", Arial, sans-serif;
-      background: var(--light);
-      color: var(--marine);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: var(--gris-clair);
+      color: var(--bleu-marine);
     }
 
+    /* NAV */
     nav {
-      background: var(--marine);
-      padding: 15px;
-      display: flex;
-      justify-content: center;
+      background: var(--bleu-marine);
+      padding: 20px 0;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
     }
 
-    /* 🔽 MENU */
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--blanc);
+      text-decoration: none;
+    }
+
+    .logo span {
+      color: var(--accent);
+    }
+
     .menu {
-      display: flex;          /* tous les onglets sur la même ligne */
-      list-style: none;       /* enlève les puces */
+      display: flex;
+      list-style: none;
       padding: 0;
       margin: 0;
-      gap: 25px;              /* espace entre les onglets */
+      gap: 35px;
     }
 
     .menu li a {
-      color: white;
+      color: var(--blanc);
       text-decoration: none;
-      font-weight: 600;
-      white-space: nowrap;
+      font-weight: 500;
+      transition: color 0.3s ease;
+      font-size: 1rem;
     }
 
+    .menu li a:hover,
     .menu li a.active {
-      color: var(--gold);
+      color: var(--accent);
     }
 
-    .container {
-      max-width: 1000px;
-      margin: 40px auto;
-      background: white;
-      padding: 35px 25px;
-      border-radius: 14px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-    }
-
-    h1 {
+    /* HERO SECTION */
+    .hero {
+      background: linear-gradient(135deg, var(--bleu-marine) 0%, var(--bleu-marine-clair) 100%);
+      color: var(--blanc);
+      padding: 80px 20px;
       text-align: center;
     }
 
-    h2 {
-      margin-top: 35px;
-      color: var(--marine);
-      border-left: 6px solid var(--gold);
-      padding-left: 12px;
+    .hero h1 {
+      font-size: 3rem;
+      margin-bottom: 20px;
+      font-weight: 800;
     }
 
-    p {
-      line-height: 1.7;
+    .hero p {
+      font-size: 1.3rem;
+      opacity: 0.95;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    /* CONTAINER */
+    .container {
+      max-width: 1200px;
+      margin: -40px auto 60px;
+      padding: 0 20px;
+      position: relative;
+    }
+
+    /* PRICING CARDS */
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 30px;
+      margin-bottom: 60px;
+    }
+
+    .pricing-card {
+      background: var(--blanc);
+      border-radius: 16px;
+      padding: 40px 30px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      border: 2px solid transparent;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .pricing-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+      border-color: var(--accent);
+    }
+
+    .pricing-card.featured {
+      border-color: var(--accent);
+      background: linear-gradient(to bottom, var(--blanc) 0%, #f0f7ff 100%);
+    }
+
+    .pricing-card.featured::before {
+      content: "POPULAIRE";
+      position: absolute;
+      top: 20px;
+      right: -35px;
+      background: var(--accent);
+      color: var(--blanc);
+      padding: 5px 40px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      transform: rotate(45deg);
+      letter-spacing: 1px;
+    }
+
+    .card-icon {
+      font-size: 3rem;
+      margin-bottom: 20px;
+      display: block;
+    }
+
+    .card-title {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--bleu-marine);
+      margin-bottom: 15px;
+    }
+
+    .card-description {
+      color: var(--gris-fer);
       font-size: 1.05rem;
-      margin-bottom: 16px;
+      line-height: 1.6;
+      margin-bottom: 25px;
     }
 
-    .tarif-box {
-      background: #f9fafb;
+    .price-tag {
+      background: var(--gris-clair);
       padding: 20px;
       border-radius: 12px;
-      margin-top: 20px;
-    }
-
-    .prix {
-      font-size: 1.6rem;
-      font-weight: bold;
-      color: var(--marine);
-      margin-top: 10px;
-    }
-
-    footer {
-      margin-top: 60px;
-      background: var(--marine);
-      color: white;
+      margin: 25px 0;
       text-align: center;
-      padding: 20px;
+    }
+
+    .price {
+      font-size: 3rem;
+      font-weight: 800;
+      color: var(--bleu-marine);
+      line-height: 1;
+    }
+
+    .price-small {
+      font-size: 1.2rem;
+      color: var(--gris-fer);
+      font-weight: 400;
+    }
+
+    .features-list {
+      list-style: none;
+      padding: 0;
+      margin: 25px 0;
+    }
+
+    .features-list li {
+      padding: 12px 0;
+      color: var(--gris-fer);
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .features-list li::before {
+      content: "✓";
+      color: var(--vert-succes);
+      font-weight: bold;
+      font-size: 1.3rem;
+      flex-shrink: 0;
+    }
+
+    .btn-primary {
+      display: block;
+      width: 100%;
+      padding: 16px;
+      background: var(--bleu-marine);
+      color: var(--blanc);
+      text-align: center;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 1.05rem;
+      transition: all 0.3s ease;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-primary:hover {
+      background: var(--accent);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+    }
+
+    /* INFO SECTION */
+    .info-section {
+      background: var(--blanc);
+      border-radius: 16px;
+      padding: 50px 40px;
+      margin: 40px 0;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+
+    .info-section h2 {
+      font-size: 2rem;
+      color: var(--bleu-marine);
+      margin-bottom: 20px;
+      border-left: 6px solid var(--accent);
+      padding-left: 20px;
+    }
+
+    .info-section p {
+      color: var(--gris-fer);
+      font-size: 1.1rem;
+      line-height: 1.8;
+      margin-bottom: 15px;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 25px;
+      margin-top: 30px;
+    }
+
+    .info-card {
+      background: var(--gris-clair);
+      padding: 25px;
+      border-radius: 12px;
+      text-align: center;
+    }
+
+    .info-card-icon {
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+    }
+
+    .info-card h3 {
+      color: var(--bleu-marine);
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+    }
+
+    .info-card p {
       font-size: 0.95rem;
+      margin: 0;
+    }
+
+    /* CTA SECTION */
+    .cta-section {
+      background: linear-gradient(135deg, var(--bleu-marine) 0%, var(--bleu-marine-clair) 100%);
+      color: var(--blanc);
+      padding: 60px 40px;
+      border-radius: 16px;
+      text-align: center;
+      margin: 40px 0;
+    }
+
+    .cta-section h2 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      border: none;
+      padding: 0;
+    }
+
+    .cta-section p {
+      font-size: 1.2rem;
+      margin-bottom: 30px;
+      opacity: 0.95;
+      color: var(--blanc);
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-secondary {
+      padding: 16px 35px;
+      background: var(--blanc);
+      color: var(--bleu-marine);
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 1.05rem;
+      transition: all 0.3s ease;
+    }
+
+    .btn-secondary:hover {
+      background: var(--gris-clair);
+      transform: translateY(-2px);
+    }
+
+    /* FOOTER */
+    footer {
+      background: var(--bleu-marine);
+      color: var(--blanc);
+      text-align: center;
+      padding: 30px 20px;
+      font-size: 0.95rem;
+      margin-top: 60px;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .nav-container {
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .menu {
+        gap: 20px;
+      }
+
+      .hero h1 {
+        font-size: 2rem;
+      }
+
+      .hero p {
+        font-size: 1.1rem;
+      }
+
+      .pricing-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .price {
+        font-size: 2.5rem;
+      }
+
+      .cta-section h2 {
+        font-size: 2rem;
+      }
+
+      .info-section {
+        padding: 30px 20px;
+      }
     }
   </style>
-    <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="icon" type="image/png" href="favicon.png">
 </head>
-
 <body>
 
 <nav>
-  <ul class="menu">
-    <li><a href="index.html">Accueil</a></li>
-    <li><a href="reservation.html">Réservation</a></li>
-    <li><a href="a-propos.html">À propos</a></li>
-    <li><a href="tarifs.html" class="active">Tarifs</a></li>
-  </ul>
+  <div class="nav-container">
+    <a href="./index.html" class="logo">G-<span>Cours</span></a>
+    <ul class="menu">
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="reservation.html">Réservation</a></li>
+      <li><a href="a-propos.html">À propos</a></li>
+      <li><a href="tarifs.html" class="active">Tarifs</a></li>
+    </ul>
+  </div>
 </nav>
 
+<div class="hero">
+  <h1>Tarifs transparents et accessibles</h1>
+  <p>Des cours de qualité à des prix justes pour tous les niveaux</p>
+</div>
+
 <div class="container">
-  <h1>Nos tarifs</h1>
+  
+  <div class="pricing-grid">
+    
+    <!-- CARD 1: COLLÈGE & LYCÉE -->
+    <div class="pricing-card featured">
+      <span class="card-icon">🎓</span>
+      <h2 class="card-title">Collège & Lycée</h2>
+      <p class="card-description">
+        Accompagnement scolaire pour tous les niveaux, de la 6ème à la Terminale
+      </p>
+      
+      <div class="price-tag">
+        <div class="price">20€<span class="price-small">/h</span></div>
+      </div>
 
-  <h2>Collège & Lycée</h2>
+      <ul class="features-list">
+        <li>Mathématiques</li>
+        <li>Physique-Chimie</li>
+        <li>Anglais</li>
+        <li>Suivi personnalisé</li>
+        <li>Préparation aux examens</li>
+        <li>Révisions ciblées</li>
+      </ul>
 
-  <div class="tarif-box">
-    <p>
-      Cours particuliers et accompagnement scolaire pour les élèves
-      de <strong>collège</strong> et de <strong>lycée</strong>.
-    </p>
+      <a href="reservation.html" class="btn-primary">Réserver un cours</a>
+    </div>
 
-    <p>
-      Matières proposées :
-      <strong>Mathématiques</strong>,
-      <strong>Physique</strong>,
-      <strong>Anglais</strong>.
-    </p>
+    <!-- CARD 2: POST-BAC -->
+    <div class="pricing-card">
+      <span class="card-icon">🎯</span>
+      <h2 class="card-title">Post-Bac</h2>
+      <p class="card-description">
+        Soutien universitaire et remise à niveau pour étudiants du supérieur
+      </p>
+      
+      <div class="price-tag">
+        <div class="price">23€<span class="price-small">/h</span></div>
+      </div>
 
-    <div class="prix">20 € / heure</div>
+      <ul class="features-list">
+        <li>Mathématiques supérieures</li>
+        <li>Physique avancée</li>
+        <li>Anglais académique</li>
+        <li>Méthodologie universitaire</li>
+        <li>Accompagnement ciblé</li>
+        <li>Préparation examens/concours</li>
+      </ul>
+
+      <a href="reservation.html" class="btn-primary">Réserver un cours</a>
+    </div>
+
+    <!-- CARD 3: FORMATION PRO -->
+    <div class="pricing-card">
+      <span class="card-icon">💼</span>
+      <h2 class="card-title">Formation Professionnelle</h2>
+      <p class="card-description">
+        Anglais professionnel sur-mesure pour votre carrière
+      </p>
+      
+      <div class="price-tag">
+        <div class="price" style="font-size: 1.8rem;">Sur devis</div>
+      </div>
+
+      <ul class="features-list">
+        <li>Anglais des affaires</li>
+        <li>Préparation entretiens</li>
+        <li>Anglais technique</li>
+        <li>Communication pro</li>
+        <li>Programme personnalisé</li>
+        <li>Horaires flexibles</li>
+      </ul>
+
+      <a href="a-propos.html" class="btn-primary">Nous contacter</a>
+    </div>
+
   </div>
 
-  <h2>Post-Bac</h2>
+  <!-- INFO SECTION -->
+  <div class="info-section">
+    <h2>💡 Ce qui est inclus dans nos cours</h2>
+    
+    <div class="info-grid">
+      <div class="info-card">
+        <div class="info-card-icon">📚</div>
+        <h3>Supports de cours</h3>
+        <p>Documents et exercices fournis</p>
+      </div>
 
-  <div class="tarif-box">
-    <p>
-      Accompagnement des étudiants en <strong>post-bac</strong> :
-      remise à niveau, méthodologie, soutien ciblé selon les besoins.
-    </p>
+      <div class="info-card">
+        <div class="info-card-icon">🎯</div>
+        <h3>Suivi personnalisé</h3>
+        <p>Progression suivie à chaque séance</p>
+      </div>
 
-    <p>
-      Matières proposées :
-      <strong>Mathématiques</strong>,
-      <strong>Physique</strong>,
-      <strong>Anglais</strong>.
-    </p>
+      <div class="info-card">
+        <div class="info-card-icon">📊</div>
+        <h3>Bilan régulier</h3>
+        <p>Retour sur les acquis et axes d'amélioration</p>
+      </div>
 
-    <div class="prix">23 € / heure</div>
+      <div class="info-card">
+        <div class="info-card-icon">⏰</div>
+        <h3>Horaires flexibles</h3>
+        <p>Créneaux adaptés à votre emploi du temps</p>
+      </div>
+    </div>
   </div>
 
-  <h2>Formation professionnelle – Anglais</h2>
-
-  <div class="tarif-box">
+  <!-- MODALITÉS -->
+  <div class="info-section">
+    <h2>📋 Modalités pratiques</h2>
     <p>
-      Formations en <strong>anglais professionnel</strong> adaptées
-      aux besoins spécifiques (entretiens, milieu professionnel,
-      remise à niveau).
+      <strong>Durée des cours :</strong> Séances d'1h ou 2h selon vos besoins et disponibilités.
     </p>
-
     <p>
-      <strong>Veuillez nous contacter</strong> pour un devis personnalisé.
+      <strong>Lieu :</strong> Cours en présentiel à Villeurbanne ou possibilité de cours en ligne.
     </p>
+    <p>
+      <strong>Paiement :</strong> Règlement après chaque séance ou forfait mensuel disponible.
+    </p>
+    <p>
+      <strong>Annulation :</strong> Prévenir 24h à l'avance pour toute annulation.
+    </p>
+    <p>
+      <strong>Premier cours :</strong> Diagnostic gratuit pour évaluer le niveau et définir les objectifs.
+    </p>
+  </div>
+
+  <!-- CTA SECTION -->
+  <div class="cta-section">
+    <h2>Prêt à commencer ?</h2>
+    <p>Réservez votre premier cours dès maintenant et constatez la différence !</p>
+    <div class="cta-buttons">
+      <a href="reservation.html" class="btn-primary" style="display: inline-block; width: auto;">Réserver maintenant</a>
+      <a href="a-propos.html" class="btn-secondary">En savoir plus</a>
+    </div>
   </div>
 
 </div>

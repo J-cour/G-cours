@@ -21,10 +21,12 @@
 
   <style>
 :root {
-  --marine: #0b1c2d;
-  --gold: #c9a24d;
-  --white: #ffffff;
-  --light-bg: #f4f6f9;
+  --bleu-marine: #0a1f3d;
+  --bleu-marine-clair: #1a3a5f;
+  --gris-fer: #6b7280;
+  --gris-clair: #e5e7eb;
+  --blanc: #ffffff;
+  --accent: #3b82f6;
   --radius: 14px;
   --shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
 }
@@ -33,17 +35,39 @@
 
 body {
   margin: 0;
-  font-family: "Segoe UI", Arial, sans-serif;
-  background: var(--light-bg);
-  color: var(--marine);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: var(--gris-clair);
+  color: var(--bleu-marine);
 }
 
-/* NAV — SEUL CHANGEMENT */
+/* NAV */
 nav {
-  background: #0b1c2d;
-  padding: 15px;
+  background: var(--bleu-marine);
+  padding: 20px 0;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.nav-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--blanc);
+  text-decoration: none;
+}
+
+.logo span {
+  color: var(--accent);
 }
 
 .menu {
@@ -51,17 +75,20 @@ nav {
   list-style: none;
   margin: 0;
   padding: 0;
-  gap: 30px;
+  gap: 35px;
 }
 
 .menu li a {
-  color: white;
+  color: var(--blanc);
   text-decoration: none;
-  font-weight: 600;
+  font-weight: 500;
+  transition: color 0.3s ease;
+  font-size: 1rem;
 }
 
+.menu li a:hover,
 .menu li a.active {
-  color: #c9a24d;
+  color: var(--accent);
 }
 
 /* LE RESTE EST STRICTEMENT IDENTIQUE */
@@ -72,11 +99,12 @@ h1 {
   text-align: center;
 }
 
-p { text-align: center; color: #4a5b6b; }
+p { text-align: center; color: var(--gris-fer); }
 
 .container {
   max-width: 900px;
   margin: auto;
+  padding: 20px;
 }
 
 input, select {
@@ -84,18 +112,20 @@ input, select {
   width: 100%;
   margin: 12px 0;
   border-radius: var(--radius);
-  border: 1.5px solid #ccd5df;
+  border: 1.5px solid var(--gris-fer);
+  background: var(--blanc);
+  color: var(--bleu-marine);
 }
 
 .slot {
-  background: var(--white);
+  background: var(--blanc);
   padding: 18px 20px;
   margin: 14px 0;
   border-radius: var(--radius);
   box-shadow: var(--shadow);
   display: flex;
   justify-content: space-between;
-  border-left: 6px solid var(--gold);
+  border-left: 6px solid var(--accent);
 }
 
 .full { opacity: 0.6; }
@@ -105,24 +135,24 @@ button {
   border: none;
   border-radius: 999px;
   cursor: pointer;
-  background: var(--marine);
-  color: var(--white);
+  background: var(--bleu-marine);
+  color: var(--blanc);
   font-weight: 600;
 }
 
 button:hover {
-  background: var(--gold);
-  color: var(--marine);
+  background: var(--accent);
+  color: var(--blanc);
 }
 
 button:disabled {
-  background: #cfd6dd;
-  color: #7a8694;
+  background: var(--gris-fer);
+  color: var(--blanc);
 }
 
 #admin {
   margin-top: 40px;
-  background: var(--white);
+  background: var(--blanc);
   padding: 25px;
   border-radius: var(--radius);
   box-shadow: var(--shadow);
@@ -135,15 +165,26 @@ table {
 }
 
 th {
-  background: var(--marine);
-  color: var(--white);
+  background: var(--bleu-marine);
+  color: var(--blanc);
   padding: 14px;
 }
 
 td {
-  border-bottom: 1px solid #e5e9ef;
+  border-bottom: 1px solid var(--gris-clair);
   padding: 12px;
   text-align: center;
+}
+
+@media (max-width: 768px) {
+  .nav-container {
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .menu {
+    gap: 20px;
+  }
 }
   </style>
     <link rel="icon" type="image/png" href="favicon.png">
@@ -152,12 +193,15 @@ td {
 <body>
 
 <nav>
-  <ul class="menu">
-    <li><a href="index.html">Accueil</a></li>
-    <li><a href="reservation.html" class="active">Réservation</a></li>
-    <li><a href="a-propos.html">À propos</a></li>
-    <li><a href="Tarifs.html">Tarifs</a></li>
-  </ul>
+  <div class="nav-container">
+    <a href="./index.html" class="logo">G-<span>Cours</span></a>
+    <ul class="menu">
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="reservation.html" class="active">Réservation</a></li>
+      <li><a href="a-propos.html">À propos</a></li>
+      <li><a href="Tarifs.html">Tarifs</a></li>
+    </ul>
+  </div>
 </nav>
 
 <div class="container">
@@ -168,7 +212,7 @@ td {
 
   <p>
     Cette plateforme permet de réserver des cours en ligne en maths, Physique et Anglais
-    Les élèves choisissent un créneau disponible et s’inscrivent facilement.
+    Les élèves choisissent un créneau disponible et s'inscrivent facilement.
     Chaque créneau est limité à 7 places afin de garantir un suivi de qualité.
   </p>
 

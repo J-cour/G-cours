@@ -4,111 +4,343 @@
   <meta charset="UTF-8">
   <title>G-Cours – Cours particuliers Maths, Physique, Anglais à Villeurbanne</title>
   <link rel="canonical" href="https://g-cours.fr/">
-  <meta name="description" content="G-Cours propose des cours particuliers en maths, physique et Anglais pour collégiens et lycéens. Réservation en ligne simple et rapide..69100, Villeurbanne.">
+  <meta name="description" content="G-Cours propose des cours particuliers en maths, physique et anglais pour collégiens et lycéens. Réservation en ligne simple et rapide. QCM d'entraînement en math de la 6ème à la Terminale. 69100, Villeurbanne.">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
-    body {
+    :root {
+      --bleu-marine: #0a1f3d;
+      --bleu-marine-clair: #1a3a5f;
+      --gris-fer: #6b7280;
+      --gris-clair: #e5e7eb;
+      --blanc: #ffffff;
+      --accent: #3b82f6;
+    }
+
+    * {
       margin: 0;
-      font-family: "Segoe UI", Arial, sans-serif;
-      background: var(--light);
-      color: var(--marine);
-    }
-
-    nav {
-      background: #0b1c2d;
-      padding: 15px;
-      display: flex;
-      justify-content: center;
-    }
-
-    /* 🔽 MENU */
-    .menu {
-      display: flex;          /* tous les onglets sur la même ligne */
-      list-style: none;       /* enlève les puces */
       padding: 0;
-      margin: 0;
-      gap: 30px;              /* espace entre les onglets */
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: var(--blanc);
+      color: var(--bleu-marine);
+      line-height: 1.6;
+    }
+
+    /* NAVIGATION */
+    nav {
+      background: var(--bleu-marine);
+      padding: 20px 0;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--blanc);
+      text-decoration: none;
+    }
+
+    .logo span {
+      color: var(--accent);
+    }
+
+    .menu {
+      display: flex;
+      list-style: none;
+      gap: 35px;
     }
 
     .menu li a {
-      color: white;
+      color: var(--blanc);
       text-decoration: none;
-      font-weight: 600;
-      white-space: nowrap;
+      font-weight: 500;
+      transition: color 0.3s ease;
+      font-size: 1rem;
     }
 
+    .menu li a:hover,
     .menu li a.active {
-      color: #c9a24d;
+      color: var(--accent);
     }
 
+    /* HERO SECTION */
     header {
-      padding: 80px 20px;
+      background: linear-gradient(135deg, var(--bleu-marine) 0%, var(--bleu-marine-clair) 100%);
+      color: var(--blanc);
+      padding: 100px 20px;
       text-align: center;
-      background: linear-gradient(180deg, #eef2f6, #ffffff);
+      position: relative;
+      overflow: hidden;
+    }
+
+    header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+      opacity: 0.3;
+    }
+
+    header .content {
+      position: relative;
+      z-index: 1;
+      max-width: 900px;
+      margin: 0 auto;
     }
 
     header h1 {
-      font-size: 2.5rem;
-      margin-bottom: 15px;
+      font-size: 3rem;
+      margin-bottom: 20px;
+      font-weight: 800;
+      letter-spacing: -1px;
     }
 
     header p {
-      max-width: 700px;
-      margin: auto;
-      font-size: 1.1rem;
-      color: #4a5b6b;
+      font-size: 1.3rem;
+      margin-bottom: 40px;
+      opacity: 0.95;
+      line-height: 1.8;
     }
 
     .cta {
-      margin-top: 30px;
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
     }
 
-    .cta a {
-      background: #0b1c2d;
-      color: white;
-      padding: 14px 26px;
-      border-radius: 999px;
+    .btn {
+      padding: 16px 35px;
+      border-radius: 8px;
       text-decoration: none;
       font-weight: 600;
+      font-size: 1.05rem;
+      transition: all 0.3s ease;
+      display: inline-block;
     }
 
-    .cta a:hover {
-      background: #c9a24d;
-      color: #0b1c2d;
+    .btn-primary {
+      background: var(--accent);
+      color: var(--blanc);
+      box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
     }
 
+    .btn-primary:hover {
+      background: #2563eb;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+    }
+
+    .btn-secondary {
+      background: var(--blanc);
+      color: var(--bleu-marine);
+    }
+
+    .btn-secondary:hover {
+      background: var(--gris-clair);
+      transform: translateY(-2px);
+    }
+
+    /* SECTIONS */
     section {
-      max-width: 1000px;
-      margin: 60px auto;
+      max-width: 1200px;
+      margin: 80px auto;
       padding: 0 20px;
     }
 
+    section h2 {
+      text-align: center;
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      color: var(--bleu-marine);
+      font-weight: 700;
+    }
+
+    section .subtitle {
+      text-align: center;
+      color: var(--gris-fer);
+      font-size: 1.2rem;
+      margin-bottom: 50px;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* CARDS */
     .cards {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 25px;
-      margin-top: 30px;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      margin-top: 40px;
     }
 
     .card {
-      background: white;
-      padding: 25px;
-      border-radius: 14px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+      background: var(--blanc);
+      padding: 35px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      transition: all 0.3s ease;
+      border: 1px solid var(--gris-clair);
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+      border-color: var(--accent);
+    }
+
+    .card-icon {
+      font-size: 3rem;
+      margin-bottom: 20px;
+      display: block;
     }
 
     .card h3 {
-      margin-top: 0;
-      color: #0b1c2d;
+      margin: 15px 0;
+      color: var(--bleu-marine);
+      font-size: 1.5rem;
+      font-weight: 700;
     }
 
-    footer {
+    .card p {
+      color: var(--gris-fer);
+      font-size: 1.05rem;
+      line-height: 1.7;
+    }
+
+    /* FEATURES SECTION */
+    .features-section {
+      background: var(--gris-clair);
+      padding: 80px 20px;
+      margin: 80px 0;
+    }
+
+    .features-section .cards {
+      max-width: 1200px;
+      margin: 40px auto 0;
+    }
+
+    /* STATS */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 30px;
+      margin: 60px 0;
       text-align: center;
-      padding: 30px;
-      background: #0b1c2d;
-      color: white;
-      margin-top: 60px;
+    }
+
+    .stat-item {
+      padding: 20px;
+    }
+
+    .stat-number {
+      font-size: 3rem;
+      font-weight: 800;
+      color: var(--accent);
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    .stat-label {
+      color: var(--gris-fer);
+      font-size: 1.1rem;
+    }
+
+    /* FOOTER */
+    footer {
+      background: var(--bleu-marine);
+      color: var(--blanc);
+      padding: 50px 20px 30px;
+      margin-top: 80px;
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+
+    .footer-section h4 {
+      margin-bottom: 20px;
+      color: var(--accent);
+      font-size: 1.2rem;
+    }
+
+    .footer-section ul {
+      list-style: none;
+    }
+
+    .footer-section ul li {
+      margin-bottom: 10px;
+    }
+
+    .footer-section a {
+      color: var(--blanc);
+      text-decoration: none;
+      opacity: 0.8;
+      transition: opacity 0.3s;
+    }
+
+    .footer-section a:hover {
+      opacity: 1;
+      color: var(--accent);
+    }
+
+    .footer-bottom {
+      text-align: center;
+      padding-top: 30px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      color: var(--gris-fer);
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .menu {
+        gap: 20px;
+      }
+
+      header h1 {
+        font-size: 2rem;
+      }
+
+      header p {
+        font-size: 1.1rem;
+      }
+
+      section h2 {
+        font-size: 2rem;
+      }
+
+      .cards {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-container {
+        flex-direction: column;
+        gap: 20px;
+      }
     }
   </style>
 
@@ -118,86 +350,186 @@
 <body>
 
 <nav>
-  <ul class="menu">
-    <li><a href="./index.html" class="active">Accueil</a></li>
-    <li><a href="./reservation.html">Réservation</a></li>
-    <li><a href="./a-propos.html">À propos</a></li>
-    <li><a href="Tarifs.html">Tarifs</a></li>
-  </ul>
+  <div class="nav-container">
+    <a href="./index.html" class="logo">G-<span>Cours</span></a>
+    <ul class="menu">
+      <li><a href="./index.html" class="active">Accueil</a></li>
+      <li><a href="./reservation.html">Réservation</a></li>
+      <li><a href="./a-propos.html">À propos</a></li>
+      <li><a href="./Tarifs.html">Tarifs</a></li>
+    </ul>
+  </div>
 </nav>
 
 <header>
-  <h1>Cours particuliers pour réussir sereinement</h1>
-  <p>
-    G-Cours accompagne les collégiens et lycéens en maths, physique et anglais
-    avec des cours clairs, efficaces et adaptés à chaque élève.
-  </p>
+  <div class="content">
+    <h1>Réussissez sereinement avec G-Cours</h1>
+    <p>
+      Accompagnement personnalisé en mathématiques, physique et anglais pour les collégiens et lycéens de Villeurbanne. 
+      Des cours particuliers adaptés à votre rythme et vos objectifs.
+    </p>
 
-  <div class="cta">
-    <a href="./reservation.html">Réserver un cours</a>
-    <a href="./qcm.html" style="margin-left: 15px;">Faire un QCM</a>
+    <div class="cta">
+      <a href="./reservation.html" class="btn btn-primary">Réserver un cours</a>
+      <a href="./qcm.html" class="btn btn-secondary">S'entraîner avec un QCM</a>
+    </div>
   </div>
 </header>
 
 <section>
-  <h2 style="text-align:center;">Nos matières</h2>
-
-  <div class="cards">
-    <div class="card">
-      <h3>📐 Mathématiques</h3>
-      <p>
-        Comprendre les notions clés, progresser en exercices et gagner en confiance
-        pour les contrôles et examens.
-      </p>
+  <div class="stats">
+    <div class="stat-item">
+      <span class="stat-number">98%</span>
+      <span class="stat-label">Satisfaction élèves</span>
     </div>
-
-    <div class="card">
-      <h3>🇬🇧 Anglais</h3>
-      <p>
-        Amélioration de l’expression orale, grammaire, vocabulaire et préparation
-        aux évaluations.
-      </p>
+    <div class="stat-item">
+      <span class="stat-number">+2.5</span>
+      <span class="stat-label">Points de moyenne</span>
     </div>
-
-    <div class="card">
-      <h3>⚛️ Physique</h3>
-      <p>
-        Méthodes simples pour comprendre les lois physiques et réussir les exercices
-        pas à pas.
-      </p>
+    <div class="stat-item">
+      <span class="stat-number">500+</span>
+      <span class="stat-label">Heures de cours</span>
     </div>
   </div>
 </section>
 
 <section>
-  <h2 style="text-align:center;">Pourquoi choisir G-Cours ?</h2>
+  <h2>Nos matières</h2>
+  <p class="subtitle">Un accompagnement complet pour progresser dans les matières essentielles</p>
 
   <div class="cards">
     <div class="card">
-      <h3>👨‍🏫 Accompagnement personnalisé</h3>
+      <span class="card-icon">📐</span>
+      <h3>Mathématiques</h3>
       <p>
-        Chaque élève est suivi selon son niveau et ses objectifs.
+        De la 6ème à la Terminale, maîtrisez les notions clés, progressez en exercices et gagnez en confiance pour vos contrôles et examens.
       </p>
     </div>
 
     <div class="card">
-      <h3>🗓️ Réservation simple</h3>
+      <span class="card-icon">🇬🇧</span>
+      <h3>Anglais</h3>
       <p>
-        Choisissez votre créneau directement en ligne, en quelques secondes.
+        Améliorez votre expression orale et écrite, renforcez votre grammaire et vocabulaire, et préparez-vous efficacement aux évaluations.
       </p>
     </div>
 
     <div class="card">
-      <h3>🎯 Objectif réussite</h3>
+      <span class="card-icon">⚛️</span>
+      <h3>Physique-Chimie</h3>
       <p>
-        Améliorer les résultats scolaires et redonner confiance.
+        Comprenez les lois physiques avec des méthodes simples et concrètes. Réussissez vos exercices grâce à un accompagnement pas à pas.
       </p>
     </div>
   </div>
 </section>
 
+<div class="features-section">
+  <section style="margin: 0;">
+    <h2>Pourquoi choisir G-Cours ?</h2>
+    <p class="subtitle">Une méthode éprouvée pour votre réussite scolaire</p>
+
+    <div class="cards">
+      <div class="card">
+        <span class="card-icon">👨‍🏫</span>
+        <h3>Accompagnement personnalisé</h3>
+        <p>
+          Chaque élève bénéficie d'un suivi adapté à son niveau, ses difficultés et ses objectifs personnels. Progression garantie.
+        </p>
+      </div>
+
+      <div class="card">
+        <span class="card-icon">🗓️</span>
+        <h3>Réservation simplifiée</h3>
+        <p>
+          Choisissez votre créneau directement en ligne en quelques clics. Flexibilité et simplicité pour s'adapter à votre emploi du temps.
+        </p>
+      </div>
+
+      <div class="card">
+        <span class="card-icon">🎯</span>
+        <h3>Objectif réussite</h3>
+        <p>
+          Notre mission : améliorer vos résultats scolaires, renforcer votre confiance et vous donner les clés pour réussir durablement.
+        </p>
+      </div>
+
+      <div class="card">
+        <span class="card-icon">📊</span>
+        <h3>Suivi des progrès</h3>
+        <p>
+          Évaluez votre progression grâce à nos QCM d'entraînement et bénéficiez d'un retour régulier sur vos avancées.
+        </p>
+      </div>
+
+      <div class="card">
+        <span class="card-icon">💡</span>
+        <h3>Méthodes efficaces</h3>
+        <p>
+          Des techniques d'apprentissage éprouvées qui facilitent la compréhension et la mémorisation des concepts clés.
+        </p>
+      </div>
+
+      <div class="card">
+        <span class="card-icon">🏆</span>
+        <h3>Résultats concrets</h3>
+        <p>
+          Nos élèves progressent en moyenne de 2 à 3 points et gagnent en autonomie dans leur apprentissage.
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<section>
+  <h2>Prêt à progresser ?</h2>
+  <p class="subtitle">Réservez votre premier cours dès aujourd'hui et découvrez une nouvelle façon d'apprendre</p>
+  
+  <div style="text-align: center; margin-top: 40px;">
+    <a href="./reservation.html" class="btn btn-primary" style="font-size: 1.2rem; padding: 18px 40px;">Commencer maintenant</a>
+  </div>
+</section>
+
 <footer>
-  © 2026 – G-Cours | Cours particuliers
+  <div class="footer-content">
+    <div class="footer-section">
+      <h4>G-Cours</h4>
+      <p>Cours particuliers de qualité pour collégiens et lycéens à Villeurbanne.</p>
+    </div>
+
+    <div class="footer-section">
+      <h4>Navigation</h4>
+      <ul>
+        <li><a href="./index.html">Accueil</a></li>
+        <li><a href="./reservation.html">Réservation</a></li>
+        <li><a href="./a-propos.html">À propos</a></li>
+        <li><a href="./Tarifs.html">Tarifs</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-section">
+      <h4>Matières</h4>
+      <ul>
+        <li><a href="#">Mathématiques</a></li>
+        <li><a href="#">Physique-Chimie</a></li>
+        <li><a href="#">Anglais</a></li>
+        <li><a href="./qcm.html">QCM d'entraînement</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-section">
+      <h4>Contact</h4>
+      <ul>
+        <li>📍 Villeurbanne 69100</li>
+        <li>📧 contact@g-cours.fr</li>
+        <li>📞 06 XX XX XX XX</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    © 2026 G-Cours – Tous droits réservés | Cours particuliers à Villeurbanne
+  </div>
 </footer>
 
 </body>

@@ -3,116 +3,139 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>G-Cours – Réservation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
 <style>
+/* ── VARIABLES DE COULEURS INDEX ── */
+:root {
+  --bg: #030d1a;
+  --bg-2: #071526;
+  --card: rgba(255,255,255,0.04);
+  --card-h: rgba(255,255,255,0.07);
+  --border: rgba(255,255,255,0.07);
+  --border-h: rgba(56,189,248,0.35);
+  --text: #e2e8f0;
+  --muted: rgba(226,232,240,0.5);
+  --accent: #38bdf8;
+  --grad: linear-gradient(135deg, #38bdf8, #818cf8);
+  --nav-h: 70px;
+}
+
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: system-ui, sans-serif; background: linear-gradient(135deg, #060f1e 0%, #0a1628 50%, #0d2244 100%); min-height: 100vh; color: white; }
-.hero { text-align: center; padding: 36px 20px 24px; }
-.hero-tag { font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.35); margin-bottom: 8px; }
+
+body { 
+  font-family: 'Inter', sans-serif; 
+  background-color: var(--bg); 
+  color: var(--text); 
+  line-height: 1.6; 
+  min-height: 100vh;
+}
+
+/* ── BARRE DE NAVIGATION ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; height: var(--nav-h);
+  backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+  background: rgba(3,13,26,0.85); border-bottom: 1px solid var(--border); z-index: 1000;
+}
+.nav-inner {
+  max-width: 1200px; margin: 0 auto; padding: 0 24px; height: 100%;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.logo {
+  font-size: 1.5rem; font-weight: 900; text-decoration: none;
+  background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.nav-links { display: flex; list-style: none; gap: 4px; }
+.nav-links a {
+  color: var(--muted); text-decoration: none; font-weight: 500; font-size: .93rem;
+  padding: 8px 14px; border-radius: 8px; transition: 0.2s;
+}
+.nav-links a:hover, .nav-links a.active { color: var(--text); background: rgba(255,255,255,0.06); }
+.nav-links a.active { color: var(--accent); }
+
+/* ── STYLE DU CONTENU ── */
+.hero { text-align: center; padding: calc(var(--nav-h) + 40px) 20px 24px; }
+.hero-tag { font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; }
 .hero-title { font-size: clamp(24px, 5vw, 36px); font-weight: 700; letter-spacing: -0.02em; margin-bottom: 6px; }
-.hero-sub { font-size: 13px; color: rgba(255,255,255,0.45); }
+.hero-sub { font-size: 13px; color: var(--muted); }
+
 .section { padding: 12px 20px 60px; max-width: 1000px; margin: 0 auto; }
-.slots-caption { text-align: center; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-bottom: 24px; }
+.slots-caption { text-align: center; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-bottom: 24px; }
+
 .inputs-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-bottom: 28px; }
-.glass-input { width: 100%; max-width: 280px; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; padding: 11px 15px; font-size: 13px; color: white; font-family: inherit; outline: none; transition: all 0.2s; -webkit-appearance: none; }
-.glass-input::placeholder { color: rgba(255,255,255,0.3); }
-.glass-input:focus { border-color: rgba(96,165,250,0.5); background: rgba(255,255,255,0.1); }
-.glass-input option { background: #0d2244; color: white; }
+.glass-input { width: 100%; max-width: 280px; background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 11px 15px; font-size: 13px; color: white; font-family: inherit; outline: none; transition: all 0.2s; }
+.glass-input:focus { border-color: var(--accent); background: rgba(255,255,255,0.1); }
+.glass-input option { background: var(--bg-2); color: white; }
+
 .main-layout { display: flex; flex-direction: column; gap: 20px; }
 @media(min-width: 760px) { .main-layout { flex-direction: row; align-items: flex-start; } .calendar-col { flex-shrink: 0; } .slots-col { flex: 1; } }
 
 /* CALENDAR */
-.glass-calendar { width: 310px; max-width: 100%; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); border-radius: 22px; padding: 18px; align-self: center; }
+.glass-calendar { width: 310px; max-width: 100%; background: rgba(0,0,0,0.3); border: 1px solid var(--border); border-radius: 22px; padding: 18px; align-self: center; }
 .cal-month-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
 .cal-month-name { font-size: 20px; font-weight: 700; }
-.cal-year { font-size: 13px; color: rgba(255,255,255,0.45); margin-left: 6px; }
-.cal-nav { display: flex; gap: 6px; }
-.cal-nav-btn { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: white; cursor: pointer; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; font-size: 16px; transition: background 0.2s; }
-.cal-nav-btn:hover { background: rgba(255,255,255,0.15); }
+.cal-year { font-size: 13px; color: var(--muted); margin-left: 6px; }
+.cal-nav-btn { background: var(--card); border: 1px solid var(--border); border-radius: 8px; color: white; cursor: pointer; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
+.cal-nav-btn:hover { background: var(--card-h); }
 .cal-grid-header { display: grid; grid-template-columns: repeat(7, 1fr); margin-bottom: 8px; }
-.cal-grid-header span { text-align: center; font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.4); padding: 4px 0; }
+.cal-grid-header span { text-align: center; font-size: 10px; font-weight: 700; color: var(--muted); padding: 4px 0; }
 .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; }
-.cal-cell { display: flex; align-items: center; justify-content: center; }
-.cal-day-btn { width: 34px; height: 34px; border-radius: 50%; border: none; background: none; color: white; font-size: 12px; font-weight: 500; cursor: pointer; position: relative; transition: background 0.15s; font-family: inherit; }
-.cal-day-btn:hover:not(.selected):not(.disabled) { background: rgba(255,255,255,0.12); }
-.cal-day-btn.selected { background: linear-gradient(135deg, #3b82f6, #1d4ed8); box-shadow: 0 4px 12px rgba(29,78,216,0.4); font-weight: 700; }
-.cal-day-btn.today:not(.selected) { border: 1.5px solid rgba(96,165,250,0.6); }
-.cal-day-btn.disabled { color: rgba(255,255,255,0.2); cursor: default; }
-.cal-day-btn.no-course { color: rgba(255,255,255,0.2); cursor: default; }
-.cal-legend { display: flex; gap: 16px; margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.08); }
-.cal-legend-item { display: flex; align-items: center; gap: 5px; font-size: 10px; color: rgba(255,255,255,0.4); }
-.leg-dot { width: 8px; height: 8px; border-radius: 50%; }
+.cal-day-btn, .admin-day-btn { width: 34px; height: 34px; border-radius: 50%; border: none; background: none; color: white; font-size: 12px; font-weight: 500; cursor: pointer; transition: 0.15s; font-family: inherit; position: relative; }
+.cal-day-btn.selected, .admin-day-btn.selected { background: var(--grad); box-shadow: 0 4px 12px rgba(56,189,248,0.3); font-weight: 700; }
+.cal-day-btn.today, .admin-day-btn.today { border: 1.5px solid var(--accent); }
+.cal-day-btn.disabled, .admin-day-btn.disabled { color: rgba(255,255,255,0.15); cursor: default; }
 
 /* SLOTS */
-.date-header { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; padding: 13px 16px; margin-bottom: 12px; }
-.date-header-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.15em; color: rgba(255,255,255,0.3); }
-.date-header-value { font-size: 15px; font-weight: 600; text-transform: capitalize; margin-top: 3px; }
-.slot-card { display: flex; align-items: center; justify-content: space-between; gap: 12px; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; padding: 13px 16px; margin-bottom: 10px; transition: all 0.2s; }
-.slot-card:hover:not(.full) { border-color: rgba(96,165,250,0.4); background: rgba(59,130,246,0.08); }
-.slot-card.full { opacity: 0.45; }
-.slot-time { font-weight: 600; font-size: 14px; }
-.slot-count { font-size: 11px; color: rgba(255,255,255,0.4); margin-top: 2px; }
+.date-header { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 13px 16px; margin-bottom: 12px; }
+.date-header-label { font-size: 10px; font-weight: 600; text-transform: uppercase; color: var(--muted); }
+.slot-card { display: flex; align-items: center; justify-content: space-between; gap: 12px; background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 13px 16px; margin-bottom: 10px; transition: 0.2s; }
+.slot-card:hover:not(.full) { border-color: var(--accent); }
 .progress-bar { height: 3px; width: 100%; background: rgba(255,255,255,0.1); border-radius: 9999px; overflow: hidden; margin-top: 7px; }
-.progress-fill { height: 100%; border-radius: 9999px; background: linear-gradient(90deg, #60a5fa, #3b82f6); transition: width 0.4s; }
-.reserve-btn { flex-shrink: 0; background: linear-gradient(135deg, #3b82f6, #1d4ed8); border: none; border-radius: 9999px; padding: 8px 16px; font-size: 12px; font-weight: 700; color: white; cursor: pointer; font-family: inherit; box-shadow: 0 4px 14px rgba(29,78,216,0.3); transition: all 0.2s; }
-.reserve-btn:hover:not(:disabled) { background: linear-gradient(135deg, #60a5fa, #2563eb); transform: translateY(-1px); }
-.reserve-btn:disabled { background: rgba(255,255,255,0.1); box-shadow: none; cursor: not-allowed; opacity: 0.5; transform: none; }
-.no-slots { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; padding: 32px 20px; text-align: center; }
-.no-slots p { color: rgba(255,255,255,0.45); font-size: 14px; }
-.no-slots small { color: rgba(255,255,255,0.25); font-size: 12px; margin-top: 6px; display: block; }
-.message { margin-top: 12px; border-radius: 12px; padding: 11px 14px; font-size: 13px; font-weight: 500; border: 1px solid; }
-.message.success { background: rgba(16,185,129,0.1); border-color: rgba(16,185,129,0.25); color: #6ee7b7; }
-.message.error { background: rgba(239,68,68,0.1); border-color: rgba(239,68,68,0.25); color: #fca5a5; }
-.admin-btn { display: block; margin: 32px auto 0; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 9999px; padding: 7px 20px; font-size: 12px; color: rgba(255,255,255,0.4); cursor: pointer; font-family: inherit; transition: all 0.2s; }
-.admin-btn:hover { border-color: rgba(255,255,255,0.2); color: rgba(255,255,255,0.7); }
+.progress-fill { height: 100%; border-radius: 9999px; background: var(--grad); transition: width 0.4s; }
+.reserve-btn { background: var(--grad); border: none; border-radius: 9999px; padding: 8px 16px; font-size: 12px; font-weight: 700; color: white; cursor: pointer; box-shadow: 0 4px 14px rgba(56,189,248,0.2); transition: 0.2s; }
+.reserve-btn:disabled { background: var(--card); box-shadow: none; opacity: 0.5; }
 
-/* ADMIN PANEL */
-.admin-panel { margin-top: 28px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.12); border-radius: 24px; padding: 24px; }
-.admin-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 22px; flex-wrap: wrap; gap: 12px; }
-.admin-title { font-size: 17px; font-weight: 700; }
-.admin-subtitle { font-size: 12px; color: rgba(255,255,255,0.4); margin-top: 2px; }
+/* ADMIN */
+.admin-panel { margin-top: 28px; background: rgba(0,0,0,0.3); border: 1px solid var(--border); border-radius: 24px; padding: 24px; }
+.admin-header { margin-bottom: 20px; }
+.admin-title { font-size: 18px; font-weight: 800; color: var(--accent); }
 .admin-layout { display: flex; flex-direction: column; gap: 20px; }
-@media(min-width: 700px) { .admin-layout { flex-direction: row; align-items: flex-start; } .admin-cal-col { flex-shrink: 0; } .admin-detail-col { flex: 1; } }
-.admin-glass-cal { width: 290px; max-width: 100%; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 18px; padding: 16px; }
-.admin-cal-grid-header { display: grid; grid-template-columns: repeat(7, 1fr); margin-bottom: 6px; }
-.admin-cal-grid-header span { text-align: center; font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.4); padding: 3px 0; }
-.admin-cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; }
-.admin-day-btn { width: 32px; height: 32px; border-radius: 50%; border: none; background: none; color: white; font-size: 12px; font-weight: 500; cursor: pointer; transition: background 0.15s; font-family: inherit; position: relative; }
-.admin-day-btn:hover:not(.selected):not(.no-course) { background: rgba(255,255,255,0.1); }
-.admin-day-btn.selected { background: linear-gradient(135deg, #ec4899, #f97316); box-shadow: 0 3px 10px rgba(236,72,153,0.35); font-weight: 700; }
-.admin-day-btn.today:not(.selected) { border: 1.5px solid rgba(96,165,250,0.5); }
-.admin-day-btn.no-course { color: rgba(255,255,255,0.18); cursor: default; }
+@media(min-width: 700px) { .admin-layout { flex-direction: row; align-items: flex-start; } }
+.admin-glass-cal { width: 290px; background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: 18px; padding: 16px; }
 .admin-day-btn.has-students::after { content: ''; position: absolute; bottom: 3px; left: 50%; transform: translateX(-50%); width: 4px; height: 4px; border-radius: 50%; background: #34d399; }
-.admin-day-btn.selected.has-students::after { background: white; }
-
-/* Detail panel */
-.admin-detail-col { min-width: 0; }
-.admin-date-title { font-size: 14px; font-weight: 600; text-transform: capitalize; margin-bottom: 14px; color: rgba(255,255,255,0.8); }
-.admin-slot-block { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; padding: 14px 16px; margin-bottom: 10px; }
-.admin-slot-title { font-size: 13px; font-weight: 700; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; }
-.admin-slot-badge { font-size: 11px; font-weight: 600; background: rgba(255,255,255,0.08); border-radius: 9999px; padding: 2px 9px; color: rgba(255,255,255,0.5); }
+.admin-slot-block { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 14px; margin-bottom: 10px; }
+.admin-slot-title { font-weight: 700; font-size: 14px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
+.admin-slot-badge { font-size: 11px; padding: 2px 8px; border-radius: 10px; background: rgba(255,255,255,0.1); }
 .admin-slot-badge.has-p { background: rgba(52,211,153,0.15); color: #34d399; }
-.student-row { display: flex; align-items: center; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.06); }
-.student-row:last-child { border-bottom: none; }
-.student-name { font-size: 13px; font-weight: 500; }
-.student-subj { font-size: 11px; color: rgba(96,165,250,0.8); margin-top: 1px; }
-.remove-btn { background: rgba(248,113,113,0.1); border: 1px solid rgba(248,113,113,0.2); color: rgba(248,113,113,0.7); cursor: pointer; font-size: 11px; padding: 3px 8px; border-radius: 6px; font-family: inherit; transition: all 0.2s; }
-.remove-btn:hover { background: rgba(248,113,113,0.2); color: #fca5a5; }
-.empty-row { font-size: 12px; color: rgba(255,255,255,0.25); font-style: italic; padding: 6px 0; }
-.no-course-msg { text-align: center; padding: 30px; color: rgba(255,255,255,0.3); font-size: 13px; }
+.student-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+.remove-btn { background: rgba(248,113,113,0.1); border: 1px solid rgba(248,113,113,0.2); color: #fca5a5; cursor: pointer; font-size: 11px; padding: 3px 8px; border-radius: 6px; }
 
-/* Loading overlay */
-.loading-overlay { position: fixed; inset: 0; background: rgba(6,15,30,0.85); display: flex; align-items: center; justify-content: center; z-index: 999; flex-direction: column; gap: 14px; }
-.loading-overlay p { font-size: 13px; color: rgba(255,255,255,0.5); }
-
-.spinner { display: inline-block; width: 13px; height: 13px; border: 2px solid rgba(255,255,255,0.2); border-top-color: white; border-radius: 50%; animation: spin 0.6s linear infinite; vertical-align: middle; }
-.spinner-lg { width: 32px; height: 32px; border-width: 3px; }
+.loading-overlay { position: fixed; inset: 0; background: var(--bg); display: flex; align-items: center; justify-content: center; z-index: 9999; flex-direction: column; gap: 14px; }
+.spinner { display: inline-block; width: 24px; height: 24px; border: 3px solid rgba(255,255,255,0.1); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.6s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
 </style>
 </head>
 <body>
 
-<!-- Loading overlay -->
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="logo">G-Cours</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="reservation.html" class="active">Réservation</a></li>
+      <li><a href="a-propos.html">À propos</a></li>
+      <li><a href="Tarifs.html">Tarifs</a></li>
+      <li><a href="qcm.html">QCM</a></li>
+    </ul>
+  </div>
+</nav>
 
+<div id="loadingOverlay" class="loading-overlay">
+  <div class="spinner"></div>
+</div>
 
 <div class="hero">
   <p class="hero-tag">Cours particuliers · G-Cours</p>
@@ -121,7 +144,7 @@ body { font-family: system-ui, sans-serif; background: linear-gradient(135deg, #
 </div>
 
 <div class="section">
-  <p class="slots-caption">7 places maximum par créneau · Maths · Physique · Anglais</p>
+  <p class="slots-caption">7 places maximum par créneau</p>
 
   <div class="inputs-row">
     <input id="nameInput" class="glass-input" type="text" placeholder="Prénom et nom de l'élève" />
@@ -145,15 +168,11 @@ body { font-family: system-ui, sans-serif; background: linear-gradient(135deg, #
         </div>
         <div class="cal-grid-header" id="calGridHeader"></div>
         <div class="cal-grid" id="calGrid"></div>
-        <div class="cal-legend">
-          <div class="cal-legend-item"><div class="leg-dot" style="background:#3b82f6"></div> Cours dispo</div>
-          <div class="cal-legend-item"><div class="leg-dot" style="background:rgba(255,255,255,0.15)"></div> Pas de cours</div>
-        </div>
       </div>
     </div>
     <div class="slots-col">
       <div class="date-header">
-        <p class="date-header-label">Créneaux disponibles</p>
+        <p class="date-header-label">Créneaux</p>
         <p class="date-header-value" id="dateLabel"></p>
       </div>
       <div id="slotsContainer"></div>
@@ -161,18 +180,14 @@ body { font-family: system-ui, sans-serif; background: linear-gradient(135deg, #
     </div>
   </div>
 
-  <button class="admin-btn" id="adminBtn">Accès Prof</button>
+  <button class="admin-btn" style="display: block; margin: 32px auto 0; background: var(--card); border: 1px solid var(--border); border-radius: 9999px; padding: 7px 20px; font-size: 12px; color: var(--muted); cursor: pointer;" id="adminBtn">Accès Prof</button>
   <div id="adminPanel" style="display:none"></div>
 </div>
 
-<!-- Firebase SDK (compat version = pas besoin d'import/export) -->
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
 
 <script>
-// ════════════════════════════════════════════
-//  FIREBASE CONFIG
-// ════════════════════════════════════════════
 const firebaseConfig = {
   apiKey: "AIzaSyCDJRbeW9KWrLzuI3v2kBUDulKcb3REKy8",
   authDomain: "reservation-cour.firebaseapp.com",
@@ -187,69 +202,46 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 const slotsRef = db.ref("slots");
 
-// ════════════════════════════════════════════
-//  CONSTANTES
-// ════════════════════════════════════════════
-const FR_MONTHS      = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+const FR_MONTHS = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
 const FR_MONTHS_LONG = ['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
-const FR_DAYS_LONG   = ['dimanche','lundi','mardi','mercredi','jeudi','vendredi','samedi'];
+const FR_DAYS_LONG = ['dimanche','lundi','mardi','mercredi','jeudi','vendredi','samedi'];
 
 const DAY_SLOTS = {
-  0: [{label:'9h00 – 11h00',  key:'Dimanche_9-11'},  {label:'11h00 – 13h00', key:'Dimanche_11-13'}],
-  1: [{label:'17h00 – 19h00', key:'Lundi_17-19'},    {label:'19h00 – 21h00', key:'Lundi_19-21'}],
-  2: [{label:'17h00 – 19h00', key:'Mardi_17-19'},    {label:'19h00 – 21h00', key:'Mardi_19-21'}],
+  0: [{label:'9h00 – 11h00', key:'Dimanche_9-11'}, {label:'11h00 – 13h00', key:'Dimanche_11-13'}],
+  1: [{label:'17h00 – 19h00', key:'Lundi_17-19'}, {label:'19h00 – 21h00', key:'Lundi_19-21'}],
+  2: [{label:'17h00 – 19h00', key:'Mardi_17-19'}, {label:'19h00 – 21h00', key:'Mardi_19-21'}],
   3: [{label:'14h00 – 16h00', key:'Mercredi_14-16'}, {label:'16h00 – 17h00', key:'Mercredi_16-17'}],
-  4: [{label:'17h00 – 19h00', key:'Jeudi_17-19'},    {label:'19h00 – 21h00', key:'Jeudi_19-21'}],
+  4: [{label:'17h00 – 19h00', key:'Jeudi_17-19'}, {label:'19h00 – 21h00', key:'Jeudi_19-21'}],
 };
-const COURSE_DAYS    = new Set([0,1,2,3,4]);
-const ALL_SLOT_KEYS  = ['Dimanche_9-11','Dimanche_11-13','Lundi_17-19','Lundi_19-21','Mardi_17-19','Mardi_19-21','Mercredi_14-16','Mercredi_16-17','Jeudi_17-19','Jeudi_19-21'];
-const MAX            = 7;
+const COURSE_DAYS = new Set([0,1,2,3,4]);
+const ALL_SLOT_KEYS = ['Dimanche_9-11','Dimanche_11-13','Lundi_17-19','Lundi_19-21','Mardi_17-19','Mardi_19-21','Mercredi_14-16','Mercredi_16-17','Jeudi_17-19','Jeudi_19-21'];
+const MAX = 7;
 const ADMIN_PASSWORD = atob('MjgwNQ==');
 
-// ════════════════════════════════════════════
-//  ÉTAT LOCAL (miroir de Firebase)
-// ════════════════════════════════════════════
 let data = {};
 ALL_SLOT_KEYS.forEach(k => data[k] = []);
-
 let today = new Date(); today.setHours(0,0,0,0);
-let selectedDate     = new Date(today);
-let currentMonth     = new Date(today.getFullYear(), today.getMonth(), 1);
-let isAdmin          = false;
-let bookingSlot      = null;
-let adminSelectedDate  = new Date(today);
-let adminCurrentMonth  = new Date(today.getFullYear(), today.getMonth(), 1);
+let selectedDate = new Date(today);
+let currentMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+let isAdmin = false;
+let bookingSlot = null;
+let adminSelectedDate = new Date(today);
+let adminCurrentMonth = new Date(today.getFullYear(), today.getMonth(), 1);
 
-// ════════════════════════════════════════════
-//  CHARGEMENT EN TEMPS RÉEL (onValue)
-// ════════════════════════════════════════════
 slotsRef.on('value', (snapshot) => {
   const raw = snapshot.val() || {};
-  // On recopie dans data en s'assurant que chaque clé est un tableau
   ALL_SLOT_KEYS.forEach(k => {
     const val = raw[k];
-    if (!val) {
-      data[k] = [];
-    } else if (Array.isArray(val)) {
-      data[k] = val.filter(Boolean); // retire les nulls éventuels
-    } else {
-      // Firebase stocke les tableaux comme des objets si des éléments ont été supprimés
-      data[k] = Object.values(val).filter(Boolean);
-    }
+    if (!val) data[k] = [];
+    else if (Array.isArray(val)) data[k] = val.filter(Boolean);
+    else data[k] = Object.values(val).filter(Boolean);
   });
-
-  // Masquer l'overlay de chargement
   document.getElementById('loadingOverlay').style.display = 'none';
-
-  // Rafraîchir l'UI
   renderCalendar();
   renderSlots();
   if (isAdmin) { renderAdminCal(); renderAdminDetail(); }
 });
 
-// ════════════════════════════════════════════
-//  HELPERS
-// ════════════════════════════════════════════
 function sameDay(a,b){ return a.getFullYear()===b.getFullYear()&&a.getMonth()===b.getMonth()&&a.getDate()===b.getDate(); }
 function formatDateFR(d){ return `${FR_DAYS_LONG[d.getDay()]} ${d.getDate()} ${FR_MONTHS_LONG[d.getMonth()]} ${d.getFullYear()}`; }
 function dayHasStudents(date){
@@ -257,47 +249,36 @@ function dayHasStudents(date){
   return slots.some(({key}) => (data[key]||[]).length > 0);
 }
 
-// ════════════════════════════════════════════
-//  CALENDRIER ÉLÈVE
-// ════════════════════════════════════════════
 function buildCalGrid(gridEl, headerEl, year, month, selectedD, onDayClick, opts={}) {
   headerEl.innerHTML = '';
   ['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'].forEach(d => {
     const s = document.createElement('span'); s.textContent = d; headerEl.appendChild(s);
   });
   gridEl.innerHTML = '';
-  const firstDay    = new Date(year, month, 1);
+  const firstDay = new Date(year, month, 1);
   const startOffset = (firstDay.getDay() + 6) % 7;
   const daysInMonth = new Date(year, month+1, 0).getDate();
-  for(let i=0;i<startOffset;i++){const c=document.createElement('div');c.style.width='34px';c.style.height='34px';gridEl.appendChild(c);}
+  for(let i=0;i<startOffset;i++){gridEl.appendChild(document.createElement('div'));}
   for(let d=1;d<=daysInMonth;d++){
     const date = new Date(year, month, d);
-    const dow  = date.getDay();
-    const isPast      = date < today;
-    const isToday     = sameDay(date, today);
-    const isSel       = sameDay(date, selectedD);
-    const hasCourse   = COURSE_DAYS.has(dow);
+    const dow = date.getDay();
+    const isPast = date < today;
+    const isToday = sameDay(date, today);
+    const isSel = sameDay(date, selectedD);
+    const hasCourse = COURSE_DAYS.has(dow);
     const hasStudents = opts.showDots && dayHasStudents(date);
-
-    const cell = document.createElement('div');
-    cell.style.display='flex';cell.style.alignItems='center';cell.style.justifyContent='center';
     const btn = document.createElement('button');
     btn.className = (opts.admin ? 'admin-day-btn' : 'cal-day-btn');
-    let cls = btn.className;
-    if(isSel) cls+=' selected';
-    else if(isToday) cls+=' today';
-    if(!hasCourse) cls+=' no-course disabled';
-    else if(!opts.admin && isPast) cls+=' disabled';
-    if(hasStudents) cls+=' has-students';
-    btn.className = cls;
-    btn.textContent = d;
-    if(hasCourse && (opts.admin || !isPast)){
-      btn.onclick = () => onDayClick(new Date(year, month, d));
-    } else {
-      btn.disabled = true;
+    if(isSel) btn.classList.add('selected');
+    if(isToday) btn.classList.add('today');
+    if(!hasCourse || (!opts.admin && isPast)) {
+        btn.classList.add('disabled');
+        btn.disabled = true;
     }
-    cell.appendChild(btn);
-    gridEl.appendChild(cell);
+    if(hasStudents) btn.classList.add('has-students');
+    btn.textContent = d;
+    btn.onclick = () => onDayClick(new Date(year, month, d));
+    gridEl.appendChild(btn);
   }
 }
 
@@ -305,200 +286,84 @@ function renderCalendar() {
   const year = currentMonth.getFullYear(), month = currentMonth.getMonth();
   document.getElementById('calMonthName').textContent = FR_MONTHS[month];
   document.getElementById('calYear').textContent = year;
-  buildCalGrid(
-    document.getElementById('calGrid'),
-    document.getElementById('calGridHeader'),
-    year, month, selectedDate,
-    (d) => { selectedDate = d; renderCalendar(); renderSlots(); }
-  );
+  buildCalGrid(document.getElementById('calGrid'), document.getElementById('calGridHeader'), year, month, selectedDate, (d) => { selectedDate = d; renderCalendar(); renderSlots(); });
 }
 document.getElementById('prevMonth').onclick = () => { currentMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth()-1,1); renderCalendar(); };
 document.getElementById('nextMonth').onclick = () => { currentMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth()+1,1); renderCalendar(); };
 
-// ════════════════════════════════════════════
-//  CRÉNEAUX
-// ════════════════════════════════════════════
 function renderSlots() {
   document.getElementById('dateLabel').textContent = formatDateFR(selectedDate);
-  const dow   = selectedDate.getDay();
-  const slots = DAY_SLOTS[dow] || [];
+  const slots = DAY_SLOTS[selectedDate.getDay()] || [];
   const container = document.getElementById('slotsContainer');
   container.innerHTML = '';
-  if(!slots.length){
-    container.innerHTML=`<div class="no-slots"><p>Aucun cours ce jour-là.</p><small>Cours disponibles : Lundi, Mardi, Mercredi, Jeudi, Dimanche.</small></div>`;
-    return;
-  }
+  if(!slots.length){ container.innerHTML=`<div class="no-slots"><p>Aucun cours ce jour-là.</p></div>`; return; }
   slots.forEach(({label,key})=>{
     const students = data[key]||[];
     const count = students.length, full = count>=MAX, pct = Math.round(count/MAX*100);
     const card = document.createElement('div');
     card.className = 'slot-card'+(full?' full':'');
-    const info = document.createElement('div');
-    info.style.flex='1';
-    info.innerHTML=`<p class="slot-time">${label}</p><p class="slot-count">${count}/${MAX} places</p><div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>`;
+    card.innerHTML = `<div style="flex:1;"><p class="slot-time">${label}</p><p class="slot-count">${count}/${MAX} places</p><div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div></div>`;
     const btn = document.createElement('button');
     btn.className='reserve-btn';
     btn.disabled = full||bookingSlot===key;
-    btn.innerHTML = bookingSlot===key?'<span class="spinner"></span>':(full?'Complet':'Réserver');
+    btn.innerHTML = bookingSlot===key?'<span class="spinner" style="width:12px;height:12px;"></span>':(full?'Complet':'Réserver');
     btn.onclick=()=>reserve(key,label);
-    card.appendChild(info); card.appendChild(btn); container.appendChild(card);
+    card.appendChild(btn); container.appendChild(card);
   });
 }
 
-function showMessage(text,type){
-  const box=document.getElementById('messageBox');
-  box.style.display='block'; box.className=`message ${type}`; box.textContent=text;
-  setTimeout(()=>{box.style.display='none';},4000);
-}
-
-// ════════════════════════════════════════════
-//  RÉSERVATION → Firebase
-// ════════════════════════════════════════════
 async function reserve(key, label){
-  const name    = document.getElementById('nameInput').value.trim();
+  const name = document.getElementById('nameInput').value.trim();
   const subject = document.getElementById('subjectSelect').value;
-  if(!name)   { showMessage("Entre ton prénom et nom.", 'error'); return; }
-  if(!subject){ showMessage("Choisis une matière.", 'error'); return; }
-
+  if(!name || !subject){ alert("Veuillez remplir tous les champs."); return; }
   const students = data[key] || [];
-  if(students.some(s => s.name.toLowerCase() === name.toLowerCase())){
-    showMessage("Tu es déjà inscrit sur ce créneau.", 'error'); return;
-  }
-  if(students.length >= MAX){ showMessage("Ce créneau est complet.", 'error'); return; }
-
   bookingSlot = key; renderSlots();
-
   try {
-    const newStudents = [...students, {name, subject}];
-    // On écrit le tableau complet dans Firebase
-    await slotsRef.child(key).set(newStudents);
-
+    await slotsRef.child(key).set([...students, {name, subject}]);
     bookingSlot = null;
-    showMessage(`Réservation confirmée pour ${label} !`, 'success');
-
-    const msg = encodeURIComponent(`Bonjour,\nNouvelle réservation G-Cours\n\nNom : ${name}\nMatière : ${subject}\nCréneau : ${key}\nDate : ${formatDateFR(selectedDate)}`);
-    setTimeout(() => { window.location.href = `sms:0619336183?body=${msg}`; }, 1500);
-
-  } catch(err) {
-    bookingSlot = null; renderSlots();
-    showMessage("Erreur de connexion. Réessaie.", 'error');
-    console.error(err);
-  }
+    const msg = encodeURIComponent(`Nouvelle réservation\nNom : ${name}\nMatière : ${subject}\nCréneau : ${key}\nDate : ${formatDateFR(selectedDate)}`);
+    window.location.href = `sms:0619336183?body=${msg}`;
+  } catch(err) { bookingSlot = null; renderSlots(); alert("Erreur."); }
 }
 
-// ════════════════════════════════════════════
-//  ADMIN
-// ════════════════════════════════════════════
 document.getElementById('adminBtn').onclick = () => {
   const pass = prompt('Mot de passe prof');
-  if(pass === ADMIN_PASSWORD){
-    isAdmin = true;
-    renderAdminPanel();
-    document.getElementById('adminPanel').style.display = 'block';
-  } else { alert('Mot de passe incorrect'); }
+  if(pass === ADMIN_PASSWORD){ isAdmin = true; document.getElementById('adminPanel').style.display = 'block'; renderAdminPanel(); }
 };
 
 function renderAdminPanel() {
   const panel = document.getElementById('adminPanel');
-  panel.innerHTML = `
-    <div class="admin-panel">
-      <div class="admin-header">
-        <div>
-          <div class="admin-title">Espace Professeur</div>
-          <div class="admin-subtitle">Cliquez sur un jour pour voir les élèves inscrits</div>
-        </div>
-      </div>
-      <div class="admin-layout">
-        <div class="admin-cal-col">
-          <div class="admin-glass-cal">
-            <div class="cal-month-row" style="margin-bottom:12px;">
-              <div><span style="font-size:16px;font-weight:700;" id="adminCalMonth"></span><span style="font-size:12px;color:rgba(255,255,255,0.4);margin-left:5px;" id="adminCalYear"></span></div>
-              <div class="cal-nav">
-                <button class="cal-nav-btn" id="adminPrev">&#8249;</button>
-                <button class="cal-nav-btn" id="adminNext">&#8250;</button>
-              </div>
-            </div>
-            <div class="admin-cal-grid-header" id="adminGridHeader"></div>
-            <div class="admin-cal-grid" id="adminGrid"></div>
-            <div style="display:flex;align-items:center;gap:6px;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,0.08);">
-              <span style="width:8px;height:8px;border-radius:50%;background:#34d399;display:inline-block;"></span>
-              <span style="font-size:10px;color:rgba(255,255,255,0.4);">Élèves inscrits</span>
-            </div>
-          </div>
-        </div>
-        <div class="admin-detail-col" id="adminDetailCol"></div>
-      </div>
-    </div>
-  `;
+  panel.innerHTML = `<div class="admin-panel"><div class="admin-header"><div class="admin-title">Espace Professeur</div></div><div class="admin-layout"><div class="admin-cal-col"><div class="admin-glass-cal"><div class="cal-month-row"><div><span id="adminCalMonth"></span> <span id="adminCalYear"></span></div><div class="cal-nav"><button class="cal-nav-btn" id="adminPrev">&#8249;</button><button class="cal-nav-btn" id="adminNext">&#8250;</button></div></div><div class="cal-grid-header" id="adminGridHeader"></div><div class="cal-grid" id="adminGrid"></div></div></div><div class="admin-detail-col" id="adminDetailCol" style="flex:1;"></div></div></div>`;
   document.getElementById('adminPrev').onclick = () => { adminCurrentMonth=new Date(adminCurrentMonth.getFullYear(),adminCurrentMonth.getMonth()-1,1); renderAdminCal(); renderAdminDetail(); };
   document.getElementById('adminNext').onclick = () => { adminCurrentMonth=new Date(adminCurrentMonth.getFullYear(),adminCurrentMonth.getMonth()+1,1); renderAdminCal(); renderAdminDetail(); };
-  renderAdminCal();
-  renderAdminDetail();
+  renderAdminCal(); renderAdminDetail();
 }
 
 function renderAdminCal() {
-  if(!isAdmin) return;
-  const year=adminCurrentMonth.getFullYear(), month=adminCurrentMonth.getMonth();
-  document.getElementById('adminCalMonth').textContent = FR_MONTHS[month];
-  document.getElementById('adminCalYear').textContent  = year;
-  buildCalGrid(
-    document.getElementById('adminGrid'),
-    document.getElementById('adminGridHeader'),
-    year, month, adminSelectedDate,
-    (d) => { adminSelectedDate=d; renderAdminCal(); renderAdminDetail(); },
-    {admin:true, showDots:true}
-  );
+  buildCalGrid(document.getElementById('adminGrid'), document.getElementById('adminGridHeader'), adminCurrentMonth.getFullYear(), adminCurrentMonth.getMonth(), adminSelectedDate, (d) => { adminSelectedDate=d; renderAdminCal(); renderAdminDetail(); }, {admin:true, showDots:true});
+  document.getElementById('adminCalMonth').textContent = FR_MONTHS[adminCurrentMonth.getMonth()];
+  document.getElementById('adminCalYear').textContent = adminCurrentMonth.getFullYear();
 }
 
 function renderAdminDetail() {
-  if(!isAdmin) return;
   const col = document.getElementById('adminDetailCol');
-  if(!col) return;
-  const dow   = adminSelectedDate.getDay();
-  const slots = DAY_SLOTS[dow]||[];
-  col.innerHTML = `<div class="admin-date-title">${formatDateFR(adminSelectedDate)}</div>`;
-  if(!slots.length){
-    col.innerHTML += `<div class="no-course-msg">Pas de cours ce jour-là.<br><span style="font-size:11px;color:rgba(255,255,255,0.2);">Cours : Lun, Mar, Mer, Jeu, Dim.</span></div>`;
-    return;
-  }
+  const slots = DAY_SLOTS[adminSelectedDate.getDay()]||[];
+  col.innerHTML = `<div style="margin-bottom:15px; font-weight:700;">${formatDateFR(adminSelectedDate)}</div>`;
   slots.forEach(({label,key})=>{
     const students = data[key]||[];
     const block = document.createElement('div');
     block.className = 'admin-slot-block';
-    const badge = students.length>0
-      ? `<span class="admin-slot-badge has-p">${students.length}/${MAX}</span>`
-      : `<span class="admin-slot-badge">0/${MAX}</span>`;
-    let rows = students.length===0
-      ? `<div class="empty-row">Aucun élève inscrit</div>`
-      : students.map((s,i)=>`
-          <div class="student-row">
-            <div>
-              <div class="student-name">${s.name}</div>
-              <div class="student-subj">${s.subject}</div>
-            </div>
-            <button class="remove-btn" onclick="removeStudent('${key}',${i})">Supprimer</button>
-          </div>
-        `).join('');
-    block.innerHTML=`<div class="admin-slot-title"><span>${label}</span>${badge}</div>${rows}`;
+    let rows = students.length===0 ? '<div style="font-size:12px; color:var(--muted); font-style:italic;">Aucun élève</div>' : students.map((s,i)=>`<div class="student-row"><div><b>${s.name}</b> <span style="font-size:11px; color:var(--accent);">(${s.subject})</span></div><button class="remove-btn" onclick="removeStudent('${key}',${i})">Suppr</button></div>`).join('');
+    block.innerHTML=`<div class="admin-slot-title"><span>${label}</span> <span class="admin-slot-badge ${students.length>0?'has-p':''}">${students.length}/${MAX}</span></div>${rows}`;
     col.appendChild(block);
   });
 }
 
-// ════════════════════════════════════════════
-//  SUPPRESSION ÉLÈVE → Firebase
-// ════════════════════════════════════════════
 async function removeStudent(slotKey, index){
-  if(!confirm('Supprimer cet élève ?')) return;
+  if(!confirm('Supprimer ?')) return;
   const newList = [...(data[slotKey]||[])];
   newList.splice(index, 1);
-
-  try {
-    await slotsRef.child(slotKey).set(newList.length > 0 ? newList : null);
-    // L'UI sera mise à jour automatiquement par le listener onValue
-  } catch(err) {
-    alert("Erreur lors de la suppression.");
-    console.error(err);
-  }
+  await slotsRef.child(slotKey).set(newList.length > 0 ? newList : null);
 }
 </script>
 </body>

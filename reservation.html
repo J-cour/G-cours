@@ -176,12 +176,28 @@
     ═══════════════════════════ */
     .admin-wrap { grid-column:1/-1 }
     .admin-panel { background:rgba(129,140,248,.03); border:1px solid rgba(129,140,248,.2); border-radius:24px; padding:28px; margin-top:8px }
-    .admin-title-row { display:flex; align-items:center; gap:10px; margin-bottom:22px }
+    .admin-title-row { display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:22px }
     .admin-title { font-size:1.05rem; font-weight:800; color:var(--purple) }
-    .admin-layout { display:flex; flex-direction:column; gap:20px }
-    @media(min-width:640px) { .admin-layout { flex-direction:row; align-items:flex-start } }
-    .admin-glass-cal { width:280px; max-width:100%; background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.07); border-radius:18px; padding:16px; flex-shrink:0 }
-    .admin-detail-col { flex:1 }
+    .admin-close-btn { background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.1); color:rgba(255,255,255,.6); cursor:pointer; font-size:.75rem; padding:5px 14px; border-radius:8px; font-family:'Inter',sans-serif; transition:.2s }
+    .admin-close-btn:hover { background:rgba(255,255,255,.1); color:#fff }
+    .admin-stats-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:24px }
+    .admin-stat-card { background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.07); border-radius:14px; padding:16px; text-align:center }
+    .admin-stat-val { font-size:1.7rem; font-weight:800; line-height:1 }
+    .admin-stat-label { font-size:.72rem; color:var(--muted); margin-top:5px }
+    .admin-day-section { margin-bottom:20px }
+    .admin-day-header { font-size:.68rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:rgba(255,255,255,.35); margin-bottom:10px; padding-bottom:8px; border-bottom:1px solid rgba(255,255,255,.06) }
+    .admin-slot-block { background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.07); border-radius:14px; padding:14px 16px; margin-bottom:8px }
+    .admin-slot-title { font-weight:700; font-size:.9rem; margin-bottom:6px; display:flex; justify-content:space-between; align-items:center }
+    .admin-slot-badge { font-size:.72rem; padding:3px 9px; border-radius:10px; background:rgba(255,255,255,.08); font-weight:600 }
+    .admin-slot-badge.has-p { background:rgba(52,211,153,.12); color:var(--green) }
+    .admin-slot-badge.full { background:rgba(248,113,113,.12); color:#fca5a5 }
+    .admin-slot-prog { height:3px; background:rgba(255,255,255,.07); border-radius:2px; margin-bottom:10px }
+    .admin-slot-prog-fill { height:100%; border-radius:2px; background:var(--grad); transition:.4s }
+    .student-row { display:flex; justify-content:space-between; align-items:center; padding:7px 0; border-bottom:1px solid rgba(255,255,255,.05) }
+    .student-row:last-child { border-bottom:none }
+    .remove-btn { background:rgba(248,113,113,.1); border:1px solid rgba(248,113,113,.2); color:#fca5a5; cursor:pointer; font-size:.72rem; padding:4px 10px; border-radius:6px; font-family:'Inter',sans-serif; transition:.2s }
+    .remove-btn:hover { background:rgba(248,113,113,.2) }
+    .admin-empty { font-size:.82rem; color:var(--muted); font-style:italic; padding:4px 0 }
     .cal-month-row { display:flex; align-items:center; justify-content:space-between; margin-bottom:12px }
     .cal-nav { display:flex; gap:4px }
     .cal-nav-btn { background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.07); border-radius:7px; color:rgba(255,255,255,.7); cursor:pointer; width:28px; height:28px; display:flex; align-items:center; justify-content:center; transition:.2s; font-size:1rem }
@@ -189,21 +205,6 @@
     .cal-grid-header { display:grid; grid-template-columns:repeat(7,1fr); margin-bottom:6px }
     .cal-grid-header span { text-align:center; font-size:.58rem; font-weight:700; color:rgba(255,255,255,.25); padding:3px 0; text-transform:uppercase }
     .cal-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:2px }
-    .admin-day-btn { width:100%; aspect-ratio:1; border-radius:50%; border:none; background:none; color:rgba(255,255,255,.7); font-size:.78rem; font-weight:500; cursor:pointer; transition:.15s; font-family:'Inter',sans-serif; position:relative; display:flex; align-items:center; justify-content:center }
-    .admin-day-btn:hover:not(.disabled):not(.selected) { background:rgba(255,255,255,.1) }
-    .admin-day-btn.today { border:1.5px solid rgba(56,189,248,.5) }
-    .admin-day-btn.selected { background:var(--grad); color:#fff; font-weight:700 }
-    .admin-day-btn.disabled { color:rgba(255,255,255,.15); cursor:default; pointer-events:none }
-    .admin-day-btn.has-students::after { content:''; position:absolute; bottom:2px; left:50%; transform:translateX(-50%); width:4px; height:4px; border-radius:50%; background:var(--green) }
-    .admin-slot-block { background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.07); border-radius:14px; padding:14px; margin-bottom:10px }
-    .admin-slot-title { font-weight:700; font-size:.9rem; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center }
-    .admin-slot-badge { font-size:.72rem; padding:3px 9px; border-radius:10px; background:rgba(255,255,255,.08); font-weight:600 }
-    .admin-slot-badge.has-p { background:rgba(52,211,153,.12); color:var(--green) }
-    .student-row { display:flex; justify-content:space-between; align-items:center; padding:7px 0; border-bottom:1px solid rgba(255,255,255,.05) }
-    .student-row:last-child { border-bottom:none }
-    .remove-btn { background:rgba(248,113,113,.1); border:1px solid rgba(248,113,113,.2); color:#fca5a5; cursor:pointer; font-size:.72rem; padding:4px 10px; border-radius:6px; font-family:'Inter',sans-serif; transition:.2s }
-    .remove-btn:hover { background:rgba(248,113,113,.2) }
-    .admin-empty { font-size:.82rem; color:var(--muted); font-style:italic }
 
     /* ═══════════════════════════
        FOOTER
@@ -519,7 +520,7 @@ slotsRef.on('value', (snapshot) => {
   document.getElementById('loadingOverlay').style.display = 'none';
   renderCalendar();
   renderSlots();
-  if (isAdmin) { renderAdminCal(); renderAdminDetail(); }
+  if (isAdmin) { renderAdminFull(); }
 });
 
 function sameDay(a,b){ return a.getFullYear()===b.getFullYear()&&a.getMonth()===b.getMonth()&&a.getDate()===b.getDate(); }
@@ -654,73 +655,83 @@ function openAdmin() {
   document.getElementById('adminPanel').innerHTML = `
     <div class="admin-panel">
       <div class="admin-title-row">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--purple)" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-        <span class="admin-title">Espace Professeur</span>
-      </div>
-      <div class="admin-layout">
-        <div>
-          <div class="admin-glass-cal">
-            <div class="cal-month-row">
-              <div style="font-weight:700;font-size:.9rem"><span id="adminCalMonth"></span> <span id="adminCalYear" style="color:var(--muted);font-weight:500"></span></div>
-              <div class="cal-nav">
-                <button class="cal-nav-btn" id="adminPrev">&#8249;</button>
-                <button class="cal-nav-btn" id="adminNext">&#8250;</button>
-              </div>
-            </div>
-            <div class="cal-grid-header" id="adminGridHeader"></div>
-            <div class="cal-grid" id="adminGrid"></div>
-          </div>
+        <div style="display:flex;align-items:center;gap:10px">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--purple)" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          <span class="admin-title">Espace Professeur</span>
         </div>
-        <div class="admin-detail-col" id="adminDetailCol"></div>
+        <button class="admin-close-btn" onclick="closeAdmin()">Fermer</button>
       </div>
+      <div class="admin-stats-grid" id="adminStats"></div>
+      <div id="adminSlotsFull"></div>
     </div>`;
-  document.getElementById('adminPrev').onclick = () => { adminCurrentMonth=new Date(adminCurrentMonth.getFullYear(),adminCurrentMonth.getMonth()-1,1); renderAdminCal(); renderAdminDetail(); };
-  document.getElementById('adminNext').onclick = () => { adminCurrentMonth=new Date(adminCurrentMonth.getFullYear(),adminCurrentMonth.getMonth()+1,1); renderAdminCal(); renderAdminDetail(); };
-  renderAdminCal(); renderAdminDetail();
+  renderAdminFull();
 }
 
-function renderAdminCal(){
-  buildCalGrid(
-    document.getElementById('adminGrid'),
-    document.getElementById('adminGridHeader'),
-    adminCurrentMonth.getFullYear(), adminCurrentMonth.getMonth(),
-    adminSelectedDate,
-    (d) => { adminSelectedDate=d; renderAdminCal(); renderAdminDetail(); },
-    {admin:true, showDots:true}
-  );
-  document.getElementById('adminCalMonth').textContent = FR_MONTHS[adminCurrentMonth.getMonth()];
-  document.getElementById('adminCalYear').textContent  = adminCurrentMonth.getFullYear();
+function closeAdmin() {
+  isAdmin = false;
+  document.getElementById('adminPanel').innerHTML = '';
 }
 
-function renderAdminDetail(){
-  const col   = document.getElementById('adminDetailCol');
-  const slots = DAY_SLOTS[adminSelectedDate.getDay()] || [];
-  col.innerHTML = `<div style="font-weight:700;margin-bottom:14px;text-transform:capitalize">${formatDateFR(adminSelectedDate)}</div>`;
-  if (!slots.length) {
-    col.innerHTML += '<div class="admin-empty">Aucun cours ce jour-là.</div>';
-    return;
-  }
-  slots.forEach(({label, key}) => {
-    const students = data[key] || [];
-    const block = document.createElement('div');
-    block.className = 'admin-slot-block';
-    const rows = students.length === 0
-      ? '<div class="admin-empty">Aucun élève inscrit</div>'
-      : students.map((s,i) => `
-          <div class="student-row">
-            <div>
-              <strong>${s.name}</strong>
-              <span style="font-size:.78rem;color:var(--accent);margin-left:6px">(${s.subject})</span>
-            </div>
-            <button class="remove-btn" onclick="removeStudent('${key}',${i})">Retirer</button>
-          </div>`).join('');
-    block.innerHTML = `
-      <div class="admin-slot-title">
-        <span>${label}</span>
-        <span class="admin-slot-badge ${students.length>0?'has-p':''}">${students.length}/${MAX}</span>
-      </div>${rows}`;
-    col.appendChild(block);
-  });
+function renderAdminFull() {
+  const statsEl = document.getElementById('adminStats');
+  if (!statsEl) return;
+
+  const totalStudents = ALL_SLOT_KEYS.reduce((sum, k) => sum + (data[k]||[]).length, 0);
+  const totalPlaces   = ALL_SLOT_KEYS.length * MAX;
+  const fullSlots     = ALL_SLOT_KEYS.filter(k => (data[k]||[]).length >= MAX).length;
+  const fillPct       = Math.round(totalStudents / totalPlaces * 100);
+
+  statsEl.innerHTML = `
+    <div class="admin-stat-card">
+      <div class="admin-stat-val" style="color:var(--accent)">${totalStudents}</div>
+      <div class="admin-stat-label">Inscrits au total</div>
+    </div>
+    <div class="admin-stat-card">
+      <div class="admin-stat-val" style="color:var(--purple)">${fillPct}%</div>
+      <div class="admin-stat-label">Remplissage</div>
+    </div>
+    <div class="admin-stat-card">
+      <div class="admin-stat-val" style="color:var(--green)">${fullSlots}</div>
+      <div class="admin-stat-label">Créneaux complets</div>
+    </div>`;
+
+  const fullEl = document.getElementById('adminSlotsFull');
+  if (!fullEl) return;
+
+  const DAY_NAMES = {0:'Dimanche', 1:'Lundi', 2:'Mardi', 3:'Mercredi', 4:'Jeudi'};
+  fullEl.innerHTML = Object.entries(DAY_SLOTS).map(([dow, slots]) => {
+    const slotsHtml = slots.map(({label, key}) => {
+      const students = data[key] || [];
+      const count    = students.length;
+      const isFull   = count >= MAX;
+      const pct      = Math.round(count / MAX * 100);
+      const badgeClass = isFull ? 'full' : (count > 0 ? 'has-p' : '');
+      const rows = count === 0
+        ? '<div class="admin-empty">Aucun élève inscrit</div>'
+        : students.map((s, i) => `
+            <div class="student-row">
+              <div>
+                <strong>${s.name}</strong>
+                <span style="font-size:.78rem;color:var(--accent);margin-left:6px">(${s.subject})</span>
+              </div>
+              <button class="remove-btn" onclick="removeStudent('${key}',${i})">Retirer</button>
+            </div>`).join('');
+      return `
+        <div class="admin-slot-block">
+          <div class="admin-slot-title">
+            <span>${label}</span>
+            <span class="admin-slot-badge ${badgeClass}">${count}/${MAX}</span>
+          </div>
+          <div class="admin-slot-prog"><div class="admin-slot-prog-fill" style="width:${pct}%"></div></div>
+          ${rows}
+        </div>`;
+    }).join('');
+    return `
+      <div class="admin-day-section">
+        <div class="admin-day-header">${DAY_NAMES[dow]}</div>
+        ${slotsHtml}
+      </div>`;
+  }).join('');
 }
 
 async function removeStudent(slotKey, index){

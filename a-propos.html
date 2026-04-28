@@ -409,19 +409,18 @@ document.querySelectorAll('.rev').forEach(el => obs.observe(el));
 </script>
 
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 <script>
 firebase.initializeApp({
   apiKey: "AIzaSyCDJRbeW9KWrLzuI3v2kBUDulKcb3REKy8",
   authDomain: "reservation-cour.firebaseapp.com",
-  databaseURL: "https://reservation-cour-default-rtdb.firebaseio.com",
   projectId: "reservation-cour",
   storageBucket: "reservation-cour.firebasestorage.app",
   messagingSenderId: "156100724990",
   appId: "1:156100724990:web:c77c49e487d1d519a5fdaf"
 });
-const db = firebase.database();
-const reviewsRef = db.ref('reviews');
+const db = firebase.firestore();
+const reviewsRef = db.collection('avis');
 
 let starNote = 5;
 const ADMIN_PASSWORD = atob('MjgwNQ==');
@@ -442,9 +441,9 @@ window.setRating = value => {
   document.querySelectorAll('.star-btn').forEach((s, i) => s.classList.toggle('active', i < value));
 };
 
-reviewsRef.on('value', snap => {
+reviewsRef.orderBy('date', 'desc').onSnapshot(snap => {
   allReviews = [];
-  snap.forEach(child => allReviews.push({ _id: child.key, ...child.val() }));
+  snap.forEach(doc => allReviews.push({ _id: doc.id, ...doc.data() }));
   renderTestimonials();
   updateBadge();
 });
@@ -502,7 +501,7 @@ document.getElementById('avisForm').addEventListener('submit', async e => {
   const btn = e.target.querySelector('.submit-btn');
   btn.disabled = true;
   try {
-    await reviewsRef.push({ auteur, texte, note: starNote, date: new Date().toISOString() });
+    await reviewsRef.add({ auteur, texte, note: starNote, date: new Date().toISOString() });
     e.target.reset();
     window.setRating(5);
   } finally {
@@ -511,7 +510,7 @@ document.getElementById('avisForm').addEventListener('submit', async e => {
 });
 
 window.deleteAvis = async id => {
-  if (confirm('Supprimer cet avis ?')) await reviewsRef.child(id).remove();
+  if (confirm('Supprimer cet avis ?')) await reviewsRef.doc(id).delete();
 };
 
 window.openAdmin = () => {

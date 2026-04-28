@@ -1,188 +1,468 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>G-Cours – Réservation</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Réservation – G-Cours | Cours particuliers à Villeurbanne</title>
+  <meta name="description" content="Réservez votre créneau de cours particuliers en maths, anglais ou physique avec G-Cours à Villeurbanne.">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    /* ── ROOT ── */
+    :root {
+      --bg:      #030d1a;
+      --bg-2:    #071526;
+      --card:    rgba(255,255,255,0.04);
+      --border:  rgba(255,255,255,0.07);
+      --text:    #e2e8f0;
+      --muted:   rgba(226,232,240,0.5);
+      --accent:  #38bdf8;
+      --purple:  #818cf8;
+      --green:   #34d399;
+      --red:     #f87171;
+      --grad:    linear-gradient(135deg,#38bdf8,#818cf8);
+      --warm:    linear-gradient(135deg,#f43f5e,#fb923c);
+      --nav-h:   70px;
+      --r:       16px;
+    }
+    *,*::before,*::after { margin:0; padding:0; box-sizing:border-box }
+    html { scroll-behavior:smooth }
+    body { font-family:'Inter',-apple-system,sans-serif; background:var(--bg); color:var(--text); line-height:1.6; overflow-x:hidden }
 
-<style>
-/* ── VARIABLES DE COULEURS INDEX ── */
-:root {
-  --bg: #030d1a;
-  --bg-2: #071526;
-  --card: rgba(255,255,255,0.04);
-  --card-h: rgba(255,255,255,0.07);
-  --border: rgba(255,255,255,0.07);
-  --border-h: rgba(56,189,248,0.35);
-  --text: #e2e8f0;
-  --muted: rgba(226,232,240,0.5);
-  --accent: #38bdf8;
-  --grad: linear-gradient(135deg, #38bdf8, #818cf8);
-  --nav-h: 70px;
-}
+    /* ── NAV ── */
+    nav.top { position:fixed; top:0; left:0; right:0; height:var(--nav-h); backdrop-filter:blur(24px); -webkit-backdrop-filter:blur(24px); background:rgba(3,13,26,.85); border-bottom:1px solid var(--border); z-index:1000 }
+    .nav-inner { max-width:1200px; margin:0 auto; padding:0 24px; height:100%; display:flex; justify-content:space-between; align-items:center }
+    .logo { font-size:1.5rem; font-weight:900; text-decoration:none; background:var(--grad); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; letter-spacing:-.5px }
+    .nav-links { display:flex; list-style:none; gap:4px }
+    .nav-links a { color:var(--muted); text-decoration:none; font-weight:500; font-size:.93rem; padding:8px 14px; border-radius:8px; transition:.2s; display:block }
+    .nav-links a:hover,.nav-links a.active { color:var(--text); background:rgba(255,255,255,.06) }
+    .nav-links a.active { color:var(--accent) }
+    .burger { display:none; background:none; border:none; cursor:pointer; color:var(--text); padding:8px; border-radius:8px; align-items:center; justify-content:center; transition:.2s }
+    .burger:hover { background:rgba(255,255,255,.06) }
+    nav.mob { display:none; position:fixed; top:var(--nav-h); left:0; right:0; background:rgba(3,13,26,.97); backdrop-filter:blur(24px); border-bottom:1px solid var(--border); z-index:999; padding:12px 16px 20px; flex-direction:column; gap:4px }
+    nav.mob.open { display:flex }
+    nav.mob a { color:var(--muted); text-decoration:none; font-weight:500; font-size:1rem; padding:14px 16px; border-radius:10px; transition:.2s }
+    nav.mob a:hover,nav.mob a.active { color:var(--accent); background:rgba(56,189,248,.08) }
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
+    /* ── HERO ── */
+    .page-hero { padding:calc(var(--nav-h) + 52px) 24px 40px; text-align:center; position:relative; overflow:hidden }
+    .orb { position:absolute; border-radius:50%; filter:blur(120px); pointer-events:none }
+    .orb-1 { width:500px; height:500px; background:rgba(56,189,248,.08); top:-180px; left:-100px }
+    .orb-2 { width:400px; height:400px; background:rgba(129,140,248,.07); bottom:-80px; right:-100px }
+    .page-hero-inner { position:relative; z-index:1; max-width:680px; margin:0 auto }
+    .badge { display:inline-flex; align-items:center; gap:8px; background:rgba(56,189,248,.10); border:1px solid rgba(56,189,248,.25); color:var(--accent); font-size:.72rem; font-weight:700; padding:7px 16px; border-radius:999px; margin-bottom:20px; letter-spacing:.1em; text-transform:uppercase }
+    .page-hero h1 { font-size:clamp(1.8rem,4.5vw,3rem); font-weight:900; letter-spacing:-1.5px; line-height:1.12; margin-bottom:12px }
+    .grad-text { background:var(--grad); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text }
+    .page-hero p { color:var(--muted); font-size:1rem; line-height:1.75; max-width:480px; margin:0 auto }
 
-body { 
-  font-family: 'Inter', sans-serif; 
-  background-color: var(--bg); 
-  color: var(--text); 
-  line-height: 1.6; 
-  min-height: 100vh;
-}
+    /* ── LAYOUT ── */
+    .main { max-width:980px; margin:0 auto; padding:0 20px 80px; display:grid; grid-template-columns:350px 1fr; gap:20px; align-items:start }
 
-/* ── BARRE DE NAVIGATION ── */
-nav {
-  position: fixed; top: 0; left: 0; right: 0; height: var(--nav-h);
-  backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
-  background: rgba(3,13,26,0.85); border-bottom: 1px solid var(--border); z-index: 1000;
-}
-.nav-inner {
-  max-width: 1200px; margin: 0 auto; padding: 0 24px; height: 100%;
-  display: flex; justify-content: space-between; align-items: center;
-}
-.logo {
-  font-size: 1.5rem; font-weight: 900; text-decoration: none;
-  background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-}
-.nav-links { display: flex; list-style: none; gap: 4px; }
-.nav-links a {
-  color: var(--muted); text-decoration: none; font-weight: 500; font-size: .93rem;
-  padding: 8px 14px; border-radius: 8px; transition: 0.2s;
-}
-.nav-links a:hover, .nav-links a.active { color: var(--text); background: rgba(255,255,255,0.06); }
-.nav-links a.active { color: var(--accent); }
+    /* ═══════════════════════════
+       GLASS CALENDAR CARD
+    ═══════════════════════════ */
+    .glass-cal {
+      background:rgba(255,255,255,.07);
+      backdrop-filter:blur(32px); -webkit-backdrop-filter:blur(32px);
+      border:1px solid rgba(255,255,255,.11);
+      border-radius:28px; padding:22px;
+      position:sticky; top:calc(var(--nav-h) + 14px);
+    }
 
-/* ── STYLE DU CONTENU ── */
-.hero { text-align: center; padding: calc(var(--nav-h) + 40px) 20px 24px; }
-.hero-tag { font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; }
-.hero-title { font-size: clamp(24px, 5vw, 36px); font-weight: 700; letter-spacing: -0.02em; margin-bottom: 6px; }
-.hero-sub { font-size: 13px; color: var(--muted); }
+    /* Tab row */
+    .gc-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:18px }
+    .gc-tabs { display:flex; background:rgba(0,0,0,.3); border-radius:10px; padding:3px; gap:2px }
+    .gc-tab { background:none; border:none; color:rgba(255,255,255,.45); font-size:.72rem; font-weight:700; padding:6px 13px; border-radius:7px; cursor:pointer; font-family:'Inter',sans-serif; transition:.2s; letter-spacing:.02em }
+    .gc-tab.active { background:#fff; color:#000; box-shadow:0 2px 8px rgba(0,0,0,.3) }
+    .gc-settings { background:none; border:none; color:rgba(255,255,255,.5); width:32px; height:32px; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:.2s }
+    .gc-settings:hover { background:rgba(255,255,255,.1); color:#fff }
 
-.section { padding: 12px 20px 60px; max-width: 1000px; margin: 0 auto; }
-.slots-caption { text-align: center; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-bottom: 24px; }
+    /* Month row */
+    .gc-month-row { display:flex; align-items:center; justify-content:space-between; margin-bottom:16px }
+    .gc-month-name { font-size:clamp(1.7rem,3.5vw,2.2rem); font-weight:900; letter-spacing:-1.5px; line-height:1; text-transform:capitalize }
+    .gc-year { font-size:.85rem; color:rgba(255,255,255,.35); font-weight:500; margin-left:6px }
+    .gc-nav { display:flex; gap:5px }
+    .gc-nav button { background:rgba(255,255,255,.08); border:none; color:rgba(255,255,255,.7); width:30px; height:30px; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:1.1rem; transition:.2s; font-family:inherit }
+    .gc-nav button:hover { background:rgba(255,255,255,.16) }
 
-.inputs-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-bottom: 28px; }
-.glass-input { width: 100%; max-width: 280px; background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 11px 15px; font-size: 13px; color: white; font-family: inherit; outline: none; transition: all 0.2s; }
-.glass-input:focus { border-color: var(--accent); background: rgba(255,255,255,0.1); }
-.glass-input option { background: var(--bg-2); color: white; }
+    /* Day headers */
+    .gc-grid-head { display:grid; grid-template-columns:repeat(7,1fr); margin-bottom:6px }
+    .gc-grid-head span { text-align:center; font-size:.62rem; font-weight:700; color:rgba(255,255,255,.28); padding:4px 0; text-transform:uppercase; letter-spacing:.04em }
 
-.main-layout { display: flex; flex-direction: column; gap: 20px; }
-@media(min-width: 760px) { .main-layout { flex-direction: row; align-items: flex-start; } .calendar-col { flex-shrink: 0; } .slots-col { flex: 1; } }
+    /* Day grid */
+    .gc-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:2px }
+    .cal-day-btn {
+      width:100%; aspect-ratio:1; border-radius:50%; border:none;
+      background:none; color:rgba(255,255,255,.75); font-size:.82rem;
+      font-weight:500; cursor:pointer; transition:.15s;
+      font-family:'Inter',sans-serif; position:relative;
+      display:flex; align-items:center; justify-content:center;
+    }
+    .cal-day-btn:hover:not(.disabled):not(.selected) { background:rgba(255,255,255,.12); transform:scale(1.08) }
+    .cal-day-btn.today { border:1.5px solid rgba(56,189,248,.6); color:var(--accent); font-weight:700 }
+    .cal-day-btn.selected { background:var(--warm); color:#fff; font-weight:700; box-shadow:0 4px 16px rgba(244,63,94,.4); transform:scale(1.1) }
+    .cal-day-btn.disabled { color:rgba(255,255,255,.18); cursor:default; pointer-events:none }
+    .cal-day-btn.has-students::after { content:''; position:absolute; bottom:3px; left:50%; transform:translateX(-50%); width:4px; height:4px; border-radius:50%; background:var(--green) }
+    .cal-day-btn.selected.has-students::after { background:#fff }
 
-/* CALENDAR */
-.glass-calendar { width: 310px; max-width: 100%; background: rgba(0,0,0,0.3); border: 1px solid var(--border); border-radius: 22px; padding: 18px; align-self: center; }
-.cal-month-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
-.cal-month-name { font-size: 20px; font-weight: 700; }
-.cal-year { font-size: 13px; color: var(--muted); margin-left: 6px; }
-.cal-nav-btn { background: var(--card); border: 1px solid var(--border); border-radius: 8px; color: white; cursor: pointer; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
-.cal-nav-btn:hover { background: var(--card-h); }
-.cal-grid-header { display: grid; grid-template-columns: repeat(7, 1fr); margin-bottom: 8px; }
-.cal-grid-header span { text-align: center; font-size: 10px; font-weight: 700; color: var(--muted); padding: 4px 0; }
-.cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; }
-.cal-day-btn, .admin-day-btn { width: 34px; height: 34px; border-radius: 50%; border: none; background: none; color: white; font-size: 12px; font-weight: 500; cursor: pointer; transition: 0.15s; font-family: inherit; position: relative; }
-.cal-day-btn.selected, .admin-day-btn.selected { background: var(--grad); box-shadow: 0 4px 12px rgba(56,189,248,0.3); font-weight: 700; }
-.cal-day-btn.today, .admin-day-btn.today { border: 1.5px solid var(--accent); }
-.cal-day-btn.disabled, .admin-day-btn.disabled { color: rgba(255,255,255,0.15); cursor: default; }
+    /* Divider */
+    .gc-divider { border:none; height:1px; background:rgba(255,255,255,.09); margin:16px -22px }
 
-/* SLOTS */
-.date-header { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 13px 16px; margin-bottom: 12px; }
-.date-header-label { font-size: 10px; font-weight: 600; text-transform: uppercase; color: var(--muted); }
-.slot-card { display: flex; align-items: center; justify-content: space-between; gap: 12px; background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 13px 16px; margin-bottom: 10px; transition: 0.2s; }
-.slot-card:hover:not(.full) { border-color: var(--accent); }
-.progress-bar { height: 3px; width: 100%; background: rgba(255,255,255,0.1); border-radius: 9999px; overflow: hidden; margin-top: 7px; }
-.progress-fill { height: 100%; border-radius: 9999px; background: var(--grad); transition: width 0.4s; }
-.reserve-btn { background: var(--grad); border: none; border-radius: 9999px; padding: 8px 16px; font-size: 12px; font-weight: 700; color: white; cursor: pointer; box-shadow: 0 4px 14px rgba(56,189,248,0.2); transition: 0.2s; }
-.reserve-btn:disabled { background: var(--card); box-shadow: none; opacity: 0.5; }
+    /* Card footer */
+    .gc-footer { display:flex; align-items:center; justify-content:space-between }
+    .gc-note { display:flex; align-items:center; gap:6px; background:none; border:none; color:rgba(255,255,255,.35); font-size:.78rem; font-weight:500; cursor:pointer; font-family:'Inter',sans-serif; transition:.2s; padding:0 }
+    .gc-note:hover { color:rgba(255,255,255,.65) }
+    .gc-action { display:flex; align-items:center; gap:6px; background:rgba(0,0,0,.28); border:none; color:rgba(255,255,255,.75); font-size:.72rem; font-weight:700; padding:8px 13px; border-radius:9px; cursor:pointer; font-family:'Inter',sans-serif; transition:.2s; letter-spacing:.02em }
+    .gc-action:hover { background:rgba(255,255,255,.1) }
 
-/* ADMIN */
-.admin-panel { margin-top: 28px; background: rgba(0,0,0,0.3); border: 1px solid var(--border); border-radius: 24px; padding: 24px; }
-.admin-header { margin-bottom: 20px; }
-.admin-title { font-size: 18px; font-weight: 800; color: var(--accent); }
-.admin-layout { display: flex; flex-direction: column; gap: 20px; }
-@media(min-width: 700px) { .admin-layout { flex-direction: row; align-items: flex-start; } }
-.admin-glass-cal { width: 290px; background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: 18px; padding: 16px; }
-.admin-day-btn.has-students::after { content: ''; position: absolute; bottom: 3px; left: 50%; transform: translateX(-50%); width: 4px; height: 4px; border-radius: 50%; background: #34d399; }
-.admin-slot-block { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 14px; margin-bottom: 10px; }
-.admin-slot-title { font-weight: 700; font-size: 14px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
-.admin-slot-badge { font-size: 11px; padding: 2px 8px; border-radius: 10px; background: rgba(255,255,255,0.1); }
-.admin-slot-badge.has-p { background: rgba(52,211,153,0.15); color: #34d399; }
-.student-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
-.remove-btn { background: rgba(248,113,113,0.1); border: 1px solid rgba(248,113,113,0.2); color: #fca5a5; cursor: pointer; font-size: 11px; padding: 3px 8px; border-radius: 6px; }
+    /* ═══════════════════════════
+       RIGHT COLUMN
+    ═══════════════════════════ */
+    .right-col { display:flex; flex-direction:column; gap:14px }
 
-.loading-overlay { position: fixed; inset: 0; background: var(--bg); display: flex; align-items: center; justify-content: center; z-index: 9999; flex-direction: column; gap: 14px; }
-.spinner { display: inline-block; width: 24px; height: 24px; border: 3px solid rgba(255,255,255,0.1); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.6s linear infinite; }
-@keyframes spin { to { transform: rotate(360deg); } }
-</style>
+    /* Date header */
+    .date-card { background:rgba(255,255,255,.06); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px); border:1px solid rgba(255,255,255,.1); border-radius:18px; padding:18px 20px; display:flex; align-items:center; gap:14px }
+    .date-card-icon { width:42px; height:42px; border-radius:12px; background:var(--warm); display:flex; align-items:center; justify-content:center; flex-shrink:0 }
+    .date-card-label { font-size:.68rem; font-weight:700; text-transform:uppercase; letter-spacing:.08em; color:rgba(255,255,255,.35); margin-bottom:2px }
+    #dateLabel { font-size:.97rem; font-weight:700; text-transform:capitalize }
+
+    /* Form card */
+    .form-card { background:rgba(255,255,255,.06); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px); border:1px solid rgba(255,255,255,.1); border-radius:18px; padding:20px }
+    .form-card-title { font-size:.7rem; font-weight:700; text-transform:uppercase; letter-spacing:.08em; color:rgba(255,255,255,.35); margin-bottom:14px; display:flex; align-items:center; gap:7px }
+    .form-row { display:grid; grid-template-columns:1fr 1fr; gap:10px }
+    .field { display:flex; flex-direction:column; gap:5px }
+    .field label { font-size:.7rem; font-weight:700; color:rgba(255,255,255,.4); text-transform:uppercase; letter-spacing:.06em }
+    .field input,.field select { background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.1); border-radius:10px; padding:12px 14px; color:var(--text); font-size:.92rem; font-family:'Inter',sans-serif; transition:.2s; appearance:none; -webkit-appearance:none; width:100% }
+    .field input:focus,.field select:focus { outline:none; border-color:rgba(244,63,94,.45); background:rgba(244,63,94,.04) }
+    .field input::placeholder { color:rgba(255,255,255,.2) }
+    .field select option { background:#071526; color:var(--text) }
+
+    /* Slot cards */
+    .slots-area { display:flex; flex-direction:column; gap:10px }
+    .slot-card { background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.08); border-radius:16px; padding:16px 18px; display:flex; align-items:center; gap:14px; transition:.2s }
+    .slot-card:hover:not(.full) { border-color:rgba(56,189,248,.28); background:rgba(56,189,248,.04); transform:translateY(-1px) }
+    .slot-card.full { opacity:.42; pointer-events:none }
+    .slot-icon { width:40px; height:40px; border-radius:11px; background:rgba(56,189,248,.12); color:var(--accent); display:flex; align-items:center; justify-content:center; flex-shrink:0 }
+    .slot-card.full .slot-icon { background:rgba(255,255,255,.06); color:var(--muted) }
+    .slot-info { flex:1; min-width:0 }
+    .slot-time { font-size:.95rem; font-weight:700; letter-spacing:-.2px; display:block; margin-bottom:5px }
+    .slot-count-row { display:flex; align-items:center; gap:8px }
+    .slot-count-txt { font-size:.73rem; color:rgba(255,255,255,.38); font-weight:500 }
+    .progress-bar { flex:1; height:3px; background:rgba(255,255,255,.08); border-radius:99px; overflow:hidden }
+    .progress-fill { height:100%; border-radius:99px; background:var(--warm); transition:width .4s }
+    .reserve-btn { background:var(--warm); border:none; border-radius:10px; padding:10px 18px; font-size:.82rem; font-weight:700; color:#fff; cursor:pointer; box-shadow:0 4px 16px rgba(244,63,94,.3); transition:.2s; font-family:'Inter',sans-serif; white-space:nowrap; flex-shrink:0 }
+    .reserve-btn:hover:not(:disabled) { opacity:.88; transform:translateY(-1px); box-shadow:0 6px 22px rgba(244,63,94,.42) }
+    .reserve-btn:disabled { background:rgba(255,255,255,.08); color:rgba(255,255,255,.3); box-shadow:none; cursor:not-allowed }
+    .no-slots-msg { text-align:center; padding:30px 20px; color:rgba(255,255,255,.3); font-size:.88rem; line-height:1.7 }
+    .no-slots-msg svg { display:block; margin:0 auto 12px; opacity:.3 }
+
+    /* Info strip */
+    .info-strip { display:flex; gap:10px; align-items:flex-start; background:rgba(56,189,248,.05); border:1px solid rgba(56,189,248,.12); border-radius:14px; padding:13px 15px }
+    .info-strip svg { color:var(--accent); flex-shrink:0; margin-top:1px }
+    .info-strip p { color:rgba(226,232,240,.5); font-size:.8rem; line-height:1.65 }
+
+    /* ═══════════════════════════
+       LOADING
+    ═══════════════════════════ */
+    .loading-overlay { position:fixed; inset:0; background:var(--bg); display:flex; align-items:center; justify-content:center; z-index:9999; flex-direction:column; gap:16px }
+    .loading-overlay p { color:var(--muted); font-size:.88rem; letter-spacing:.04em }
+    .spinner { display:inline-block; width:24px; height:24px; border:2.5px solid rgba(255,255,255,.1); border-top-color:var(--accent); border-radius:50%; animation:spin .6s linear infinite }
+    @keyframes spin { to { transform:rotate(360deg) } }
+
+    /* ═══════════════════════════
+       ADMIN
+    ═══════════════════════════ */
+    .admin-wrap { grid-column:1/-1 }
+    .admin-panel { background:rgba(129,140,248,.03); border:1px solid rgba(129,140,248,.2); border-radius:24px; padding:28px; margin-top:8px }
+    .admin-title-row { display:flex; align-items:center; gap:10px; margin-bottom:22px }
+    .admin-title { font-size:1.05rem; font-weight:800; color:var(--purple) }
+    .admin-layout { display:flex; flex-direction:column; gap:20px }
+    @media(min-width:640px) { .admin-layout { flex-direction:row; align-items:flex-start } }
+    .admin-glass-cal { width:280px; max-width:100%; background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.07); border-radius:18px; padding:16px; flex-shrink:0 }
+    .admin-detail-col { flex:1 }
+    .cal-month-row { display:flex; align-items:center; justify-content:space-between; margin-bottom:12px }
+    .cal-nav { display:flex; gap:4px }
+    .cal-nav-btn { background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.07); border-radius:7px; color:rgba(255,255,255,.7); cursor:pointer; width:28px; height:28px; display:flex; align-items:center; justify-content:center; transition:.2s; font-size:1rem }
+    .cal-nav-btn:hover { background:rgba(255,255,255,.12) }
+    .cal-grid-header { display:grid; grid-template-columns:repeat(7,1fr); margin-bottom:6px }
+    .cal-grid-header span { text-align:center; font-size:.58rem; font-weight:700; color:rgba(255,255,255,.25); padding:3px 0; text-transform:uppercase }
+    .cal-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:2px }
+    .admin-day-btn { width:100%; aspect-ratio:1; border-radius:50%; border:none; background:none; color:rgba(255,255,255,.7); font-size:.78rem; font-weight:500; cursor:pointer; transition:.15s; font-family:'Inter',sans-serif; position:relative; display:flex; align-items:center; justify-content:center }
+    .admin-day-btn:hover:not(.disabled):not(.selected) { background:rgba(255,255,255,.1) }
+    .admin-day-btn.today { border:1.5px solid rgba(56,189,248,.5) }
+    .admin-day-btn.selected { background:var(--grad); color:#fff; font-weight:700 }
+    .admin-day-btn.disabled { color:rgba(255,255,255,.15); cursor:default; pointer-events:none }
+    .admin-day-btn.has-students::after { content:''; position:absolute; bottom:2px; left:50%; transform:translateX(-50%); width:4px; height:4px; border-radius:50%; background:var(--green) }
+    .admin-slot-block { background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.07); border-radius:14px; padding:14px; margin-bottom:10px }
+    .admin-slot-title { font-weight:700; font-size:.9rem; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center }
+    .admin-slot-badge { font-size:.72rem; padding:3px 9px; border-radius:10px; background:rgba(255,255,255,.08); font-weight:600 }
+    .admin-slot-badge.has-p { background:rgba(52,211,153,.12); color:var(--green) }
+    .student-row { display:flex; justify-content:space-between; align-items:center; padding:7px 0; border-bottom:1px solid rgba(255,255,255,.05) }
+    .student-row:last-child { border-bottom:none }
+    .remove-btn { background:rgba(248,113,113,.1); border:1px solid rgba(248,113,113,.2); color:#fca5a5; cursor:pointer; font-size:.72rem; padding:4px 10px; border-radius:6px; font-family:'Inter',sans-serif; transition:.2s }
+    .remove-btn:hover { background:rgba(248,113,113,.2) }
+    .admin-empty { font-size:.82rem; color:var(--muted); font-style:italic }
+
+    /* ═══════════════════════════
+       FOOTER
+    ═══════════════════════════ */
+    footer { border-top:1px solid var(--border); padding:60px 24px 36px }
+    .foot-grid { max-width:1200px; margin:0 auto }
+    .foot-cols { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:40px; margin-bottom:44px }
+    .foot-brand .logo { font-size:1.3rem; display:inline-block; margin-bottom:12px }
+    .foot-brand p { color:var(--muted); font-size:.86rem; line-height:1.75; max-width:220px }
+    .foot-col h4 { font-size:.68rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); margin-bottom:14px }
+    .foot-col ul { list-style:none; display:flex; flex-direction:column; gap:8px }
+    .foot-col ul li a { color:rgba(226,232,240,.55); text-decoration:none; font-size:.86rem; transition:.2s }
+    .foot-col ul li a:hover { color:var(--accent) }
+    .foot-col .ci { color:rgba(226,232,240,.55); font-size:.86rem }
+    .foot-bottom { border-top:1px solid var(--border); padding-top:22px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px }
+    .foot-bottom p { color:var(--muted); font-size:.8rem }
+
+    /* ═══════════════════════════
+       RESPONSIVE
+    ═══════════════════════════ */
+    @media(max-width:820px) {
+      .nav-links { display:none }
+      .burger { display:flex }
+      .main { grid-template-columns:1fr }
+      .glass-cal { position:static }
+      .form-row { grid-template-columns:1fr }
+      .foot-cols { grid-template-columns:1fr 1fr; gap:28px }
+      .foot-brand { grid-column:1/-1 }
+      .foot-bottom { flex-direction:column; text-align:center }
+    }
+    @media(max-width:480px) { .foot-cols { grid-template-columns:1fr } }
+    @media(prefers-reduced-motion:reduce) { *{ animation-duration:.01ms!important; transition-duration:.01ms!important } }
+
+    /* ═══════════════════════════
+       DIGITAL SERENITY
+    ═══════════════════════════ */
+    @keyframes word-appear { from{opacity:0;transform:translateY(16px) scale(.96)} to{opacity:1;transform:none} }
+    @keyframes ds-fade-in  { from{opacity:0} to{opacity:1} }
+    @keyframes ds-corner-draw { from{stroke-dashoffset:60} to{stroke-dashoffset:0} }
+    @keyframes ds-dot-pulse { 0%,100%{opacity:.3;transform:scale(1)} 50%{opacity:.85;transform:scale(2)} }
+    @keyframes ds-ripple-out { 0%{transform:translate(-50%,-50%) scale(0);opacity:.55} 100%{transform:translate(-50%,-50%) scale(6);opacity:0} }
+    .word-animate { opacity:0; display:inline-block }
+    .ds-grid-svg { position:absolute; inset:0; width:100%; height:100%; pointer-events:none; animation:ds-fade-in 1.6s ease .7s forwards; opacity:0; z-index:0 }
+    .ds-corner { position:absolute; width:28px; height:28px; pointer-events:none; animation:ds-fade-in .5s ease .2s forwards; opacity:0; z-index:2 }
+    .ds-corner svg path { stroke-dasharray:60; stroke-dashoffset:60; animation:ds-corner-draw .9s cubic-bezier(.22,1,.36,1) .5s forwards }
+    .ds-corner-tl{top:16px;left:16px} .ds-corner-tr{top:16px;right:16px} .ds-corner-bl{bottom:16px;left:16px} .ds-corner-br{bottom:16px;right:16px}
+    .ds-dot { position:absolute; width:5px; height:5px; border-radius:50%; background:var(--accent); pointer-events:none; animation:ds-dot-pulse 3s ease-in-out infinite; z-index:2 }
+    .ds-ripple { position:fixed; width:40px; height:40px; border-radius:50%; border:1.5px solid rgba(56,189,248,.45); pointer-events:none; transform:translate(-50%,-50%) scale(0); animation:ds-ripple-out 1.1s ease-out forwards; z-index:9999 }
+    #mouse-gradient { position:fixed; width:500px; height:500px; border-radius:50%; background:radial-gradient(circle,rgba(56,189,248,.08),transparent 70%); pointer-events:none; transform:translate(-50%,-50%); opacity:0; z-index:0; will-change:left,top; transition:opacity .4s; top:50%; left:50% }
+  </style>
 </head>
 <body>
 
-<nav>
+<!-- NAV -->
+<nav class="top">
   <div class="nav-inner">
-    <a href="index.html" class="logo">G-Cours</a>
+    <a href="./index.html" class="logo">G-Cours</a>
     <ul class="nav-links">
-      <li><a href="index.html">Accueil</a></li>
-      <li><a href="reservation.html" class="active">Réservation</a></li>
-      <li><a href="a-propos.html">À propos</a></li>
-      <li><a href="Tarifs.html">Tarifs</a></li>
-      <li><a href="qcm.html">QCM</a></li>
+      <li><a href="./index.html">Accueil</a></li>
+      <li><a href="./reservation.html" class="active">Réservation</a></li>
+      <li><a href="./a-propos.html">À propos</a></li>
+      <li><a href="./Tarifs.html">Tarifs</a></li>
+      <li><a href="./qcm.html">QCM</a></li>
     </ul>
+    <button class="burger" onclick="toggleNav()" aria-label="Menu" aria-expanded="false" id="burger-btn">
+      <svg id="ico-menu" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      <svg id="ico-x" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
   </div>
 </nav>
+<nav class="mob" id="mob-nav">
+  <a href="./index.html">Accueil</a>
+  <a href="./reservation.html" class="active">Réservation</a>
+  <a href="./a-propos.html">À propos</a>
+  <a href="./Tarifs.html">Tarifs</a>
+  <a href="./qcm.html">QCM</a>
+</nav>
 
+<!-- LOADING -->
 <div id="loadingOverlay" class="loading-overlay">
   <div class="spinner"></div>
+  <p>Chargement des créneaux…</p>
 </div>
 
-<div class="hero">
-  <p class="hero-tag">Cours particuliers · G-Cours</p>
-  <h1 class="hero-title">Réservation de cours</h1>
-  <p class="hero-sub">Choisissez votre créneau et réservez en ligne</p>
+<!-- HERO -->
+<div class="page-hero">
+  <svg class="ds-grid-svg" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><pattern id="ds-g" x="0" y="0" width="60" height="60" patternUnits="userSpaceOnUse"><path d="M 60 0 L 0 0 0 60" fill="none" stroke="rgba(56,189,248,0.06)" stroke-width="1"/></pattern></defs><rect width="100%" height="100%" fill="url(#ds-g)"/></svg>
+  <div class="orb orb-1" aria-hidden="true"></div>
+  <div class="orb orb-2" aria-hidden="true"></div>
+  <div class="ds-corner ds-corner-tl" aria-hidden="true"><svg viewBox="0 0 28 28" fill="none"><path d="M27 1H3a2 2 0 0 0-2 2v24" stroke="rgba(56,189,248,.5)" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+  <div class="ds-corner ds-corner-tr" aria-hidden="true"><svg viewBox="0 0 28 28" fill="none" style="transform:scaleX(-1)"><path d="M27 1H3a2 2 0 0 0-2 2v24" stroke="rgba(56,189,248,.5)" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+  <div class="ds-corner ds-corner-bl" aria-hidden="true"><svg viewBox="0 0 28 28" fill="none" style="transform:scaleY(-1)"><path d="M27 1H3a2 2 0 0 0-2 2v24" stroke="rgba(56,189,248,.5)" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+  <div class="ds-corner ds-corner-br" aria-hidden="true"><svg viewBox="0 0 28 28" fill="none" style="transform:scale(-1,-1)"><path d="M27 1H3a2 2 0 0 0-2 2v24" stroke="rgba(56,189,248,.5)" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+  <div class="ds-dot" style="top:30%;right:13%;animation-delay:.5s" aria-hidden="true"></div>
+  <div class="ds-dot" style="bottom:25%;left:9%;animation-delay:1.4s" aria-hidden="true"></div>
+  <div class="page-hero-inner">
+    <div class="badge">Réservation en ligne</div>
+    <h1><span class="word-animate" data-delay="0">Choisissez</span> <span class="word-animate" data-delay="150">votre</span> <span class="word-animate grad-text" data-delay="300">créneau</span></h1>
+    <p>Sélectionnez un jour dans le calendrier, puis confirmez votre inscription en quelques secondes.</p>
+  </div>
 </div>
 
-<div class="section">
-  <p class="slots-caption">7 places maximum par créneau</p>
+<!-- MAIN -->
+<main class="main">
 
-  <div class="inputs-row">
-    <input id="nameInput" class="glass-input" type="text" placeholder="Prénom et nom de l'élève" />
-    <select id="subjectSelect" class="glass-input">
-      <option value="">Choisir la matière</option>
-      <option value="Maths">Maths</option>
-      <option value="Anglais">Anglais</option>
-      <option value="Physique">Physique</option>
-    </select>
+  <!-- ══ GLASS CALENDAR ══ -->
+  <div class="glass-cal">
+
+    <div class="gc-header">
+      <div class="gc-tabs">
+        <button class="gc-tab active">Mensuel</button>
+        <button class="gc-tab">Hebdo</button>
+      </div>
+      <button class="gc-settings" onclick="openAdmin()" title="Accès Professeur" aria-label="Accès Professeur">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      </button>
+    </div>
+
+    <div class="gc-month-row">
+      <div>
+        <span class="gc-month-name" id="calMonthName"></span>
+        <span class="gc-year" id="calYear"></span>
+      </div>
+      <div class="gc-nav">
+        <button id="prevMonth" aria-label="Mois précédent">&#8249;</button>
+        <button id="nextMonth" aria-label="Mois suivant">&#8250;</button>
+      </div>
+    </div>
+
+    <div class="gc-grid-head" id="calGridHeader"></div>
+    <div class="gc-grid" id="calGrid"></div>
+
+    <div class="gc-divider"></div>
+
+    <div class="gc-footer">
+      <button class="gc-note" aria-label="Ajouter une note">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        Ajouter une note…
+      </button>
+      <button class="gc-action">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Nouveau cours
+      </button>
+    </div>
   </div>
 
-  <div class="main-layout">
-    <div class="calendar-col">
-      <div class="glass-calendar">
-        <div class="cal-month-row">
-          <div><span class="cal-month-name" id="calMonthName"></span><span class="cal-year" id="calYear"></span></div>
-          <div class="cal-nav">
-            <button class="cal-nav-btn" id="prevMonth">&#8249;</button>
-            <button class="cal-nav-btn" id="nextMonth">&#8250;</button>
-          </div>
+  <!-- ══ RIGHT COLUMN ══ -->
+  <div class="right-col">
+
+    <!-- Selected date pill -->
+    <div class="date-card">
+      <div class="date-card-icon" aria-hidden="true">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      </div>
+      <div>
+        <p class="date-card-label">Jour sélectionné</p>
+        <p id="dateLabel">—</p>
+      </div>
+    </div>
+
+    <!-- Student info form -->
+    <div class="form-card">
+      <p class="form-card-title">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+        Vos informations
+      </p>
+      <div class="form-row">
+        <div class="field">
+          <label for="nameInput">Prénom et nom <span aria-hidden="true">*</span></label>
+          <input id="nameInput" type="text" placeholder="Ex : Marie Dupont" required autocomplete="name">
         </div>
-        <div class="cal-grid-header" id="calGridHeader"></div>
-        <div class="cal-grid" id="calGrid"></div>
+        <div class="field">
+          <label for="subjectSelect">Matière <span aria-hidden="true">*</span></label>
+          <select id="subjectSelect" required>
+            <option value="">Choisir…</option>
+            <option value="Maths">Maths</option>
+            <option value="Anglais">Anglais</option>
+            <option value="Physique">Physique</option>
+          </select>
+        </div>
       </div>
     </div>
-    <div class="slots-col">
-      <div class="date-header">
-        <p class="date-header-label">Créneaux</p>
-        <p class="date-header-value" id="dateLabel"></p>
+
+    <!-- Slots for selected day -->
+    <div class="slots-area" id="slotsContainer">
+      <div class="no-slots-msg">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        Cliquez sur un jour dans le calendrier pour voir les créneaux disponibles
       </div>
-      <div id="slotsContainer"></div>
-      <div id="messageBox" style="display:none"></div>
     </div>
+
+    <!-- Info strip -->
+    <div class="info-strip">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      <p>7 places max par créneau · Un SMS de confirmation est envoyé au professeur à chaque réservation</p>
+    </div>
+
+    <div id="messageBox" style="display:none"></div>
   </div>
 
-  <button class="admin-btn" style="display: block; margin: 32px auto 0; background: var(--card); border: 1px solid var(--border); border-radius: 9999px; padding: 7px 20px; font-size: 12px; color: var(--muted); cursor: pointer;" id="adminBtn">Accès Prof</button>
-  <div id="adminPanel" style="display:none"></div>
-</div>
+  <!-- Admin (spans both columns) -->
+  <div class="admin-wrap">
+    <div id="adminPanel"></div>
+  </div>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-grid">
+    <div class="foot-cols">
+      <div class="foot-brand">
+        <a href="./index.html" class="logo">G-Cours</a>
+        <p>Cours particuliers en maths, physique et anglais à Villeurbanne.</p>
+      </div>
+      <div class="foot-col">
+        <h4>Navigation</h4>
+        <ul>
+          <li><a href="./index.html">Accueil</a></li>
+          <li><a href="./reservation.html">Réservation</a></li>
+          <li><a href="./a-propos.html">À propos</a></li>
+          <li><a href="./Tarifs.html">Tarifs</a></li>
+          <li><a href="./qcm.html">QCM</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Matières</h4>
+        <ul>
+          <li><a href="#">Mathématiques</a></li>
+          <li><a href="#">Physique-Chimie</a></li>
+          <li><a href="#">Anglais</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><span class="ci">Villeurbanne 69100</span></li>
+          <li><a href="mailto:jonathanamar_177@hotmail.com">jonathanamar_177@hotmail.com</a></li>
+          <li><a href="tel:0619336183">06 19 33 61 83</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <p>© 2026 G-Cours – Tous droits réservés</p>
+      <p>Cours particuliers à Villeurbanne</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+function toggleNav() {
+  const nav = document.getElementById('mob-nav');
+  const btn = document.getElementById('burger-btn');
+  const open = nav.classList.toggle('open');
+  btn.setAttribute('aria-expanded', open);
+  document.getElementById('ico-menu').style.display = open ? 'none' : 'block';
+  document.getElementById('ico-x').style.display = open ? 'block' : 'none';
+}
+</script>
 
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
@@ -197,21 +477,20 @@ const firebaseConfig = {
   messagingSenderId: "156100724990",
   appId: "1:156100724990:web:c77c49e487d1d519a5fdaf"
 };
-
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 const slotsRef = db.ref("slots");
 
-const FR_MONTHS = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+const FR_MONTHS      = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
 const FR_MONTHS_LONG = ['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
-const FR_DAYS_LONG = ['dimanche','lundi','mardi','mercredi','jeudi','vendredi','samedi'];
+const FR_DAYS_LONG   = ['dimanche','lundi','mardi','mercredi','jeudi','vendredi','samedi'];
 
 const DAY_SLOTS = {
   0: [{label:'9h00 – 11h00', key:'Dimanche_9-11'}, {label:'11h00 – 13h00', key:'Dimanche_11-13'}],
-  1: [{label:'17h00 – 19h00', key:'Lundi_17-19'}, {label:'19h00 – 21h00', key:'Lundi_19-21'}],
-  2: [{label:'17h00 – 19h00', key:'Mardi_17-19'}, {label:'19h00 – 21h00', key:'Mardi_19-21'}],
-  3: [{label:'14h00 – 16h00', key:'Mercredi_14-16'}, {label:'16h00 – 17h00', key:'Mercredi_16-17'}],
-  4: [{label:'17h00 – 19h00', key:'Jeudi_17-19'}, {label:'19h00 – 21h00', key:'Jeudi_19-21'}],
+  1: [{label:'17h00 – 19h00', key:'Lundi_17-19'},   {label:'19h00 – 21h00', key:'Lundi_19-21'}],
+  2: [{label:'17h00 – 19h00', key:'Mardi_17-19'},   {label:'19h00 – 21h00', key:'Mardi_19-21'}],
+  3: [{label:'14h00 – 16h00', key:'Mercredi_14-16'},{label:'16h00 – 17h00', key:'Mercredi_16-17'}],
+  4: [{label:'17h00 – 19h00', key:'Jeudi_17-19'},   {label:'19h00 – 21h00', key:'Jeudi_19-21'}],
 };
 const COURSE_DAYS = new Set([0,1,2,3,4]);
 const ALL_SLOT_KEYS = ['Dimanche_9-11','Dimanche_11-13','Lundi_17-19','Lundi_19-21','Mardi_17-19','Mardi_19-21','Mercredi_14-16','Mercredi_16-17','Jeudi_17-19','Jeudi_19-21'];
@@ -221,13 +500,14 @@ const ADMIN_PASSWORD = atob('MjgwNQ==');
 let data = {};
 ALL_SLOT_KEYS.forEach(k => data[k] = []);
 let today = new Date(); today.setHours(0,0,0,0);
-let selectedDate = new Date(today);
-let currentMonth = new Date(today.getFullYear(), today.getMonth(), 1);
-let isAdmin = false;
-let bookingSlot = null;
-let adminSelectedDate = new Date(today);
-let adminCurrentMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+let selectedDate    = new Date(today);
+let currentMonth    = new Date(today.getFullYear(), today.getMonth(), 1);
+let isAdmin         = false;
+let bookingSlot     = null;
+let adminSelectedDate  = new Date(today);
+let adminCurrentMonth  = new Date(today.getFullYear(), today.getMonth(), 1);
 
+// ── Real-time listener ──
 slotsRef.on('value', (snapshot) => {
   const raw = snapshot.val() || {};
   ALL_SLOT_KEYS.forEach(k => {
@@ -245,77 +525,114 @@ slotsRef.on('value', (snapshot) => {
 function sameDay(a,b){ return a.getFullYear()===b.getFullYear()&&a.getMonth()===b.getMonth()&&a.getDate()===b.getDate(); }
 function formatDateFR(d){ return `${FR_DAYS_LONG[d.getDay()]} ${d.getDate()} ${FR_MONTHS_LONG[d.getMonth()]} ${d.getFullYear()}`; }
 function dayHasStudents(date){
-  const slots = DAY_SLOTS[date.getDay()] || [];
-  return slots.some(({key}) => (data[key]||[]).length > 0);
+  return (DAY_SLOTS[date.getDay()]||[]).some(({key})=>(data[key]||[]).length>0);
 }
 
+// ── Build calendar grid ──
 function buildCalGrid(gridEl, headerEl, year, month, selectedD, onDayClick, opts={}) {
   headerEl.innerHTML = '';
   ['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'].forEach(d => {
     const s = document.createElement('span'); s.textContent = d; headerEl.appendChild(s);
   });
   gridEl.innerHTML = '';
-  const firstDay = new Date(year, month, 1);
-  const startOffset = (firstDay.getDay() + 6) % 7;
+  const startOffset = (new Date(year, month, 1).getDay() + 6) % 7;
   const daysInMonth = new Date(year, month+1, 0).getDate();
-  for(let i=0;i<startOffset;i++){gridEl.appendChild(document.createElement('div'));}
+  for(let i=0;i<startOffset;i++) gridEl.appendChild(document.createElement('div'));
   for(let d=1;d<=daysInMonth;d++){
     const date = new Date(year, month, d);
-    const dow = date.getDay();
-    const isPast = date < today;
+    const dow  = date.getDay();
+    const isPast  = date < today;
     const isToday = sameDay(date, today);
-    const isSel = sameDay(date, selectedD);
-    const hasCourse = COURSE_DAYS.has(dow);
+    const isSel   = sameDay(date, selectedD);
+    const hasCourse   = COURSE_DAYS.has(dow);
     const hasStudents = opts.showDots && dayHasStudents(date);
     const btn = document.createElement('button');
-    btn.className = (opts.admin ? 'admin-day-btn' : 'cal-day-btn');
-    if(isSel) btn.classList.add('selected');
-    if(isToday) btn.classList.add('today');
-    if(!hasCourse || (!opts.admin && isPast)) {
-        btn.classList.add('disabled');
-        btn.disabled = true;
-    }
-    if(hasStudents) btn.classList.add('has-students');
+    btn.className = opts.admin ? 'admin-day-btn' : 'cal-day-btn';
+    if (isSel)  btn.classList.add('selected');
+    if (isToday) btn.classList.add('today');
+    if (!hasCourse || (!opts.admin && isPast)) { btn.classList.add('disabled'); btn.disabled = true; }
+    if (hasStudents) btn.classList.add('has-students');
     btn.textContent = d;
     btn.onclick = () => onDayClick(new Date(year, month, d));
     gridEl.appendChild(btn);
   }
 }
 
-function renderCalendar() {
-  const year = currentMonth.getFullYear(), month = currentMonth.getMonth();
-  document.getElementById('calMonthName').textContent = FR_MONTHS[month];
-  document.getElementById('calYear').textContent = year;
-  buildCalGrid(document.getElementById('calGrid'), document.getElementById('calGridHeader'), year, month, selectedDate, (d) => { selectedDate = d; renderCalendar(); renderSlots(); });
+// ── Render calendar ──
+function renderCalendar(){
+  const y = currentMonth.getFullYear(), m = currentMonth.getMonth();
+  document.getElementById('calMonthName').textContent = FR_MONTHS[m];
+  document.getElementById('calYear').textContent = y;
+  buildCalGrid(
+    document.getElementById('calGrid'),
+    document.getElementById('calGridHeader'),
+    y, m, selectedDate,
+    (d) => { selectedDate = d; renderCalendar(); renderSlots(); }
+  );
 }
 document.getElementById('prevMonth').onclick = () => { currentMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth()-1,1); renderCalendar(); };
 document.getElementById('nextMonth').onclick = () => { currentMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth()+1,1); renderCalendar(); };
 
-function renderSlots() {
-  document.getElementById('dateLabel').textContent = formatDateFR(selectedDate);
-  const slots = DAY_SLOTS[selectedDate.getDay()] || [];
+// ── Render slots ──
+function renderSlots(){
+  const label = document.getElementById('dateLabel');
+  label.textContent = formatDateFR(selectedDate);
+
+  const daySlots  = DAY_SLOTS[selectedDate.getDay()] || [];
   const container = document.getElementById('slotsContainer');
   container.innerHTML = '';
-  if(!slots.length){ container.innerHTML=`<div class="no-slots"><p>Aucun cours ce jour-là.</p></div>`; return; }
-  slots.forEach(({label,key})=>{
-    const students = data[key]||[];
-    const count = students.length, full = count>=MAX, pct = Math.round(count/MAX*100);
+
+  if (!daySlots.length) {
+    container.innerHTML = `
+      <div class="no-slots-msg">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        Aucun cours ce jour-là.<br>Choisissez un lundi, mardi, mercredi, jeudi ou dimanche.
+      </div>`;
+    return;
+  }
+
+  daySlots.forEach(({label: slotLabel, key}) => {
+    const students = data[key] || [];
+    const count = students.length;
+    const full  = count >= MAX;
+    const pct   = Math.round(count / MAX * 100);
+
     const card = document.createElement('div');
-    card.className = 'slot-card'+(full?' full':'');
-    card.innerHTML = `<div style="flex:1;"><p class="slot-time">${label}</p><p class="slot-count">${count}/${MAX} places</p><div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div></div>`;
+    card.className = 'slot-card' + (full ? ' full' : '');
+
+    card.innerHTML = `
+      <div class="slot-icon" aria-hidden="true">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      </div>
+      <div class="slot-info">
+        <span class="slot-time">${slotLabel}</span>
+        <div class="slot-count-row">
+          <span class="slot-count-txt">${count}/${MAX} inscrits</span>
+          <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+        </div>
+      </div>`;
+
     const btn = document.createElement('button');
-    btn.className='reserve-btn';
-    btn.disabled = full||bookingSlot===key;
-    btn.innerHTML = bookingSlot===key?'<span class="spinner" style="width:12px;height:12px;"></span>':(full?'Complet':'Réserver');
-    btn.onclick=()=>reserve(key,label);
-    card.appendChild(btn); container.appendChild(card);
+    btn.className = 'reserve-btn';
+    btn.disabled  = full || bookingSlot === key;
+    if (bookingSlot === key) {
+      btn.innerHTML = '<span class="spinner" style="width:14px;height:14px;border-width:2px"></span>';
+    } else {
+      btn.textContent = full ? 'Complet' : 'Réserver';
+    }
+    btn.setAttribute('aria-label', `Réserver ${slotLabel}`);
+    btn.onclick = () => reserve(key, slotLabel);
+
+    card.appendChild(btn);
+    container.appendChild(card);
   });
 }
 
-async function reserve(key, label){
-  const name = document.getElementById('nameInput').value.trim();
+// ── Reserve ──
+async function reserve(key, label) {
+  const name    = document.getElementById('nameInput').value.trim();
   const subject = document.getElementById('subjectSelect').value;
-  if(!name || !subject){ alert("Veuillez remplir tous les champs."); return; }
+  if (!name || !subject) { alert('Veuillez remplir votre nom et choisir une matière.'); return; }
   const students = data[key] || [];
   bookingSlot = key; renderSlots();
   try {
@@ -323,48 +640,98 @@ async function reserve(key, label){
     bookingSlot = null;
     const msg = encodeURIComponent(`Nouvelle réservation\nNom : ${name}\nMatière : ${subject}\nCréneau : ${key}\nDate : ${formatDateFR(selectedDate)}`);
     window.location.href = `sms:0619336183?body=${msg}`;
-  } catch(err) { bookingSlot = null; renderSlots(); alert("Erreur."); }
+  } catch(err) {
+    bookingSlot = null; renderSlots();
+    alert('Erreur lors de la réservation. Veuillez réessayer.');
+  }
 }
 
-document.getElementById('adminBtn').onclick = () => {
-  const pass = prompt('Mot de passe prof');
-  if(pass === ADMIN_PASSWORD){ isAdmin = true; document.getElementById('adminPanel').style.display = 'block'; renderAdminPanel(); }
-};
-
-function renderAdminPanel() {
-  const panel = document.getElementById('adminPanel');
-  panel.innerHTML = `<div class="admin-panel"><div class="admin-header"><div class="admin-title">Espace Professeur</div></div><div class="admin-layout"><div class="admin-cal-col"><div class="admin-glass-cal"><div class="cal-month-row"><div><span id="adminCalMonth"></span> <span id="adminCalYear"></span></div><div class="cal-nav"><button class="cal-nav-btn" id="adminPrev">&#8249;</button><button class="cal-nav-btn" id="adminNext">&#8250;</button></div></div><div class="cal-grid-header" id="adminGridHeader"></div><div class="cal-grid" id="adminGrid"></div></div></div><div class="admin-detail-col" id="adminDetailCol" style="flex:1;"></div></div></div>`;
+// ── Admin ──
+function openAdmin() {
+  const pass = prompt('Mot de passe professeur');
+  if (pass !== ADMIN_PASSWORD) { alert('Mot de passe incorrect'); return; }
+  isAdmin = true;
+  document.getElementById('adminPanel').innerHTML = `
+    <div class="admin-panel">
+      <div class="admin-title-row">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--purple)" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        <span class="admin-title">Espace Professeur</span>
+      </div>
+      <div class="admin-layout">
+        <div>
+          <div class="admin-glass-cal">
+            <div class="cal-month-row">
+              <div style="font-weight:700;font-size:.9rem"><span id="adminCalMonth"></span> <span id="adminCalYear" style="color:var(--muted);font-weight:500"></span></div>
+              <div class="cal-nav">
+                <button class="cal-nav-btn" id="adminPrev">&#8249;</button>
+                <button class="cal-nav-btn" id="adminNext">&#8250;</button>
+              </div>
+            </div>
+            <div class="cal-grid-header" id="adminGridHeader"></div>
+            <div class="cal-grid" id="adminGrid"></div>
+          </div>
+        </div>
+        <div class="admin-detail-col" id="adminDetailCol"></div>
+      </div>
+    </div>`;
   document.getElementById('adminPrev').onclick = () => { adminCurrentMonth=new Date(adminCurrentMonth.getFullYear(),adminCurrentMonth.getMonth()-1,1); renderAdminCal(); renderAdminDetail(); };
   document.getElementById('adminNext').onclick = () => { adminCurrentMonth=new Date(adminCurrentMonth.getFullYear(),adminCurrentMonth.getMonth()+1,1); renderAdminCal(); renderAdminDetail(); };
   renderAdminCal(); renderAdminDetail();
 }
 
-function renderAdminCal() {
-  buildCalGrid(document.getElementById('adminGrid'), document.getElementById('adminGridHeader'), adminCurrentMonth.getFullYear(), adminCurrentMonth.getMonth(), adminSelectedDate, (d) => { adminSelectedDate=d; renderAdminCal(); renderAdminDetail(); }, {admin:true, showDots:true});
+function renderAdminCal(){
+  buildCalGrid(
+    document.getElementById('adminGrid'),
+    document.getElementById('adminGridHeader'),
+    adminCurrentMonth.getFullYear(), adminCurrentMonth.getMonth(),
+    adminSelectedDate,
+    (d) => { adminSelectedDate=d; renderAdminCal(); renderAdminDetail(); },
+    {admin:true, showDots:true}
+  );
   document.getElementById('adminCalMonth').textContent = FR_MONTHS[adminCurrentMonth.getMonth()];
-  document.getElementById('adminCalYear').textContent = adminCurrentMonth.getFullYear();
+  document.getElementById('adminCalYear').textContent  = adminCurrentMonth.getFullYear();
 }
 
-function renderAdminDetail() {
-  const col = document.getElementById('adminDetailCol');
-  const slots = DAY_SLOTS[adminSelectedDate.getDay()]||[];
-  col.innerHTML = `<div style="margin-bottom:15px; font-weight:700;">${formatDateFR(adminSelectedDate)}</div>`;
-  slots.forEach(({label,key})=>{
-    const students = data[key]||[];
+function renderAdminDetail(){
+  const col   = document.getElementById('adminDetailCol');
+  const slots = DAY_SLOTS[adminSelectedDate.getDay()] || [];
+  col.innerHTML = `<div style="font-weight:700;margin-bottom:14px;text-transform:capitalize">${formatDateFR(adminSelectedDate)}</div>`;
+  if (!slots.length) {
+    col.innerHTML += '<div class="admin-empty">Aucun cours ce jour-là.</div>';
+    return;
+  }
+  slots.forEach(({label, key}) => {
+    const students = data[key] || [];
     const block = document.createElement('div');
     block.className = 'admin-slot-block';
-    let rows = students.length===0 ? '<div style="font-size:12px; color:var(--muted); font-style:italic;">Aucun élève</div>' : students.map((s,i)=>`<div class="student-row"><div><b>${s.name}</b> <span style="font-size:11px; color:var(--accent);">(${s.subject})</span></div><button class="remove-btn" onclick="removeStudent('${key}',${i})">Suppr</button></div>`).join('');
-    block.innerHTML=`<div class="admin-slot-title"><span>${label}</span> <span class="admin-slot-badge ${students.length>0?'has-p':''}">${students.length}/${MAX}</span></div>${rows}`;
+    const rows = students.length === 0
+      ? '<div class="admin-empty">Aucun élève inscrit</div>'
+      : students.map((s,i) => `
+          <div class="student-row">
+            <div>
+              <strong>${s.name}</strong>
+              <span style="font-size:.78rem;color:var(--accent);margin-left:6px">(${s.subject})</span>
+            </div>
+            <button class="remove-btn" onclick="removeStudent('${key}',${i})">Retirer</button>
+          </div>`).join('');
+    block.innerHTML = `
+      <div class="admin-slot-title">
+        <span>${label}</span>
+        <span class="admin-slot-badge ${students.length>0?'has-p':''}">${students.length}/${MAX}</span>
+      </div>${rows}`;
     col.appendChild(block);
   });
 }
 
 async function removeStudent(slotKey, index){
-  if(!confirm('Supprimer ?')) return;
+  if (!confirm('Supprimer cet élève ?')) return;
   const newList = [...(data[slotKey]||[])];
   newList.splice(index, 1);
   await slotsRef.child(slotKey).set(newList.length > 0 ? newList : null);
 }
 </script>
+
+<div id="mouse-gradient" aria-hidden="true"></div>
+<script src="./digital-serenity.js"></script>
 </body>
 </html>

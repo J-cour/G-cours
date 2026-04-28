@@ -117,6 +117,20 @@
     .gc-action { display:flex; align-items:center; gap:6px; background:rgba(0,0,0,.28); border:none; color:rgba(255,255,255,.75); font-size:.72rem; font-weight:700; padding:8px 13px; border-radius:9px; cursor:pointer; font-family:'Inter',sans-serif; transition:.2s; letter-spacing:.02em }
     .gc-action:hover { background:rgba(255,255,255,.1) }
 
+    /* Note display & edit */
+    .gc-note-banner { background:rgba(251,191,36,.07); border:1px solid rgba(251,191,36,.18); border-radius:10px; padding:9px 12px; margin-bottom:10px; display:flex; align-items:flex-start; gap:8px }
+    .gc-note-banner-icon { color:rgba(251,191,36,.7); flex-shrink:0; margin-top:1px }
+    .gc-note-banner-text { font-size:.78rem; color:rgba(255,255,255,.75); line-height:1.5; flex:1; white-space:pre-wrap }
+    .gc-note-edit-box { margin-bottom:10px }
+    .gc-note-textarea { width:100%; background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.1); border-radius:10px; padding:9px 12px; color:#fff; font-size:.78rem; font-family:'Inter',sans-serif; resize:none; line-height:1.5; outline:none; box-sizing:border-box; transition:.2s }
+    .gc-note-textarea:focus { border-color:rgba(251,191,36,.4); background:rgba(255,255,255,.06) }
+    .gc-note-textarea::placeholder { color:rgba(255,255,255,.25) }
+    .gc-note-btns { display:flex; gap:6px; margin-top:6px }
+    .gc-note-save { background:rgba(251,191,36,.15); border:1px solid rgba(251,191,36,.3); color:rgba(251,191,36,.95); cursor:pointer; font-size:.72rem; font-weight:700; padding:5px 13px; border-radius:7px; font-family:'Inter',sans-serif; transition:.2s }
+    .gc-note-save:hover { background:rgba(251,191,36,.28) }
+    .gc-note-cancel { background:none; border:1px solid rgba(255,255,255,.1); color:rgba(255,255,255,.4); cursor:pointer; font-size:.72rem; padding:5px 13px; border-radius:7px; font-family:'Inter',sans-serif; transition:.2s }
+    .gc-note-cancel:hover { color:rgba(255,255,255,.7) }
+
     /* ═══════════════════════════
        RIGHT COLUMN
     ═══════════════════════════ */
@@ -314,10 +328,7 @@
   <div class="glass-cal">
 
     <div class="gc-header">
-      <div class="gc-tabs">
-        <button class="gc-tab active">Mensuel</button>
-        <button class="gc-tab">Hebdo</button>
-      </div>
+      <span style="font-size:.72rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:rgba(255,255,255,.38)">Calendrier</span>
       <button class="gc-settings" onclick="openAdmin()" title="Accès Professeur" aria-label="Accès Professeur">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
       </button>
@@ -337,16 +348,25 @@
     <div class="gc-grid-head" id="calGridHeader"></div>
     <div class="gc-grid" id="calGrid"></div>
 
+    <div id="noteDisplay" style="display:none" class="gc-note-banner">
+      <svg class="gc-note-banner-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+      <span id="noteText" class="gc-note-banner-text"></span>
+    </div>
+
+    <div id="noteEditBox" style="display:none" class="gc-note-edit-box">
+      <textarea id="noteTextarea" class="gc-note-textarea" rows="3" placeholder="Message pour les élèves…"></textarea>
+      <div class="gc-note-btns">
+        <button class="gc-note-save" onclick="saveNote()">Enregistrer</button>
+        <button class="gc-note-cancel" onclick="cancelNoteEdit()">Annuler</button>
+      </div>
+    </div>
+
     <div class="gc-divider"></div>
 
-    <div class="gc-footer">
-      <button class="gc-note" aria-label="Ajouter une note">
+    <div class="gc-footer" id="gcFooter">
+      <button class="gc-note" onclick="openNoteEdit()" id="noteBtn" aria-label="Ajouter une note">
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-        Ajouter une note…
-      </button>
-      <button class="gc-action">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-        Nouveau cours
+        <span id="noteBtnLabel">Ajouter une note…</span>
       </button>
     </div>
   </div>
@@ -481,6 +501,7 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 const slotsRef = db.ref("slots");
+const noteRef  = db.ref("note");
 
 const FR_MONTHS      = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
 const FR_MONTHS_LONG = ['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
@@ -500,6 +521,21 @@ const ADMIN_PASSWORD = atob('MjgwNQ==');
 
 let data = {};
 ALL_SLOT_KEYS.forEach(k => data[k] = []);
+let currentNote = '';
+
+noteRef.on('value', snap => {
+  currentNote = snap.val() || '';
+  const display = document.getElementById('noteDisplay');
+  const text    = document.getElementById('noteText');
+  const btnLbl  = document.getElementById('noteBtnLabel');
+  if (currentNote) {
+    display.style.display = 'flex';
+    text.textContent = currentNote;
+  } else {
+    display.style.display = 'none';
+  }
+  if (btnLbl) btnLbl.textContent = currentNote ? 'Modifier la note…' : 'Ajouter une note…';
+});
 let today = new Date(); today.setHours(0,0,0,0);
 let selectedDate    = new Date(today);
 let currentMonth    = new Date(today.getFullYear(), today.getMonth(), 1);
@@ -645,6 +681,28 @@ async function reserve(key, label) {
     bookingSlot = null; renderSlots();
     alert('Erreur lors de la réservation. Veuillez réessayer.');
   }
+}
+
+// ── Note ──
+function openNoteEdit() {
+  const pass = prompt('Mot de passe professeur');
+  if (pass !== ADMIN_PASSWORD) { if (pass !== null) alert('Mot de passe incorrect'); return; }
+  document.getElementById('noteTextarea').value = currentNote;
+  document.getElementById('noteEditBox').style.display = 'block';
+  document.getElementById('gcFooter').style.display = 'none';
+  document.getElementById('noteDisplay').style.display = 'none';
+  document.getElementById('noteTextarea').focus();
+}
+
+async function saveNote() {
+  const text = document.getElementById('noteTextarea').value.trim();
+  await noteRef.set(text || null);
+  cancelNoteEdit();
+}
+
+function cancelNoteEdit() {
+  document.getElementById('noteEditBox').style.display = 'none';
+  document.getElementById('gcFooter').style.display = 'flex';
 }
 
 // ── Admin ──

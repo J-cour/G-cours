@@ -66,7 +66,9 @@
 
     /* ABOUT SECTION */
     .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:32px}
-    .about-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:28px}
+    .about-grid{perspective:1200px}
+    .about-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:28px;transform-style:preserve-3d;will-change:transform;transition:transform .12s ease-out,box-shadow .12s ease-out;position:relative;overflow:hidden}
+    .about-card::after{content:'';position:absolute;inset:0;border-radius:inherit;background:linear-gradient(135deg,rgba(255,255,255,.08) 0%,transparent 55%);opacity:var(--shine-op,0);transition:opacity .12s;pointer-events:none}
     .about-card .ac-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:16px}
     .ic-b{background:rgba(56,189,248,.12);color:var(--accent)}
     .ic-p{background:rgba(129,140,248,.12);color:var(--purple)}
@@ -465,5 +467,22 @@ loadAvis();
 </script>
 <div id="mouse-gradient" aria-hidden="true"></div>
 <script src="./digital-serenity.js"></script>
+<script>
+document.querySelectorAll('.about-card').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const r = card.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width  - 0.5;
+    const y = (e.clientY - r.top)  / r.height - 0.5;
+    card.style.transform = `perspective(700px) rotateY(${x*14}deg) rotateX(${-y*14}deg) scale(1.03)`;
+    card.style.boxShadow = `${-x*18}px ${-y*18}px 36px rgba(0,0,0,.35), 0 0 0 1px rgba(255,255,255,.1)`;
+    card.style.setProperty('--shine-op','1');
+  });
+  card.addEventListener('mouseleave', () => {
+    card.style.transform = '';
+    card.style.boxShadow = '';
+    card.style.setProperty('--shine-op','0');
+  });
+});
+</script>
 </body>
 </html>

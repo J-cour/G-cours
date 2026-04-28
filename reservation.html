@@ -486,22 +486,21 @@ function toggleNav() {
 </script>
 
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 
 <script>
 const firebaseConfig = {
   apiKey: "AIzaSyCDJRbeW9KWrLzuI3v2kBUDulKcb3REKy8",
   authDomain: "reservation-cour.firebaseapp.com",
-  databaseURL: "https://reservation-cour-default-rtdb.firebaseio.com",
   projectId: "reservation-cour",
   storageBucket: "reservation-cour.firebasestorage.app",
   messagingSenderId: "156100724990",
   appId: "1:156100724990:web:c77c49e487d1d519a5fdaf"
 };
 firebase.initializeApp(firebaseConfig);
-const db = firebase.database();
-const slotsRef = db.ref("slots");
-const noteRef  = db.ref("note");
+const db = firebase.firestore();
+const slotsCol = db.collection("slots");
+const noteDoc  = db.collection("config").doc("note");
 
 const FR_MONTHS      = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
 const FR_MONTHS_LONG = ['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
@@ -523,8 +522,8 @@ let data = {};
 ALL_SLOT_KEYS.forEach(k => data[k] = []);
 let currentNote = '';
 
-noteRef.on('value', snap => {
-  currentNote = snap.val() || '';
+noteDoc.onSnapshot(snap => {
+  currentNote = (snap.exists && snap.data().text) || '';
   const display = document.getElementById('noteDisplay');
   const text    = document.getElementById('noteText');
   const btnLbl  = document.getElementById('noteBtnLabel');
@@ -545,13 +544,14 @@ let adminSelectedDate  = new Date(today);
 let adminCurrentMonth  = new Date(today.getFullYear(), today.getMonth(), 1);
 
 // ── Real-time listener ──
-slotsRef.on('value', (snapshot) => {
-  const raw = snapshot.val() || {};
-  ALL_SLOT_KEYS.forEach(k => {
-    const val = raw[k];
-    if (!val) data[k] = [];
-    else if (Array.isArray(val)) data[k] = val.filter(Boolean);
-    else data[k] = Object.values(val).filter(Boolean);
+slotsCol.onSnapshot((snapshot) => {
+  ALL_SLOT_KEYS.forEach(k => data[k] = []);
+  snapshot.forEach(doc => {
+    const key = doc.id;
+    const val = doc.data().students;
+    if (ALL_SLOT_KEYS.includes(key)) {
+      data[key] = Array.isArray(val) ? val.filter(Boolean) : [];
+    }
   });
   document.getElementById('loadingOverlay').style.display = 'none';
   renderCalendar();
@@ -673,7 +673,7 @@ async function reserve(key, label) {
   const students = data[key] || [];
   bookingSlot = key; renderSlots();
   try {
-    await slotsRef.child(key).set([...students, {name, subject}]);
+    await slotsCol.doc(key).set({ students: [...students, {name, subject}] });
     bookingSlot = null;
     const msg = encodeURIComponent(`Nouvelle réservation\nNom : ${name}\nMatière : ${subject}\nCréneau : ${key}\nDate : ${formatDateFR(selectedDate)}`);
     window.location.href = `sms:0619336183?body=${msg}`;
@@ -696,7 +696,7 @@ function openNoteEdit() {
 
 async function saveNote() {
   const text = document.getElementById('noteTextarea').value.trim();
-  await noteRef.set(text || null);
+  await noteDoc.set({ text: text || '' });
   cancelNoteEdit();
 }
 
@@ -796,7 +796,7 @@ async function removeStudent(slotKey, index){
   if (!confirm('Supprimer cet élève ?')) return;
   const newList = [...(data[slotKey]||[])];
   newList.splice(index, 1);
-  await slotsRef.child(slotKey).set(newList.length > 0 ? newList : null);
+  await slotsCol.doc(slotKey).set({ students: newList });
 }
 </script>
 

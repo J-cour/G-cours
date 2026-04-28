@@ -1,373 +1,505 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta name="google-site-verification" content="QyuGZszlrYeU3dKPc9lI0I1Gy2Zs4uNvdPlwDJILLsc" />
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: system-ui, sans-serif; background: linear-gradient(135deg, #060f1e 0%, #0a1628 50%, #0d2244 100%); min-height: 100vh; color: white; }
+.hero { text-align: center; padding: 36px 20px 24px; }
+.hero-tag { font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.35); margin-bottom: 8px; }
+.hero-title { font-size: clamp(24px, 5vw, 36px); font-weight: 700; letter-spacing: -0.02em; margin-bottom: 6px; }
+.hero-sub { font-size: 13px; color: rgba(255,255,255,0.45); }
+.section { padding: 12px 20px 60px; max-width: 1000px; margin: 0 auto; }
+.slots-caption { text-align: center; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-bottom: 24px; }
+.inputs-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-bottom: 28px; }
+.glass-input { width: 100%; max-width: 280px; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; padding: 11px 15px; font-size: 13px; color: white; font-family: inherit; outline: none; transition: all 0.2s; -webkit-appearance: none; }
+.glass-input::placeholder { color: rgba(255,255,255,0.3); }
+.glass-input:focus { border-color: rgba(96,165,250,0.5); background: rgba(255,255,255,0.1); }
+.glass-input option { background: #0d2244; color: white; }
+.main-layout { display: flex; flex-direction: column; gap: 20px; }
+@media(min-width: 760px) { .main-layout { flex-direction: row; align-items: flex-start; } .calendar-col { flex-shrink: 0; } .slots-col { flex: 1; } }
 
-  <title>Réservation de cours en ligne – Maths, SC.Physique, Anglais | G-Cours</title>
+/* CALENDAR */
+.glass-calendar { width: 310px; max-width: 100%; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); border-radius: 22px; padding: 18px; align-self: center; }
+.cal-month-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+.cal-month-name { font-size: 20px; font-weight: 700; }
+.cal-year { font-size: 13px; color: rgba(255,255,255,0.45); margin-left: 6px; }
+.cal-nav { display: flex; gap: 6px; }
+.cal-nav-btn { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: white; cursor: pointer; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; font-size: 16px; transition: background 0.2s; }
+.cal-nav-btn:hover { background: rgba(255,255,255,0.15); }
+.cal-grid-header { display: grid; grid-template-columns: repeat(7, 1fr); margin-bottom: 8px; }
+.cal-grid-header span { text-align: center; font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.4); padding: 4px 0; }
+.cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; }
+.cal-cell { display: flex; align-items: center; justify-content: center; }
+.cal-day-btn { width: 34px; height: 34px; border-radius: 50%; border: none; background: none; color: white; font-size: 12px; font-weight: 500; cursor: pointer; position: relative; transition: background 0.15s; font-family: inherit; }
+.cal-day-btn:hover:not(.selected):not(.disabled) { background: rgba(255,255,255,0.12); }
+.cal-day-btn.selected { background: linear-gradient(135deg, #3b82f6, #1d4ed8); box-shadow: 0 4px 12px rgba(29,78,216,0.4); font-weight: 700; }
+.cal-day-btn.today:not(.selected) { border: 1.5px solid rgba(96,165,250,0.6); }
+.cal-day-btn.disabled { color: rgba(255,255,255,0.2); cursor: default; }
+.cal-day-btn.no-course { color: rgba(255,255,255,0.2); cursor: default; }
+.cal-legend { display: flex; gap: 16px; margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.08); }
+.cal-legend-item { display: flex; align-items: center; gap: 5px; font-size: 10px; color: rgba(255,255,255,0.4); }
+.leg-dot { width: 8px; height: 8px; border-radius: 50%; }
 
-  <meta name="description" content="Plateforme de réservation de cours en ligne en maths, anglais et physique. Choisissez un créneau disponible et réservez facilement avec G-Cours.">
+/* SLOTS */
+.date-header { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; padding: 13px 16px; margin-bottom: 12px; }
+.date-header-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.15em; color: rgba(255,255,255,0.3); }
+.date-header-value { font-size: 15px; font-weight: 600; text-transform: capitalize; margin-top: 3px; }
+.slot-card { display: flex; align-items: center; justify-content: space-between; gap: 12px; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; padding: 13px 16px; margin-bottom: 10px; transition: all 0.2s; }
+.slot-card:hover:not(.full) { border-color: rgba(96,165,250,0.4); background: rgba(59,130,246,0.08); }
+.slot-card.full { opacity: 0.45; }
+.slot-time { font-weight: 600; font-size: 14px; }
+.slot-count { font-size: 11px; color: rgba(255,255,255,0.4); margin-top: 2px; }
+.progress-bar { height: 3px; width: 100%; background: rgba(255,255,255,0.1); border-radius: 9999px; overflow: hidden; margin-top: 7px; }
+.progress-fill { height: 100%; border-radius: 9999px; background: linear-gradient(90deg, #60a5fa, #3b82f6); transition: width 0.4s; }
+.reserve-btn { flex-shrink: 0; background: linear-gradient(135deg, #3b82f6, #1d4ed8); border: none; border-radius: 9999px; padding: 8px 16px; font-size: 12px; font-weight: 700; color: white; cursor: pointer; font-family: inherit; box-shadow: 0 4px 14px rgba(29,78,216,0.3); transition: all 0.2s; }
+.reserve-btn:hover:not(:disabled) { background: linear-gradient(135deg, #60a5fa, #2563eb); transform: translateY(-1px); }
+.reserve-btn:disabled { background: rgba(255,255,255,0.1); box-shadow: none; cursor: not-allowed; opacity: 0.5; transform: none; }
+.no-slots { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; padding: 32px 20px; text-align: center; }
+.no-slots p { color: rgba(255,255,255,0.45); font-size: 14px; }
+.no-slots small { color: rgba(255,255,255,0.25); font-size: 12px; margin-top: 6px; display: block; }
+.message { margin-top: 12px; border-radius: 12px; padding: 11px 14px; font-size: 13px; font-weight: 500; border: 1px solid; }
+.message.success { background: rgba(16,185,129,0.1); border-color: rgba(16,185,129,0.25); color: #6ee7b7; }
+.message.error { background: rgba(239,68,68,0.1); border-color: rgba(239,68,68,0.25); color: #fca5a5; }
+.admin-btn { display: block; margin: 32px auto 0; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 9999px; padding: 7px 20px; font-size: 12px; color: rgba(255,255,255,0.4); cursor: pointer; font-family: inherit; transition: all 0.2s; }
+.admin-btn:hover { border-color: rgba(255,255,255,0.2); color: rgba(255,255,255,0.7); }
 
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "EducationalOrganization",
-    "name": "J-Cours",
-    "description": "Plateforme de réservation de cours en ligne en maths, anglais et physique.",
-    "url": "https://j-cour.github.io/reservation/"
-  }
-  </script>
+/* ADMIN PANEL */
+.admin-panel { margin-top: 28px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.12); border-radius: 24px; padding: 24px; }
+.admin-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 22px; flex-wrap: wrap; gap: 12px; }
+.admin-title { font-size: 17px; font-weight: 700; }
+.admin-subtitle { font-size: 12px; color: rgba(255,255,255,0.4); margin-top: 2px; }
+.admin-layout { display: flex; flex-direction: column; gap: 20px; }
+@media(min-width: 700px) { .admin-layout { flex-direction: row; align-items: flex-start; } .admin-cal-col { flex-shrink: 0; } .admin-detail-col { flex: 1; } }
+.admin-glass-cal { width: 290px; max-width: 100%; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 18px; padding: 16px; }
+.admin-cal-grid-header { display: grid; grid-template-columns: repeat(7, 1fr); margin-bottom: 6px; }
+.admin-cal-grid-header span { text-align: center; font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.4); padding: 3px 0; }
+.admin-cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; }
+.admin-day-btn { width: 32px; height: 32px; border-radius: 50%; border: none; background: none; color: white; font-size: 12px; font-weight: 500; cursor: pointer; transition: background 0.15s; font-family: inherit; position: relative; }
+.admin-day-btn:hover:not(.selected):not(.no-course) { background: rgba(255,255,255,0.1); }
+.admin-day-btn.selected { background: linear-gradient(135deg, #ec4899, #f97316); box-shadow: 0 3px 10px rgba(236,72,153,0.35); font-weight: 700; }
+.admin-day-btn.today:not(.selected) { border: 1.5px solid rgba(96,165,250,0.5); }
+.admin-day-btn.no-course { color: rgba(255,255,255,0.18); cursor: default; }
+.admin-day-btn.has-students::after { content: ''; position: absolute; bottom: 3px; left: 50%; transform: translateX(-50%); width: 4px; height: 4px; border-radius: 50%; background: #34d399; }
+.admin-day-btn.selected.has-students::after { background: white; }
 
-  <style>
-:root {
-  --bleu-marine: #0a1f3d;
-  --bleu-marine-clair: #1a3a5f;
-  --gris-fer: #6b7280;
-  --gris-clair: #e5e7eb;
-  --blanc: #ffffff;
-  --accent: #3b82f6;
-  --radius: 14px;
-  --shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-}
+/* Detail panel */
+.admin-detail-col { min-width: 0; }
+.admin-date-title { font-size: 14px; font-weight: 600; text-transform: capitalize; margin-bottom: 14px; color: rgba(255,255,255,0.8); }
+.admin-slot-block { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; padding: 14px 16px; margin-bottom: 10px; }
+.admin-slot-title { font-size: 13px; font-weight: 700; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; }
+.admin-slot-badge { font-size: 11px; font-weight: 600; background: rgba(255,255,255,0.08); border-radius: 9999px; padding: 2px 9px; color: rgba(255,255,255,0.5); }
+.admin-slot-badge.has-p { background: rgba(52,211,153,0.15); color: #34d399; }
+.student-row { display: flex; align-items: center; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.06); }
+.student-row:last-child { border-bottom: none; }
+.student-name { font-size: 13px; font-weight: 500; }
+.student-subj { font-size: 11px; color: rgba(96,165,250,0.8); margin-top: 1px; }
+.remove-btn { background: rgba(248,113,113,0.1); border: 1px solid rgba(248,113,113,0.2); color: rgba(248,113,113,0.7); cursor: pointer; font-size: 11px; padding: 3px 8px; border-radius: 6px; font-family: inherit; transition: all 0.2s; }
+.remove-btn:hover { background: rgba(248,113,113,0.2); color: #fca5a5; }
+.empty-row { font-size: 12px; color: rgba(255,255,255,0.25); font-style: italic; padding: 6px 0; }
+.no-course-msg { text-align: center; padding: 30px; color: rgba(255,255,255,0.3); font-size: 13px; }
 
-* { box-sizing: border-box; } 
+/* Loading overlay */
+.loading-overlay { position: fixed; inset: 0; background: rgba(6,15,30,0.85); display: flex; align-items: center; justify-content: center; z-index: 999; flex-direction: column; gap: 14px; }
+.loading-overlay p { font-size: 13px; color: rgba(255,255,255,0.5); }
 
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  background: var(--gris-clair);
-  color: var(--bleu-marine);
-}
-
-/* NAV */
-nav {
-  background: var(--bleu-marine);
-  padding: 20px 0;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-}
-
-.nav-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.logo {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--blanc);
-  text-decoration: none;
-}
-
-.logo span {
-  color: var(--accent);
-}
-
-.menu {
-  display: flex;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  gap: 35px;
-}
-
-.menu li a {
-  color: var(--blanc);
-  text-decoration: none;
-  font-weight: 500;
-  transition: color 0.3s ease;
-  font-size: 1rem;
-}
-
-.menu li a:hover,
-.menu li a.active {
-  color: var(--accent);
-}
-
-/* LE RESTE EST STRICTEMENT IDENTIQUE */
-
-h1 {
-  font-size: 2.2rem;
-  font-weight: 800;
-  text-align: center;
-}
-
-p { text-align: center; color: var(--gris-fer); }
-
-.container {
-  max-width: 900px;
-  margin: auto;
-  padding: 20px;
-}
-
-input, select {
-  padding: 14px 16px;
-  width: 100%;
-  margin: 12px 0;
-  border-radius: var(--radius);
-  border: 1.5px solid var(--gris-fer);
-  background: var(--blanc);
-  color: var(--bleu-marine);
-}
-
-.slot {
-  background: var(--blanc);
-  padding: 18px 20px;
-  margin: 14px 0;
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  display: flex;
-  justify-content: space-between;
-  border-left: 6px solid var(--accent);
-}
-
-.full { opacity: 0.6; }
-
-button {
-  padding: 10px 18px;
-  border: none;
-  border-radius: 999px;
-  cursor: pointer;
-  background: var(--bleu-marine);
-  color: var(--blanc);
-  font-weight: 600;
-}
-
-button:hover {
-  background: var(--accent);
-  color: var(--blanc);
-}
-
-button:disabled {
-  background: var(--gris-fer);
-  color: var(--blanc);
-}
-
-#admin {
-  margin-top: 40px;
-  background: var(--blanc);
-  padding: 25px;
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
-}
-
-th {
-  background: var(--bleu-marine);
-  color: var(--blanc);
-  padding: 14px;
-}
-
-td {
-  border-bottom: 1px solid var(--gris-clair);
-  padding: 12px;
-  text-align: center;
-}
-
-@media (max-width: 768px) {
-  .nav-container {
-    flex-direction: column;
-    gap: 20px;
-  }
-  
-  .menu {
-    gap: 20px;
-  }
-}
-  </style>
-    <link rel="icon" type="image/png" href="favicon.png">
+.spinner { display: inline-block; width: 13px; height: 13px; border: 2px solid rgba(255,255,255,0.2); border-top-color: white; border-radius: 50%; animation: spin 0.6s linear infinite; vertical-align: middle; }
+.spinner-lg { width: 32px; height: 32px; border-width: 3px; }
+@keyframes spin { to { transform: rotate(360deg); } }
+</style>
 </head>
-
 <body>
 
-<nav>
-  <div class="nav-container">
-    <a href="./index.html" class="logo">G-<span>Cours</span></a>
-    <ul class="menu">
-      <li><a href="index.html">Accueil</a></li>
-      <li><a href="reservation.html" class="active">Réservation</a></li>
-      <li><a href="a-propos.html">À propos</a></li>
-      <li><a href="Tarifs.html">Tarifs</a></li>
-    </ul>
-  </div>
-</nav>
+<!-- Loading overlay -->
 
-<div class="container">
 
-  <h1>Réservation de cours en ligne – Maths, SC.Physique, Anglais</h1>
-
-  <p>7 places maximum par créneau</p>
-
-  <p>
-    Cette plateforme permet de réserver des cours en ligne en maths, Physique et Anglais
-    Les élèves choisissent un créneau disponible et s'inscrivent facilement.
-    Chaque créneau est limité à 7 places afin de garantir un suivi de qualité.
-  </p>
-
-  <input id="name" placeholder="Prénom et nom de l'élève" />
-
-  <select id="subject">
-    <option value="">Choisir la matière</option>
-    <option value="Maths">Maths</option>
-    <option value="Anglais">Anglais</option>
-    <option value="Physique">Physique</option>
-  </select>
-
-  <div id="slots"></div>
-
-  <div style="text-align:center;margin-top:20px;">
-    <button onclick="openAdmin()">Accès Prof</button>
-  </div>
-
-  <div id="admin"></div>
+<div class="hero">
+  <p class="hero-tag">Cours particuliers · G-Cours</p>
+  <h1 class="hero-title">Réservation de cours</h1>
+  <p class="hero-sub">Choisissez votre créneau et réservez en ligne</p>
 </div>
 
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+<div class="section">
+  <p class="slots-caption">7 places maximum par créneau · Maths · Physique · Anglais</p>
 
+  <div class="inputs-row">
+    <input id="nameInput" class="glass-input" type="text" placeholder="Prénom et nom de l'élève" />
+    <select id="subjectSelect" class="glass-input">
+      <option value="">Choisir la matière</option>
+      <option value="Maths">Maths</option>
+      <option value="Anglais">Anglais</option>
+      <option value="Physique">Physique</option>
+    </select>
+  </div>
+
+  <div class="main-layout">
+    <div class="calendar-col">
+      <div class="glass-calendar">
+        <div class="cal-month-row">
+          <div><span class="cal-month-name" id="calMonthName"></span><span class="cal-year" id="calYear"></span></div>
+          <div class="cal-nav">
+            <button class="cal-nav-btn" id="prevMonth">&#8249;</button>
+            <button class="cal-nav-btn" id="nextMonth">&#8250;</button>
+          </div>
+        </div>
+        <div class="cal-grid-header" id="calGridHeader"></div>
+        <div class="cal-grid" id="calGrid"></div>
+        <div class="cal-legend">
+          <div class="cal-legend-item"><div class="leg-dot" style="background:#3b82f6"></div> Cours dispo</div>
+          <div class="cal-legend-item"><div class="leg-dot" style="background:rgba(255,255,255,0.15)"></div> Pas de cours</div>
+        </div>
+      </div>
+    </div>
+    <div class="slots-col">
+      <div class="date-header">
+        <p class="date-header-label">Créneaux disponibles</p>
+        <p class="date-header-value" id="dateLabel"></p>
+      </div>
+      <div id="slotsContainer"></div>
+      <div id="messageBox" style="display:none"></div>
+    </div>
+  </div>
+
+  <button class="admin-btn" id="adminBtn">Accès Prof</button>
+  <div id="adminPanel" style="display:none"></div>
+</div>
+
+<!-- Firebase SDK (compat version = pas besoin d'import/export) -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+
+<script>
+// ════════════════════════════════════════════
+//  FIREBASE CONFIG
+// ════════════════════════════════════════════
 const firebaseConfig = {
   apiKey: "AIzaSyCDJRbeW9KWrLzuI3v2kBUDulKcb3REKy8",
   authDomain: "reservation-cour.firebaseapp.com",
+  databaseURL: "https://reservation-cour-default-rtdb.firebaseio.com",
   projectId: "reservation-cour",
+  storageBucket: "reservation-cour.firebasestorage.app",
+  messagingSenderId: "156100724990",
+  appId: "1:156100724990:web:c77c49e487d1d519a5fdaf"
 };
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+const slotsRef = db.ref("slots");
 
-const slots = [
-  "Lundi 17-19","Lundi 19-21",
-  "Mardi 17-19","Mardi 19-21",
-  "Jeudi 17-19","Jeudi 19-21",
-  "Mercredi 14-16","Mercredi 16-17",
-  "Dimanche 9-11","Dimanche 11-13"
-];
+// ════════════════════════════════════════════
+//  CONSTANTES
+// ════════════════════════════════════════════
+const FR_MONTHS      = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+const FR_MONTHS_LONG = ['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
+const FR_DAYS_LONG   = ['dimanche','lundi','mardi','mercredi','jeudi','vendredi','samedi'];
 
-const MAX = 7;
-const P = atob("MjgwNQ==");
+const DAY_SLOTS = {
+  0: [{label:'9h00 – 11h00',  key:'Dimanche_9-11'},  {label:'11h00 – 13h00', key:'Dimanche_11-13'}],
+  1: [{label:'17h00 – 19h00', key:'Lundi_17-19'},    {label:'19h00 – 21h00', key:'Lundi_19-21'}],
+  2: [{label:'17h00 – 19h00', key:'Mardi_17-19'},    {label:'19h00 – 21h00', key:'Mardi_19-21'}],
+  3: [{label:'14h00 – 16h00', key:'Mercredi_14-16'}, {label:'16h00 – 17h00', key:'Mercredi_16-17'}],
+  4: [{label:'17h00 – 19h00', key:'Jeudi_17-19'},    {label:'19h00 – 21h00', key:'Jeudi_19-21'}],
+};
+const COURSE_DAYS    = new Set([0,1,2,3,4]);
+const ALL_SLOT_KEYS  = ['Dimanche_9-11','Dimanche_11-13','Lundi_17-19','Lundi_19-21','Mardi_17-19','Mardi_19-21','Mercredi_14-16','Mercredi_16-17','Jeudi_17-19','Jeudi_19-21'];
+const MAX            = 7;
+const ADMIN_PASSWORD = atob('MjgwNQ==');
 
+// ════════════════════════════════════════════
+//  ÉTAT LOCAL (miroir de Firebase)
+// ════════════════════════════════════════════
 let data = {};
-let isAdmin = false;
+ALL_SLOT_KEYS.forEach(k => data[k] = []);
 
-async function loadData(){
-  for(const slot of slots){
-    const snap = await getDoc(doc(db,"reservations",slot));
-    data[slot] = snap.exists() ? snap.data().students : [];
-  }
-  render();
-}
+let today = new Date(); today.setHours(0,0,0,0);
+let selectedDate     = new Date(today);
+let currentMonth     = new Date(today.getFullYear(), today.getMonth(), 1);
+let isAdmin          = false;
+let bookingSlot      = null;
+let adminSelectedDate  = new Date(today);
+let adminCurrentMonth  = new Date(today.getFullYear(), today.getMonth(), 1);
 
-async function saveSlot(slot){
-  await setDoc(doc(db,"reservations",slot),{
-    students: data[slot]
-  });
-}
-
-window.openAdmin = function(){
-  const pass = prompt("Mot de passe prof");
-  if (pass !== P) return alert("Mot de passe incorrect");
-
-  isAdmin = true;
-  document.getElementById("admin").innerHTML = `
-    <h2>Emploi du temps (Prof)</h2>
-    <table>
-      <thead>
-        <tr><th>Créneau</th><th>Élèves inscrits</th></tr>
-      </thead>
-      <tbody id="adminTable"></tbody>
-    </table>
-  `;
-  render();
-};
-
-function render(){
-  const slotsDiv = document.getElementById("slots");
-  slotsDiv.innerHTML = "";
-
-  const adminTable = document.getElementById("adminTable");
-  if(adminTable) adminTable.innerHTML = "";
-
-  slots.forEach(slot=>{
-    const count = data[slot].length;
-
-    const div = document.createElement("div");
-    div.className = "slot"+(count>=MAX?" full":"");
-
-    div.innerHTML =
-      `<strong>${slot}</strong>` +
-      (isAdmin ? `<br>${count}/${MAX} places` : ``);
-
-    const btn = document.createElement("button");
-    btn.textContent = "Réserver";
-    btn.disabled = count>=MAX;
-    btn.onclick = ()=>reserve(slot);
-
-    div.appendChild(btn);
-    slotsDiv.appendChild(div);
-
-    if(isAdmin && adminTable){
-      const tr = document.createElement("tr");
-      tr.innerHTML = `
-        <td>${slot}</td>
-        <td>
-          ${data[slot].map((s,i)=>
-            `${s.name} (${s.subject})
-            <button onclick="removeStudent('${slot}',${i})">❌</button>`
-          ).join("<br>")}
-        </td>
-      `;
-      adminTable.appendChild(tr);
+// ════════════════════════════════════════════
+//  CHARGEMENT EN TEMPS RÉEL (onValue)
+// ════════════════════════════════════════════
+slotsRef.on('value', (snapshot) => {
+  const raw = snapshot.val() || {};
+  // On recopie dans data en s'assurant que chaque clé est un tableau
+  ALL_SLOT_KEYS.forEach(k => {
+    const val = raw[k];
+    if (!val) {
+      data[k] = [];
+    } else if (Array.isArray(val)) {
+      data[k] = val.filter(Boolean); // retire les nulls éventuels
+    } else {
+      // Firebase stocke les tableaux comme des objets si des éléments ont été supprimés
+      data[k] = Object.values(val).filter(Boolean);
     }
   });
+
+  // Masquer l'overlay de chargement
+  document.getElementById('loadingOverlay').style.display = 'none';
+
+  // Rafraîchir l'UI
+  renderCalendar();
+  renderSlots();
+  if (isAdmin) { renderAdminCal(); renderAdminDetail(); }
+});
+
+// ════════════════════════════════════════════
+//  HELPERS
+// ════════════════════════════════════════════
+function sameDay(a,b){ return a.getFullYear()===b.getFullYear()&&a.getMonth()===b.getMonth()&&a.getDate()===b.getDate(); }
+function formatDateFR(d){ return `${FR_DAYS_LONG[d.getDay()]} ${d.getDate()} ${FR_MONTHS_LONG[d.getMonth()]} ${d.getFullYear()}`; }
+function dayHasStudents(date){
+  const slots = DAY_SLOTS[date.getDay()] || [];
+  return slots.some(({key}) => (data[key]||[]).length > 0);
 }
 
-async function reserve(slot){
-  const name = document.getElementById("name").value.trim();
-  const subject = document.getElementById("subject").value;
+// ════════════════════════════════════════════
+//  CALENDRIER ÉLÈVE
+// ════════════════════════════════════════════
+function buildCalGrid(gridEl, headerEl, year, month, selectedD, onDayClick, opts={}) {
+  headerEl.innerHTML = '';
+  ['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'].forEach(d => {
+    const s = document.createElement('span'); s.textContent = d; headerEl.appendChild(s);
+  });
+  gridEl.innerHTML = '';
+  const firstDay    = new Date(year, month, 1);
+  const startOffset = (firstDay.getDay() + 6) % 7;
+  const daysInMonth = new Date(year, month+1, 0).getDate();
+  for(let i=0;i<startOffset;i++){const c=document.createElement('div');c.style.width='34px';c.style.height='34px';gridEl.appendChild(c);}
+  for(let d=1;d<=daysInMonth;d++){
+    const date = new Date(year, month, d);
+    const dow  = date.getDay();
+    const isPast      = date < today;
+    const isToday     = sameDay(date, today);
+    const isSel       = sameDay(date, selectedD);
+    const hasCourse   = COURSE_DAYS.has(dow);
+    const hasStudents = opts.showDots && dayHasStudents(date);
 
-  if(!name) return alert("Entre ton prénom");
-  if(!subject) return alert("Choisis une matière");
-
-  const alreadyBooked = data[slot].some(
-    s => s.name.toLowerCase() === name.toLowerCase()
-  );
-
-  if(alreadyBooked){
-    return alert("Tu es déjà inscrit sur ce créneau.");
+    const cell = document.createElement('div');
+    cell.style.display='flex';cell.style.alignItems='center';cell.style.justifyContent='center';
+    const btn = document.createElement('button');
+    btn.className = (opts.admin ? 'admin-day-btn' : 'cal-day-btn');
+    let cls = btn.className;
+    if(isSel) cls+=' selected';
+    else if(isToday) cls+=' today';
+    if(!hasCourse) cls+=' no-course disabled';
+    else if(!opts.admin && isPast) cls+=' disabled';
+    if(hasStudents) cls+=' has-students';
+    btn.className = cls;
+    btn.textContent = d;
+    if(hasCourse && (opts.admin || !isPast)){
+      btn.onclick = () => onDayClick(new Date(year, month, d));
+    } else {
+      btn.disabled = true;
+    }
+    cell.appendChild(btn);
+    gridEl.appendChild(cell);
   }
+}
 
-  data[slot].push({ name, subject });
-  await saveSlot(slot);
-  render();
-
-  const message = encodeURIComponent(
-    `Bonjour,\nNouvelle réservation G-Cours\n\nNom : ${name}\nMatière : ${subject}\nCréneau : ${slot}`
+function renderCalendar() {
+  const year = currentMonth.getFullYear(), month = currentMonth.getMonth();
+  document.getElementById('calMonthName').textContent = FR_MONTHS[month];
+  document.getElementById('calYear').textContent = year;
+  buildCalGrid(
+    document.getElementById('calGrid'),
+    document.getElementById('calGridHeader'),
+    year, month, selectedDate,
+    (d) => { selectedDate = d; renderCalendar(); renderSlots(); }
   );
+}
+document.getElementById('prevMonth').onclick = () => { currentMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth()-1,1); renderCalendar(); };
+document.getElementById('nextMonth').onclick = () => { currentMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth()+1,1); renderCalendar(); };
 
-  window.location.href = `sms:0619336183?body=${message}`;
+// ════════════════════════════════════════════
+//  CRÉNEAUX
+// ════════════════════════════════════════════
+function renderSlots() {
+  document.getElementById('dateLabel').textContent = formatDateFR(selectedDate);
+  const dow   = selectedDate.getDay();
+  const slots = DAY_SLOTS[dow] || [];
+  const container = document.getElementById('slotsContainer');
+  container.innerHTML = '';
+  if(!slots.length){
+    container.innerHTML=`<div class="no-slots"><p>Aucun cours ce jour-là.</p><small>Cours disponibles : Lundi, Mardi, Mercredi, Jeudi, Dimanche.</small></div>`;
+    return;
+  }
+  slots.forEach(({label,key})=>{
+    const students = data[key]||[];
+    const count = students.length, full = count>=MAX, pct = Math.round(count/MAX*100);
+    const card = document.createElement('div');
+    card.className = 'slot-card'+(full?' full':'');
+    const info = document.createElement('div');
+    info.style.flex='1';
+    info.innerHTML=`<p class="slot-time">${label}</p><p class="slot-count">${count}/${MAX} places</p><div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>`;
+    const btn = document.createElement('button');
+    btn.className='reserve-btn';
+    btn.disabled = full||bookingSlot===key;
+    btn.innerHTML = bookingSlot===key?'<span class="spinner"></span>':(full?'Complet':'Réserver');
+    btn.onclick=()=>reserve(key,label);
+    card.appendChild(info); card.appendChild(btn); container.appendChild(card);
+  });
 }
 
-window.removeStudent = async function(slot,index){
-  if(!confirm("Supprimer cet élève ?")) return;
-  data[slot].splice(index,1);
-  await saveSlot(slot);
-  render();
+function showMessage(text,type){
+  const box=document.getElementById('messageBox');
+  box.style.display='block'; box.className=`message ${type}`; box.textContent=text;
+  setTimeout(()=>{box.style.display='none';},4000);
 }
 
-loadData();
+// ════════════════════════════════════════════
+//  RÉSERVATION → Firebase
+// ════════════════════════════════════════════
+async function reserve(key, label){
+  const name    = document.getElementById('nameInput').value.trim();
+  const subject = document.getElementById('subjectSelect').value;
+  if(!name)   { showMessage("Entre ton prénom et nom.", 'error'); return; }
+  if(!subject){ showMessage("Choisis une matière.", 'error'); return; }
+
+  const students = data[key] || [];
+  if(students.some(s => s.name.toLowerCase() === name.toLowerCase())){
+    showMessage("Tu es déjà inscrit sur ce créneau.", 'error'); return;
+  }
+  if(students.length >= MAX){ showMessage("Ce créneau est complet.", 'error'); return; }
+
+  bookingSlot = key; renderSlots();
+
+  try {
+    const newStudents = [...students, {name, subject}];
+    // On écrit le tableau complet dans Firebase
+    await slotsRef.child(key).set(newStudents);
+
+    bookingSlot = null;
+    showMessage(`Réservation confirmée pour ${label} !`, 'success');
+
+    const msg = encodeURIComponent(`Bonjour,\nNouvelle réservation G-Cours\n\nNom : ${name}\nMatière : ${subject}\nCréneau : ${key}\nDate : ${formatDateFR(selectedDate)}`);
+    setTimeout(() => { window.location.href = `sms:0619336183?body=${msg}`; }, 1500);
+
+  } catch(err) {
+    bookingSlot = null; renderSlots();
+    showMessage("Erreur de connexion. Réessaie.", 'error');
+    console.error(err);
+  }
+}
+
+// ════════════════════════════════════════════
+//  ADMIN
+// ════════════════════════════════════════════
+document.getElementById('adminBtn').onclick = () => {
+  const pass = prompt('Mot de passe prof');
+  if(pass === ADMIN_PASSWORD){
+    isAdmin = true;
+    renderAdminPanel();
+    document.getElementById('adminPanel').style.display = 'block';
+  } else { alert('Mot de passe incorrect'); }
+};
+
+function renderAdminPanel() {
+  const panel = document.getElementById('adminPanel');
+  panel.innerHTML = `
+    <div class="admin-panel">
+      <div class="admin-header">
+        <div>
+          <div class="admin-title">Espace Professeur</div>
+          <div class="admin-subtitle">Cliquez sur un jour pour voir les élèves inscrits</div>
+        </div>
+      </div>
+      <div class="admin-layout">
+        <div class="admin-cal-col">
+          <div class="admin-glass-cal">
+            <div class="cal-month-row" style="margin-bottom:12px;">
+              <div><span style="font-size:16px;font-weight:700;" id="adminCalMonth"></span><span style="font-size:12px;color:rgba(255,255,255,0.4);margin-left:5px;" id="adminCalYear"></span></div>
+              <div class="cal-nav">
+                <button class="cal-nav-btn" id="adminPrev">&#8249;</button>
+                <button class="cal-nav-btn" id="adminNext">&#8250;</button>
+              </div>
+            </div>
+            <div class="admin-cal-grid-header" id="adminGridHeader"></div>
+            <div class="admin-cal-grid" id="adminGrid"></div>
+            <div style="display:flex;align-items:center;gap:6px;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,0.08);">
+              <span style="width:8px;height:8px;border-radius:50%;background:#34d399;display:inline-block;"></span>
+              <span style="font-size:10px;color:rgba(255,255,255,0.4);">Élèves inscrits</span>
+            </div>
+          </div>
+        </div>
+        <div class="admin-detail-col" id="adminDetailCol"></div>
+      </div>
+    </div>
+  `;
+  document.getElementById('adminPrev').onclick = () => { adminCurrentMonth=new Date(adminCurrentMonth.getFullYear(),adminCurrentMonth.getMonth()-1,1); renderAdminCal(); renderAdminDetail(); };
+  document.getElementById('adminNext').onclick = () => { adminCurrentMonth=new Date(adminCurrentMonth.getFullYear(),adminCurrentMonth.getMonth()+1,1); renderAdminCal(); renderAdminDetail(); };
+  renderAdminCal();
+  renderAdminDetail();
+}
+
+function renderAdminCal() {
+  if(!isAdmin) return;
+  const year=adminCurrentMonth.getFullYear(), month=adminCurrentMonth.getMonth();
+  document.getElementById('adminCalMonth').textContent = FR_MONTHS[month];
+  document.getElementById('adminCalYear').textContent  = year;
+  buildCalGrid(
+    document.getElementById('adminGrid'),
+    document.getElementById('adminGridHeader'),
+    year, month, adminSelectedDate,
+    (d) => { adminSelectedDate=d; renderAdminCal(); renderAdminDetail(); },
+    {admin:true, showDots:true}
+  );
+}
+
+function renderAdminDetail() {
+  if(!isAdmin) return;
+  const col = document.getElementById('adminDetailCol');
+  if(!col) return;
+  const dow   = adminSelectedDate.getDay();
+  const slots = DAY_SLOTS[dow]||[];
+  col.innerHTML = `<div class="admin-date-title">${formatDateFR(adminSelectedDate)}</div>`;
+  if(!slots.length){
+    col.innerHTML += `<div class="no-course-msg">Pas de cours ce jour-là.<br><span style="font-size:11px;color:rgba(255,255,255,0.2);">Cours : Lun, Mar, Mer, Jeu, Dim.</span></div>`;
+    return;
+  }
+  slots.forEach(({label,key})=>{
+    const students = data[key]||[];
+    const block = document.createElement('div');
+    block.className = 'admin-slot-block';
+    const badge = students.length>0
+      ? `<span class="admin-slot-badge has-p">${students.length}/${MAX}</span>`
+      : `<span class="admin-slot-badge">0/${MAX}</span>`;
+    let rows = students.length===0
+      ? `<div class="empty-row">Aucun élève inscrit</div>`
+      : students.map((s,i)=>`
+          <div class="student-row">
+            <div>
+              <div class="student-name">${s.name}</div>
+              <div class="student-subj">${s.subject}</div>
+            </div>
+            <button class="remove-btn" onclick="removeStudent('${key}',${i})">Supprimer</button>
+          </div>
+        `).join('');
+    block.innerHTML=`<div class="admin-slot-title"><span>${label}</span>${badge}</div>${rows}`;
+    col.appendChild(block);
+  });
+}
+
+// ════════════════════════════════════════════
+//  SUPPRESSION ÉLÈVE → Firebase
+// ════════════════════════════════════════════
+async function removeStudent(slotKey, index){
+  if(!confirm('Supprimer cet élève ?')) return;
+  const newList = [...(data[slotKey]||[])];
+  newList.splice(index, 1);
+
+  try {
+    await slotsRef.child(slotKey).set(newList.length > 0 ? newList : null);
+    // L'UI sera mise à jour automatiquement par le listener onValue
+  } catch(err) {
+    alert("Erreur lors de la suppression.");
+    console.error(err);
+  }
+}
 </script>
-
 </body>
 </html>

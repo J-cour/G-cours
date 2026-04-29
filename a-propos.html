@@ -10,13 +10,13 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #030d1a;
-      --bg-2: #071526;
-      --card: rgba(255,255,255,0.04);
-      --border: rgba(255,255,255,0.07);
+      --bg: #ffffff;
+      --bg-2: #f1f5f9;
+      --card: #ffffff;
+      --border: rgba(15,23,42,.09);
       --border-h: rgba(56,189,248,0.35);
-      --text: #e2e8f0;
-      --muted: rgba(226,232,240,0.5);
+      --text: #0f172a;
+      --muted: #64748b;
       --accent: #38bdf8;
       --purple: #818cf8;
       --green: #34d399;
@@ -161,6 +161,29 @@
     }
     @media(max-width:480px){.foot-cols{grid-template-columns:1fr}}
     @media(prefers-reduced-motion:reduce){.rev{transition:none;opacity:1;transform:none}}
+
+    /* ═══════════════ LIGHT THEME ═══════════════ */
+    nav.top{background:rgba(3,13,26,.96)!important;border-bottom-color:rgba(255,255,255,.09)!important}
+    .nav-links a{color:rgba(226,232,240,.72)!important}
+    .nav-links a:hover,.nav-links a.active{color:#fff!important;background:rgba(255,255,255,.09)!important}
+    nav.mob{background:rgba(3,13,26,.98)!important}
+    nav.mob a{color:rgba(226,232,240,.7)!important}
+    nav.mob a:hover,nav.mob a.active{color:var(--accent)!important;background:rgba(56,189,248,.1)!important}
+    .burger{color:rgba(226,232,240,.82)!important}
+    footer{background:#071627;border-top:1px solid rgba(255,255,255,.08)!important}
+    .foot-brand p{color:rgba(226,232,240,.55)!important}
+    .foot-col h4{color:rgba(226,232,240,.32)!important}
+    .foot-col ul li a,.ci{color:rgba(226,232,240,.55)!important}
+    .foot-col ul li a:hover{color:var(--accent)!important}
+    .foot-bottom p{color:rgba(226,232,240,.42)!important}
+    /* Content fixes */
+    .about-card{box-shadow:0 2px 12px rgba(0,0,0,.07),0 0 0 1px rgba(15,23,42,.07)}
+    .map-box,.form-box,.review-card{box-shadow:0 2px 12px rgba(0,0,0,.07)}
+    .testi-card{background:#fff;border-color:rgba(15,23,42,.09);box-shadow:0 2px 14px rgba(0,0,0,.07)}
+    .testi-text{color:#475569}
+    .testi-name{color:#0f172a}
+    .field input,.field textarea{background:#f8fafc;border-color:rgba(15,23,42,.12);color:#0f172a}
+    .admin-btn{background:rgba(99,102,241,.1);border-color:rgba(99,102,241,.22)}
 
     /* ── DIGITAL SERENITY ── */
     @keyframes word-appear{from{opacity:0;transform:translateY(16px) scale(.96)}to{opacity:1;transform:translateY(0) scale(1)}}
